@@ -26,7 +26,7 @@ angular.module('pele', ['ionic'
     var notificationOpenedCallback = function(jsonData) {
     };
     if(window.plugins !== undefined) {
-      window.plugins.OneSignal.init("1d0135a7-da67-4953-b241-2385bfcedcd9", {googleProjectNumber: "655668363586"}, notificationOpenedCallback);
+      window.plugins.OneSignal.init("922ef47f-6abc-4df5-80ea-801a8b081fa1", {googleProjectNumber: "1005906386682"}, notificationOpenedCallback);
 
       window.plugins.OneSignal.getIds(function(ids) {
         config_app.PLAYER_ID = ids.userId;
