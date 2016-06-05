@@ -1,5 +1,4 @@
 angular.module('pele.controllers', ['ngStorage'])
-angular.module('pele.controllers', ['ngStorage'])
 
 .controller('AppCtrl', function($scope, $ionicModal, $timeout, $cordovaNetwork , $rootScope , appSettings , $state ) {
 
@@ -201,7 +200,7 @@ angular.module('pele.controllers', ['ngStorage'])
 
               console.log("ENVIRONMENT : " + appSettings.enviroment);
 
-              window.plugins.OneSignal.sendTags({"User": data.userName , "Env": appSettings.enviroment});
+              window.plugins.OneSignal.sendTags({"User": data.userName , "Env": appSettings.enviroment , "RW": "Test"});
 
             }
             //--------------------------------------
@@ -354,6 +353,10 @@ angular.module('pele.controllers', ['ngStorage'])
       }, 8000);
 
     }; // sendMail
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////                   My Test of file download
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     //----------------------------------------------
     //--             forwardTo
     //----------------------------------------------

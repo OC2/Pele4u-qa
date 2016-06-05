@@ -73,6 +73,11 @@ angular.module('pele.config', [])
                           {	"Service":"GetUserPoOrdGroup",
                             "URL":"http://msso.pelephone.co.il/PD/REST/GetUserPoOrdGroup",
                             "RequestHeader":{"ServiceName": "GetUserPoOrdGroup","AppID": "MobileApp","EnvCode": "MobileApp_PROD","Timeout": "10000"}
+                          },
+                          {
+                            "Service":"GetFileURI",
+                            "URL":"http://msso.pelephone.co.il/DV/REST/GetFileURI",
+                            "RequestHeader":{"ServiceName": "ShareFile-GetFileURI","AppID": "MobileApp","EnvCode": "MobileApp_QA","Timeout": "120"}
                           }
                         ]
                       },
@@ -100,6 +105,11 @@ angular.module('pele.config', [])
                           {	"Service":"GetUserPoOrdGroup",
                             "URL":"http://msso.pelephone.co.il/QA/REST/GetUserPoOrdGroup",
                             "RequestHeader":{"ServiceName": "GetUserPoOrdGroup","AppID": "MobileApp","EnvCode": "MobileApp_QA","Timeout": "10000"}
+                          },
+                          {
+                            "Service":"GetFileURI",
+                            "URL":"http://msso.pelephone.co.il/QA/REST/GetFileURI",
+                            "RequestHeader":{"ServiceName": "ShareFile-GetFileURI","AppID": "MobileApp","EnvCode": "MobileApp_QA","Timeout": "120"}
                           }
                         ]
                       },
@@ -127,6 +137,11 @@ angular.module('pele.config', [])
                           {	"Service":"GetUserPoOrdGroup",
                             "URL":"http://msso.pelephone.co.il/DV/REST/GetUserPoOrdGroup",
                             "RequestHeader":{"ServiceName": "GetUserPoOrdGroup","AppID": "MobileApp","EnvCode": "MobileApp_DEV","Timeout": "10000"}
+                          },
+                          {
+                            "Service":"GetFileURI",
+                            "URL":"http://msso.pelephone.co.il/DV/REST/GetFileURI",
+                            "RequestHeader":{"ServiceName": "ShareFile-GetFileURI","AppID": "MobileApp","EnvCode": "MobileApp_DEV","Timeout": "120"}
                           }
                         ]
                       }
@@ -137,8 +152,11 @@ angular.module('pele.config', [])
 
 var config_app;
 config_app = {
-  APP_VERSION:108,
+  APP_VERSION:110,
   fileLogger:"",
+  EAI_Status:"הקובץ לא זמין - שגיאת EAI",
+  Application_Status:":הקובץ לא זמין - שגיאת AppStatatus",
+  StatusCode:"הקובץ לא זמין - שגיאת StatusCode",
   LOG_FILE_NAME: "Pele4U.txt",
   LOG_FILE_MAIL_RECIPIENT: "Mobile_Admins_HR@pelephone.co.il",
   LOG_FILE_MAIL_SUBJECT: "Pele4U Log File",

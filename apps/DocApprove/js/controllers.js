@@ -255,7 +255,7 @@ angular.module('pele.controllers', ['ngStorage'])
 
               $scope.feeds_categories = [];
 
-              PelApi.writeToLog(config_app.LOG_FILE_INFO_TYPE , JSON.stringify(data));
+              PelApi.writeToLog(config_app.LOG_FILE_INFO_TYPE, JSON.stringify(data));
 
               var stat = PelApi.GetPinCodeStatus(data, "getUserModuleTypes");
               var pinCodeStatus = stat.status;
@@ -263,13 +263,13 @@ angular.module('pele.controllers', ['ngStorage'])
               if ("Valid" === pinCodeStatus) {
                 config_app.GetUserModuleTypes = data;
 
-                if(config_app.GetUserModuleTypes.Response.OutParams !== null){
+                if (config_app.GetUserModuleTypes.Response.OutParams !== null) {
 
                   var category_sources = $scope.insertOnTouchFlag(config_app.GetUserModuleTypes.Response.OutParams.MOBILE_MODULE_REC);
 
                   $scope.category_sources_length = config_app.GetUserModuleTypes.Response.OutParams.MOBILE_MODULE_REC.length;
 
-                  $scope.category_sources = category_sources ; //config_app.GetUserModuleTypes.Response.OutParams.MOBILE_MODULE_REC;
+                  $scope.category_sources = category_sources; //config_app.GetUserModuleTypes.Response.OutParams.MOBILE_MODULE_REC;
                 }
 
                 $ionicLoading.hide();
@@ -283,36 +283,36 @@ angular.module('pele.controllers', ['ngStorage'])
                 //var appId = $stateParams.AppId;
                 var appId = config_app.appId;
                 var titleDisp = $stateParams.title;
-                var pincode =  PelApi.showPinCode(appId, titleDisp , config_app.pinCodeSubTitlePWA);
+                var pincode = PelApi.showPinCode(appId, titleDisp, config_app.pinCodeSubTitlePWA);
 
               } else if ("PCR" === pinCodeStatus) {
 
                 $ionicLoading.hide();
                 $scope.$broadcast('scroll.refreshComplete');
                 $scope.loginData.error = config_app.PIN_STATUS.PAD;
-                var appId = $stateParams.AppId;
+                var appId = config_app.appId;
                 var titleDisp = $stateParams.title;
                 // Create the login modal that we will use later
-                var pincode =  PelApi.showPinCode(appId, titleDisp , config_app.pinCodeSubTitlePCR);
+                var pincode = PelApi.showPinCode(appId, titleDisp, config_app.pinCodeSubTitlePCR);
                 //$scope.login();
 
-              } else if ("PAD" === pinCodeStatus ) {
+              } else if ("PAD" === pinCodeStatus) {
 
                 $ionicLoading.hide();
                 $scope.$broadcast('scroll.refreshComplete');
-                PelApi.showPopup(config_app.pinCodeSubTitlePDA , "");
+                PelApi.showPopup(config_app.pinCodeSubTitlePDA, "");
 
-              } else if ("PNE" === pinCodeStatus ) {
-
-                $ionicLoading.hide();
-                $scope.$broadcast('scroll.refreshComplete');
-                PelApi.showPopup(config_app.pinCodeSubTitlePNE , "");
-
-              } else if ("NRP" === pinCodeStatus ) {
+              } else if ("PNE" === pinCodeStatus) {
 
                 $ionicLoading.hide();
                 $scope.$broadcast('scroll.refreshComplete');
-                PelApi.showPopup(config_app.pinCodeSubTitleNRP , "");
+                PelApi.showPopup(config_app.pinCodeSubTitlePNE, "");
+
+              } else if ("NRP" === pinCodeStatus) {
+
+                $ionicLoading.hide();
+                $scope.$broadcast('scroll.refreshComplete');
+                PelApi.showPopup(config_app.pinCodeSubTitleNRP, "");
 
               } else if ("InValid" === pinCodeStatus) {
 
@@ -321,11 +321,16 @@ angular.module('pele.controllers', ['ngStorage'])
                 //$state.go("app.p1_appsLists");
                 //PelApi.goHome();
 
-              } else if ("EAI_ERROR" === pinCodeStatus){
+              } else if ("EAI_ERROR" === pinCodeStatus) {
 
                 $ionicLoading.hide();
                 $scope.$broadcast('scroll.refreshComplete');
                 PelApi.showPopup(config_app.EAI_ERROR_DESC, "");
+
+              } else if("EOL" === pinCodeStatus){
+                $ionicLoading.hide();
+                $scope.$broadcast('scroll.refreshComplete');
+                PelApi.goHome();
 
               } else if ("ERROR_CODE" === pinCodeStatus){
                 $ionicLoading.hide();
@@ -405,6 +410,8 @@ angular.module('pele.controllers', ['ngStorage'])
 
               PelApi.writeToLog(config_app.LOG_FILE_INFO_TYPE , JSON.stringify(data));
 
+
+
               var stat = PelApi.GetPinCodeStatus(data, "GetUserFormGroups");
               var pinStatus = stat.status;
 
@@ -445,6 +452,10 @@ angular.module('pele.controllers', ['ngStorage'])
                 $scope.$broadcast('scroll.refreshComplete');
                 PelApi.showPopup(config_app.EAI_ERROR_DESC, "");
 
+              } else if("EOL" === pinCodeStatus){
+                $ionicLoading.hide();
+                $scope.$broadcast('scroll.refreshComplete');
+                PelApi.goHome();
               } else if ("ERROR_CODE" === pinStatus){
 
                 $ionicLoading.hide();
@@ -543,6 +554,9 @@ angular.module('pele.controllers', ['ngStorage'])
           //--- SUCCESS ---//
           function () {
             retGetUserNotifications.success(function (data, status, headers, config) {
+              console.log("============= Get User Notification ===============");
+              console.log(JSON.stringify(data));
+              console.log("============= End Get User Notification ===============");
 
               var stat = PelApi.GetPinCodeStatus(data, "GetUserNotifications");
               var pinStatus = stat.status;
@@ -585,6 +599,11 @@ angular.module('pele.controllers', ['ngStorage'])
                 $ionicLoading.hide();
                 $scope.$broadcast('scroll.refreshComplete');
                 //$state.go("app.p1_appsLists");
+                PelApi.goHome();
+
+              } else if("EOL" === pinStatus){
+                $ionicLoading.hide();
+                $scope.$broadcast('scroll.refreshComplete');
                 PelApi.goHome();
 
               } else if ("EAI_ERROR" === pinStatus){
@@ -716,9 +735,21 @@ angular.module('pele.controllers', ['ngStorage'])
     $scope.isGroupShown = function(group){
       return $scope.shownGroup === group;
     } // isGroupShown
-      //---------------------------------------------------------------------------
-      //--                         isGroupShown
-      //---------------------------------------------------------------------------
+    //---------------------------------------------------------------------------
+    //--                         isGroupShown
+    //---------------------------------------------------------------------------
+    $scope.isHourException12Shown = function(exception_note){
+        var retVal = true;
+
+        if(exception_note === undefined || exception_note === " "){
+          retVal = false;
+        }
+
+        return retVal;
+    } // isGroupShown
+    //---------------------------------------------------------------------------
+    //--                         getApproveListActionIcon
+    //---------------------------------------------------------------------------
 
     $scope.getApproveListActionIcon=function(action , date , note) {
 
@@ -1046,6 +1077,29 @@ angular.module('pele.controllers', ['ngStorage'])
                   function () {
                     retSubmitNotification.success(function (data, status, headers, config) {
 
+                      var stat = PelApi.GetPinCodeStatus(data, "GetUserNotif");
+                      var pinStatus = stat.status;
+
+                      if("EOL" === pinStatus ){
+                        $scope.goHome();
+                      } else if ("EAI_ERROR" === pinStatus){
+
+                        $ionicLoading.hide();
+                        $scope.$broadcast('scroll.refreshComplete');
+                        PelApi.showPopup(config_app.EAI_ERROR_DESC, "");
+
+                      } else if ("ERROR_CODE" === pinStatus){
+
+                        $ionicLoading.hide();
+                        $scope.$broadcast('scroll.refreshComplete');
+                        PelApi.showPopup(stat.description, "");
+
+                      }else{
+                        $ionicLoading.hide();
+                        $scope.$broadcast('scroll.refreshComplete');
+                        $ionicNavBarDelegate.back();
+                      }
+
                       PelApi.writeToLog(config_app.LOG_FILE_INFO_TYPE , JSON.stringify(data));
 
                       $ionicLoading.hide();
@@ -1089,6 +1143,29 @@ angular.module('pele.controllers', ['ngStorage'])
               //---- SUCCESS -----//
               function () {
                 retSubmitNotification.success(function (data, status, headers, config) {
+
+                  var stat = PelApi.GetPinCodeStatus(data, "SubmitNotif");
+                  var pinStatus = stat.status;
+
+                  if("EOL" === pinStatus ){
+                    $scope.goHome();
+                  } else if ("EAI_ERROR" === pinStatus){
+
+                    $ionicLoading.hide();
+                    $scope.$broadcast('scroll.refreshComplete');
+                    PelApi.showPopup(config_app.EAI_ERROR_DESC, "");
+
+                  } else if ("ERROR_CODE" === pinStatus){
+
+                    $ionicLoading.hide();
+                    $scope.$broadcast('scroll.refreshComplete');
+                    PelApi.showPopup(stat.description, "");
+
+                  }else{
+                    $ionicLoading.hide();
+                    $scope.$broadcast('scroll.refreshComplete');
+                    $ionicNavBarDelegate.back();
+                  }
 
                   PelApi.writeToLog(config_app.LOG_FILE_INFO_TYPE , JSON.stringify(data));
 
@@ -1158,6 +1235,29 @@ angular.module('pele.controllers', ['ngStorage'])
                 retSubmitNotification.success(function (data, status, headers, config) {
 
                   PelApi.writeToLog(config_app.LOG_FILE_INFO_TYPE , JSON.stringify(data));
+
+                  var stat = PelApi.GetPinCodeStatus(data, "SubmitNotif");
+                  var pinStatus = stat.status;
+
+                  if("EOL" === pinStatus ){
+                    $scope.goHome();
+                  } else if ("EAI_ERROR" === pinStatus){
+
+                    $ionicLoading.hide();
+                    $scope.$broadcast('scroll.refreshComplete');
+                    PelApi.showPopup(config_app.EAI_ERROR_DESC, "");
+
+                  } else if ("ERROR_CODE" === pinStatus){
+
+                    $ionicLoading.hide();
+                    $scope.$broadcast('scroll.refreshComplete');
+                    PelApi.showPopup(stat.description, "");
+
+                  }else{
+                    $ionicLoading.hide();
+                    $scope.$broadcast('scroll.refreshComplete');
+                    $ionicNavBarDelegate.back();
+                  }
 
                   $ionicLoading.hide();
                   $scope.$broadcast('scroll.refreshComplete');
@@ -1268,9 +1368,28 @@ angular.module('pele.controllers', ['ngStorage'])
 
             PelApi.writeToLog(config_app.LOG_FILE_INFO_TYPE , JSON.stringify(data));
 
-            $ionicLoading.hide();
-            $scope.$broadcast('scroll.refreshComplete');
-            $ionicNavBarDelegate.back();
+            var stat = PelApi.GetPinCodeStatus(data, "SubmitNotif");
+            var pinStatus = stat.status;
+            if("EOL" === pinStatus ){
+              $scope.goHome();
+            } else if ("EAI_ERROR" === pinStatus){
+
+              $ionicLoading.hide();
+              $scope.$broadcast('scroll.refreshComplete');
+              PelApi.showPopup(config_app.EAI_ERROR_DESC, "");
+
+            } else if ("ERROR_CODE" === pinStatus){
+
+              $ionicLoading.hide();
+              $scope.$broadcast('scroll.refreshComplete');
+              PelApi.showPopup(stat.description, "");
+
+            }else{
+              $ionicLoading.hide();
+              $scope.$broadcast('scroll.refreshComplete');
+              $ionicNavBarDelegate.back();
+            }
+
           }),
             retSubmitNotification.error(function (data, status, headers, config) {
 
@@ -1317,7 +1436,7 @@ angular.module('pele.controllers', ['ngStorage'])
         buttons: [
           {
 
-            text: '<a class="pele-popup-positive-text-collot">שמירה</a>',
+            text: '<a class="pele-popup-positive-text-collot">המשך</a>',
             type: 'button-positive',
             onTap: function (e) {
               if (!$scope.data.note) {

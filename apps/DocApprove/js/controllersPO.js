@@ -65,6 +65,7 @@ app.controller('po_p3_moduleDocListCtrl', function($scope,
 
               }
               else{
+                /*
                 try{
                   if(data.Response.OutParams.ROW[0].ORG_NAME === undefined){
                     $ionicLoading.hide();
@@ -83,7 +84,7 @@ app.controller('po_p3_moduleDocListCtrl', function($scope,
                   PelApi.goHome();
 
                 } else {
-
+                */
                   $scope.chats = data.Response.OutParams.ROW;
                   console.log($scope.chats);
                   $scope.title = "אישור הזמנות רכש";
@@ -95,13 +96,18 @@ app.controller('po_p3_moduleDocListCtrl', function($scope,
 
                   $ionicLoading.hide();
                   $scope.$broadcast('scroll.refreshComplete');
-                }
+                //}
               }
             } else if ("PDA" === pinStatus) {
 
               $ionicLoading.hide();
               $scope.$broadcast('scroll.refreshComplete');
               $scope.login();
+
+            } else if("EOL" === pinStatus){
+              $ionicLoading.hide();
+              $scope.$broadcast('scroll.refreshComplete');
+              PelApi.goHome();
 
             } else if ("InValid" === pinStatus) {
 
@@ -116,7 +122,7 @@ app.controller('po_p3_moduleDocListCtrl', function($scope,
               $scope.$broadcast('scroll.refreshComplete');
               PelApi.showPopup(config_app.EAI_ERROR_DESC, "");
 
-            } else if ("ERROR_CODE" === pinCodeStatus){
+            } else if ("ERROR_CODE" === pinStatus){
 
               $ionicLoading.hide();
               $scope.$broadcast('scroll.refreshComplete');
@@ -235,7 +241,6 @@ app.controller('po_p3_moduleDocListCtrl', function($scope,
             if("Valid" === pinStatus) {
               PelApi.writeToLog(config_app.LOG_FILE_INFO_TYPE, JSON.stringify(data));
 
-
               var newData = JSON.parse(strData);
               try {
                 config_app.docDetails = newData.Response.OutParams.Result.ROWSET.ROW;
@@ -255,6 +260,12 @@ app.controller('po_p3_moduleDocListCtrl', function($scope,
               $scope.$broadcast('scroll.refreshComplete');
 
               $state.go(statePath, {"AppId": $scope.appId, "DocId": docId, "DocInitId": docInitId});
+
+            } else if("EOL" === pinStatus){
+              $ionicLoading.hide();
+              $scope.$broadcast('scroll.refreshComplete');
+              PelApi.goHome();
+
             } else if ("EAI_ERROR" === pinStatus){
 
               $ionicLoading.hide();
@@ -312,6 +323,7 @@ app.controller('po_p3_moduleDocListCtrl', function($scope,
 //======================================================================================
 //                                   PAGE_4
 //======================================================================================
+/*
 app.controller('PoDocCtrl',['$rootScope'
   ,'$scope'
   ,'$stateParams'
@@ -329,6 +341,8 @@ app.controller('PoDocCtrl',['$rootScope'
   ,'$ionicPopup'
   ,'appSettings'
   ,'$sessionStorage'
+  ,'$cordovaFileTransfer'
+  ,'$cordovaInAppBrowser'
   , function(  $rootScope
     , $scope
     , $stateParams
@@ -346,7 +360,33 @@ app.controller('PoDocCtrl',['$rootScope'
     , $ionicPopup
     , appSettings
     , $sessionStorage
+    , $cordovaFileTransfer
+    , $cordovaInAppBrowser
   ) {
+*/
+    app.controller('PoDocCtrl'
+        , function(  $rootScope
+          , $scope
+          , $stateParams
+          , $http
+          , $q
+          , $location
+          , $window
+          , $timeout
+          , $ionicLoading
+          , $ionicActionSheet
+          , $ionicModal
+          , PelApi
+          , $ionicNavBarDelegate
+          , $cordovaNetwork
+          , $ionicPopup
+          , appSettings
+          , $sessionStorage
+          , $cordovaFileTransfer
+          , $cordovaInAppBrowser
+          , $cordovaFileOpener2
+        ) {
+
     //---------------------------------
     //--       goHome
     //---------------------------------
@@ -553,7 +593,8 @@ app.controller('PoDocCtrl',['$rootScope'
             "DOCUMENT_ID"        : arr[i].DOCUMENT_ID,
             "FILE_NAME"          : arr[i].FILE_NAME,
             "FILE_TYPE"          : arr[i].FILE_TYPE,
-            "FULL_FILE_NAME"     : arr[i].FULL_FILE_NAME
+            "FULL_FILE_NAME"     : arr[i].FULL_FILE_NAME,
+            "OPEN_FILE_NAME"     : "/My Files &amp; Folders/" + arr[i].OPEN_FOLDER + '/' +  arr[i].FULL_FILE_NAME
           }
 
           myArr.push(mayObj);
@@ -564,6 +605,130 @@ app.controller('PoDocCtrl',['$rootScope'
 
       return myArr;
     }//getAttachedDocuments
+    //---------------------------------------------------------------------------
+    //--                      Open Attached Doc
+    //---------------------------------------------------------------------------
+    $scope.openAttachedFile = function( p_openFileName, p_fullFileName){
+
+      PelApi.showLoading();
+
+      var links = PelApi.getDocApproveServiceUrl("GetFileURI");
+
+      var appId = config_app.appId;
+
+      var retGetFileURI = PelApi.GetFileURI(links, appId , 0 , p_openFileName);
+
+      retGetFileURI.then(
+
+                //-- SUCCESS --//
+        function()
+        {
+          retGetFileURI.success(function (data, status, headers, config){
+
+              console.log("== GetFileURI.SUCCESS ==");
+              var l_data = JSON.stringify(data);
+              console.log(l_data);
+              var statusCode = PelApi.checkResponceStatus(data);
+              if("S" === statusCode.Status){
+                var url = statusCode.URL;
+
+                //window.open(url, '_system');
+                var filename = p_fullFileName;
+                //var targetPath ="file:///storage/emulated/0/po_1534624_210998_3945377.msg";
+                var targetPath = cordova.file.externalRootDirectory + filename;
+
+                $cordovaFileTransfer.download(url, targetPath, {}, true).then(function (result){
+
+                  console.log('Success');
+                  console.log('===================================================');
+                  console.log(result);
+                  var options =
+                  {
+                    location: 'yes',
+                    clearcache: 'yes',
+                    toolbar: 'no'
+                  };
+                  /*
+                  $cordovaInAppBrowser.open(result.nativeURL, '_blank', options)
+                    .then(function(event) {
+                      console.log('then_2');
+                      console.log('===================================================');
+                      console.log(event);
+
+                      $ionicLoading.hide();
+                      $scope.$broadcast('scroll.refreshComplete');
+                    })
+                    .catch(function(event) {
+                      console.log('catch_2');
+                      console.log('===================================================');
+                      console.log(event);
+                    });
+                    */
+
+                  $cordovaFileOpener2.open(
+                    result.nativeURL,
+                    'application/pdf'
+                  ).then(function() {
+                      // file opened successfully
+                      console.log('SUCCESS')
+                      $ionicLoading.hide();
+                      $scope.$broadcast('scroll.refreshComplete');
+                  }, function(err) {
+                      // An error occurred. Show a message to the user
+                      console.log('ERROR : ' + err);
+                      $ionicLoading.hide();
+                      $scope.$broadcast('scroll.refreshComplete');
+                  });
+
+
+                },function (error) {
+
+                  console.log('Error');
+                  console.log('===================================================');
+                  console.log(error);
+
+                }, function (progress) {
+                  // PROGRESS HANDLING GOES HERE
+                });
+
+              } else if ("PDA" === statusCode.Status) {
+
+                $ionicLoading.hide();
+                $scope.$broadcast('scroll.refreshComplete');
+                $scope.login();
+
+              } else if("EOL" === statusCode.Status){
+                $ionicLoading.hide();
+                $scope.$broadcast('scroll.refreshComplete');
+                PelApi.goHome();
+
+              } else if ("InValid" === statusCode.Status) {
+
+                $ionicLoading.hide();
+                $scope.$broadcast('scroll.refreshComplete');
+                //$state.go("app.p1_appsLists");
+                PelApi.goHome();
+
+              } else if("EAI_Status" === statusCode.Status){
+                $ionicLoading.hide();
+                $scope.$broadcast('scroll.refreshComplete');
+                PelApi.showPopup(config_app.EAI_Status, "");
+              } else if("Application_Status" === statusCode.Status){
+                $ionicLoading.hide();
+                $scope.$broadcast('scroll.refreshComplete');
+                PelApi.showPopup(config_app.EAI_Status, "");
+
+              } else if("StatusCode" === statusCode.Status){
+                $ionicLoading.hide();
+                $scope.$broadcast('scroll.refreshComplete');
+                PelApi.showPopup(config_app.EAI_Status, "");
+
+              }
+
+          });
+        }
+      );
+    }
     //---------------------------------------------------------------------------
     //--                         doRefresh
     //---------------------------------------------------------------------------
@@ -629,7 +794,7 @@ app.controller('PoDocCtrl',['$rootScope'
         //----------- Attachments --------
         $scope.ATTACHED_DOCUMENTS = $scope.getAttachedDocuments(config_app.docDetails.ATTACHED_DOCUMENTS);
         console.log("================== ATTACHED_DOCUMENTS ====================");
-        console.log($scope.ATTACHED_DOCUMENTS);
+        console.log(JSON.stringify($scope.ATTACHED_DOCUMENTS));
 
         //----------- Buttons ------------
         $scope.buttonsArr      = config_app.docDetails.BUTTONS;
@@ -1190,4 +1355,6 @@ app.controller('PoDocCtrl',['$rootScope'
 
     $scope.doRefresh();
 
-}]);
+}
+//]
+);

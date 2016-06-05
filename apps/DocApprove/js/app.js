@@ -24,6 +24,7 @@ angular.module('pele', ['ionic'
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
       cordova.plugins.Keyboard.disableScroll(true);
 
+      /*
       //----------------------------------------
       //--    Get Version from config.xml
       //----------------------------------------
@@ -31,7 +32,7 @@ angular.module('pele', ['ionic'
         config_app.APP_VERSION = version;
       });
       console.log("VERSION : " + config_app.APP_VERSION);
-
+      */
 
     }
     if (window.StatusBar) {

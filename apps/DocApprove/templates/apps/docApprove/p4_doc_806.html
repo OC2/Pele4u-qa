@@ -140,10 +140,9 @@
                 <p class="under" style="color:blue">{{detail.ATTRIBUTE6}}</p>
               </div>
             </div>
-            <div class="row">
-              <div class="col col-30 text-right">הערה : </div>
-              <div class="col col-70 text-right" readonly="true" on-touch="openExistText(detail.ATTRIBUTE7)">
-                <p class="under" style="color:blue">{{detail.ATTRIBUTE7}}</p>
+            <div class="row" ng-show="isHourException12Shown(detail.ATTRIBUTE7)">
+              <div class="col text-right" readonly="true" on-touch="openExistText(detail.ATTRIBUTE7)">
+                <p class="under" style="color:red">{{detail.ATTRIBUTE7}}</p>
               </div>
             </div>
           </label>
@@ -165,7 +164,9 @@
       <div class="col">
         <button class="button button-block button-large button-balanced icon-right ion-document-text" ng-click="NotePopup()">הערה</button>
       </div>
+
     </div>
+
 
   </ion-footer-bar>
   <script id="templates/modal.html" type="text/ng-template">

@@ -191,6 +191,46 @@ angular.module('pele.factories', ['ngStorage'])
         });
     },
     //--------------------------------------------------------------------------//
+    //--                       GetFileURI  PAGE_PO4 ATTACHMENTS               --//
+    //--------------------------------------------------------------------------//
+    GetFileURI:function (links , appId , pin , fileOrFolder) {
+
+
+      var token = config_app.token;
+      var userName = config_app.userName;
+      var envUrl = links.URL;
+      var RequestHeader = links.RequestHeader;
+      var data = {
+        "Request": {
+          "RequestHeader": RequestHeader,
+          "InParams": {
+            "Token": token,
+            "AppId": appId,
+            "PIN": pin,
+            "UserName": userName,
+            "FileOrFolder": fileOrFolder
+          }
+        }
+      };
+
+      this.writeToLog(config_app.LOG_FILE_INFO_TYPE ,"====== GetFileURI ======");
+      this.writeToLog(config_app.LOG_FILE_INFO_TYPE , "URL :" + JSON.stringify(envUrl));
+      this.writeToLog(config_app.LOG_FILE_INFO_TYPE , "DATA : " + JSON.stringify(data));
+      console.log("====== GetFileURI ======");
+      console.log( JSON.stringify(data));
+
+
+      return $http({
+        url:envUrl ,
+        method:"POST" ,
+        data: data,
+        timeout:appSettings.timeout,
+        headers: {"Content-Type": "application/json; charset=utf-8","Accept":"application/json" }
+      });
+
+    },// End GetFileURI
+
+    //--------------------------------------------------------------------------//
     //--                       GetUserPoOrdGroupGroup  PAGE_PO3                       --//
     //--------------------------------------------------------------------------//
     GetUserPoOrdGroupGroup:function (links , appId , formType, pin) {
@@ -232,41 +272,82 @@ angular.module('pele.factories', ['ngStorage'])
         //------------------------------------
         //-- Check EAI Status
         //------------------------------------
+        if("SubmitNotif" === interface){
+          var eaiStatus_SubmitNotif = undefined;
+          var SessionStatus_SubmitNotif = undefined;
+          var P_ERROR_CODE = undefined;
+          var P_ERROR_DESC = undefined;
+
+          //-- Get EAI_Status --//
+          try{
+            eaiStatus_SubmitNotif = data.Response.ResponseHeader.EAI_Status;
+          }catch(e){
+            eaiStatus_SubmitNotif = undefined;
+          }
+
+          //-- Get SessionStatus -- //
+          try{
+            SessionStatus_SubmitNotif = data.Response.OutParams.SessionStatus
+          }catch(e){
+            SessionStatus_SubmitNotif = undefined;
+          }
+
+          //-- Get P_ERROR_CODE & P_ERROR_DESC -- //
+          try{
+            P_ERROR_CODE_SubmitNotif = data.Response.OutParams.P_ERROR_CODE;
+            P_ERROR_DESC_SubmitNotif = data.Response.OutParams.P_ERROR_DESC;
+          }catch(e){
+            P_ERROR_CODE_SubmitNotif = undefined;
+            P_ERROR_DESC_SubmitNotif = undefined;
+          }
+
+          if("0" !== eaiStatus_SubmitNotif && eaiStatus_SubmitNotif !== undefined){
+            stat.status = "EAI_ERROR";
+          }else if(0!==P_ERROR_CODE_SubmitNotif && undefined !== P_ERROR_CODE_SubmitNotif){
+            stat.status = "ERROR_CODE";
+            stat.description = P_ERROR_DESC_SubmitNotif;
+          }else {
+            stat.status = data.Response.OutParams.SessionStatus;
+          }
+        }else{
         var eaiStatus = data.Response.ResponseHeader.EAI_Status;
-        if("0"!== eaiStatus){
+        if("0"!== eaiStatus && undefined !== eaiStatus){
           stat.status = "EAI_ERROR";
         }else{
-          try{
-            var SessionStatus = data.Response.OutParams.SessionStatus;
-            if("InValid" === SessionStatus){
-              stat.status = "InValid";
-              return stat;
-            }
-            var errorCode = data.Response.OutParams.P_ERROR_CODE;
-            var errorDesc = data.Response.OutParams.P_ERROR_DESC;
-            if(0!==errorCode){
-              stat.status = "ERROR_CODE";
-              stat.description = errorDesc;
-            }else{
-              if("getMenu" === interface){
-                stat.status = data.Status;
-                if("OLD" === status.status){
-                  return stat;
-                }
-                if("PAD" !== stat ){
-                  stat.status = "Valid"
-                }
-              }else if("getUserModuleTypes" === interface
-                       || "GetUserFormGroups" === interface
-                       || "GetUserPoOrdGroupGroup" === interface
-                       || "GetUserNotif" === interface
-                       || "GetUserNotifications" === interface
-                      ){
-                stat.status = data.Response.OutParams.SessionStatus;
+            try{
+              var SessionStatus = data.Response.OutParams.SessionStatus;
+              if("InValid" === SessionStatus){
+                stat.status = "InValid";
+                return stat;
               }
+              var errorCode = data.Response.OutParams.P_ERROR_CODE;
+              var errorDesc = data.Response.OutParams.P_ERROR_DESC;
+              if(0!==errorCode && undefined !== errorCode){
+                stat.status = "ERROR_CODE";
+                stat.description = errorDesc;
+              }else{
+                if("getMenu" === interface){
+                  stat.status = data.Status;
+                  if("OLD" === status.status){
+                    return stat;
+                  }
+                  if("PAD" !== stat ){
+                    stat.status = "Valid"
+                  }
+                }else if("getUserModuleTypes" === interface
+                         || "GetUserFormGroups" === interface
+                         || "GetUserPoOrdGroupGroup" === interface
+                         || "GetUserNotif" === interface
+                         || "GetUserNotifications" === interface
+                         || "SubmitNotif" === interface
+                        ){
+                  stat.status = data.Response.OutParams.SessionStatus;
+                }
+
+              }
+            }catch(e){
+              stat.status = "Valid";
             }
-          }catch(e){
-            stat.status = "Valid";
           }
         }
         return stat;
@@ -416,7 +497,7 @@ angular.module('pele.factories', ['ngStorage'])
       return buttons;
     },
     writeToLog : function( textType , text ){
-
+      /*
       $fileLogger.setStorageFilename(config_app.LOG_FILE_NAME);
 
       if("I" === textType && text !==undefined){
@@ -435,6 +516,7 @@ angular.module('pele.factories', ['ngStorage'])
         console.log('== E ==');
         $fileLogger.error(text);
       }
+      */
     },// writeToLog
     goHome:function(){
       window.location = "./../../index.html" ;
@@ -451,6 +533,40 @@ angular.module('pele.factories', ['ngStorage'])
 
       return retVal;
 
+    },
+    checkResponceStatus : function(data){
+
+      var retVal = {};
+
+      var EAI_Status         = data.Response.ResponseHeader.EAI_Status;
+      var Application_Status = data.Response.ResponseHeader.Application_Status;
+      var StatusCode         = data.Response.OutParams.Status.StatusCode;
+      var SessionStatus      = data.Response.OutParams.SessionStatus;
+
+      retVal.Status = "S";
+
+      if("0" !== EAI_Status){
+        retVal.Status ="EAI_Status";
+        return;
+      }
+
+      if("S" !== Application_Status){
+        retVal.Status ="Application_Status";
+        return retVal;
+      }
+
+      if("0" !== StatusCode){
+        retVal.Status ="StatusCode";
+        return retVal;
+      }
+
+      if("Valid" !== SessionStatus){
+        retVal.Status = SessionStatus;
+        return retVal;
+      }
+
+      retVal.URL    =  data.Response.OutParams.URI;
+      return retVal;
     }
 
   };

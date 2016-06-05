@@ -90,23 +90,23 @@ angular.module('pele.config', [])
                       },
                       {Environment:"DV",
                         ServiceList:[{	"Service":"GetUserMenu",
-                          "URL":"http://msso.pelephone.co.il/DV/MobileServices/SSOService.svc/json/GetUserMenu",
+                          "URL":"http://msso.pelephone.co.il/QA/MobileServices/SSOService.svc/json/GetUserMenu",
                           "RequestHeader":""
                           },
                           {	"Service":"GetUserModuleTypes",
-                            "URL":"http://msso.pelephone.co.il/QA/REST/GetUserModuleTypes",
+                            "URL":"http://msso.pelephone.co.il/DV/REST/GetUserModuleTypes",
                             "RequestHeader":{"ServiceName": "GetUserModuleTypes","AppID": "MobileApp","EnvCode": "MobileApp_DEV","Timeout": "10000"}
                           },
                           {	"Service":"GtUserFormGroups",
-                            "URL":"http://msso.pelephone.co.il/QA/REST/GtUserFormGroups",
+                            "URL":"http://msso.pelephone.co.il/DV/REST/GtUserFormGroups",
                             "RequestHeader":{"ServiceName": "GetUserFormGroups","AppID": "MobileApp","EnvCode": "MobileApp_DEV","Timeout": "10000"}
                           },
                           {	"Service":"GetUserNotif",
-                            "URL":"http://msso.pelephone.co.il/QA/REST/GetUserNotif",
+                            "URL":"http://msso.pelephone.co.il/DV/REST/GetUserNotif",
                             "RequestHeader":{"ServiceName": "GetUserNotifications","AppID": "MobileApp","EnvCode": "MobileApp_DEV","Timeout": "10000"}
                           },
                           {	"Service":"SubmitNotif",
-                            "URL":"http://msso.pelephone.co.il/QA/REST/SubmitNotif",
+                            "URL":"http://msso.pelephone.co.il/DV/REST/SubmitNotif",
                             "RequestHeader":{"ServiceName": "SubmitNotifications","AppID": "MobileApp","EnvCode": "MobileApp_DEV","Timeout": "10000"}
                           }]
                       }
@@ -116,7 +116,8 @@ angular.module('pele.config', [])
 
 var config_app;
 config_app = {
-  APP_VERSION:108,
+  APP_VERSION:110,
+  PLAYER_ID:"",
   GOOGLE_PLAY_APP_LINK:"https://play.google.com/store/apps/details?id=com.int_pele.pele4u",
   APPLE_STORE_APP_LING:"https://appsto.re/il/yYQKab.i",
   fileLogger:"",

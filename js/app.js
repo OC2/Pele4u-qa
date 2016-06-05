@@ -29,6 +29,7 @@ angular.module('pele', ['ionic'
       window.plugins.OneSignal.init("1d0135a7-da67-4953-b241-2385bfcedcd9", {googleProjectNumber: "655668363586"}, notificationOpenedCallback);
 
       window.plugins.OneSignal.getIds(function(ids) {
+        config_app.PLAYER_ID = ids.userId;
         //document.getElementById("OneSignalUserID").innerHTML = "UserID: " + ids.userId;
         //document.getElementById("OneSignalPushToken").innerHTML = "PushToken: " + ids.pushToken;
         console.log('getIds: ' + JSON.stringify(ids));
