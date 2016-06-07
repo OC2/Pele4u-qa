@@ -608,7 +608,7 @@ app.controller('PoDocCtrl',['$rootScope'
     //---------------------------------------------------------------------------
     //--                      Open Attached Doc
     //---------------------------------------------------------------------------
-    $scope.openAttachedFile = function( p_openFileName, p_fullFileName){
+    $scope.openAttachedFile = function( p_openFileName, p_fullFileName , p_fileType){
 
       PelApi.showLoading();
 
@@ -634,10 +634,23 @@ app.controller('PoDocCtrl',['$rootScope'
 
                 //window.open(url, '_system');
                 var filename = p_fullFileName;
-                //var targetPath ="file:///storage/emulated/0/po_1534624_210998_3945377.msg";
-                var targetPath = cordova.file.externalRootDirectory + filename;
 
-                $cordovaFileTransfer.download(url, targetPath, {}, true).then(function (result){
+                var isIOS = ionic.Platform.isIOS();
+                var isAndroid = ionic.Platform.isAndroid();
+
+                //var targetPath ="file:///storage/emulated/0/po_1534624_210998_3945377.msg";
+                var targetPath = "";
+
+                if(isAndroid){
+                  targetPath = cordova.file.externalRootDirectory + filename;
+                }else if(isIOS){
+                  targetPath = encodeURI(cordova.file.dataDirectory + filename);
+                }
+
+                $cordovaFileTransfer.download( url
+                                             , targetPath
+                                             , {}
+                                             , true).then(function (result){
 
                   console.log('Success');
                   console.log('===================================================');
@@ -667,7 +680,7 @@ app.controller('PoDocCtrl',['$rootScope'
 
                   $cordovaFileOpener2.open(
                     result.nativeURL,
-                    'application/pdf'
+                    p_fileType /* 'application/pdf' */
                   ).then(function() {
                       // file opened successfully
                       console.log('SUCCESS')

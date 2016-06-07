@@ -90,7 +90,7 @@ angular.module('pele.config', [])
                       },
                       {Environment:"DV",
                         ServiceList:[{	"Service":"GetUserMenu",
-                          "URL":"http://msso.pelephone.co.il/QA/MobileServices/SSOService.svc/json/GetUserMenu",
+                          "URL":"http://msso.pelephone.co.il/DV/MobileServices/SSOService.svc/json/GetUserMenu",
                           "RequestHeader":""
                           },
                           {	"Service":"GetUserModuleTypes",
