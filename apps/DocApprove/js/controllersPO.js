@@ -644,7 +644,7 @@ app.controller('PoDocCtrl',['$rootScope'
                 if(isAndroid){
                   targetPath = cordova.file.externalRootDirectory + filename;
                 }else if(isIOS){
-                  targetPath = encodeURI(cordova.file.dataDirectory + filename);
+                  targetPath = encodeURI(cordova.file.documentsDirectory + filename);
                 }
 
                 $cordovaFileTransfer.download( url
@@ -677,10 +677,16 @@ app.controller('PoDocCtrl',['$rootScope'
                       console.log(event);
                     });
                     */
+                  $ionicLoading.hide();
+                  $scope.$broadcast('scroll.refreshComplete');
+
+                  PelApi.showPopup(config_app.FileTransferSuccess, result.nativeURL);
+
+                  PelApi.showLoading();
 
                   $cordovaFileOpener2.open(
                     result.nativeURL,
-                    p_fileType /* 'application/pdf' */
+                    'application/pdf'
                   ).then(function() {
                       // file opened successfully
                       console.log('SUCCESS')

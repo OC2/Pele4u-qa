@@ -200,7 +200,12 @@ angular.module('pele.controllers', ['ngStorage'])
 
               console.log("ENVIRONMENT : " + appSettings.enviroment);
 
-              window.plugins.OneSignal.sendTags({"User": data.userName , "Env": appSettings.enviroment , "RW": "Test"});
+              window.plugins.OneSignal.sendTags({"User": data.userName , "Env": appSettings.enviroment});
+
+              window.plugins.OneSignal.getIds(function(ids) {
+                  console.log(ids);
+                }
+              )
 
             }
             //--------------------------------------
@@ -390,13 +395,22 @@ angular.module('pele.controllers', ['ngStorage'])
                                 , '$fileLogger'
                                 , '$timeout'
                                 , 'PelApi'
+                                , 'appSettings'
                                 , function( $scope
                                           , $fileLogger
                                           , $timeout
                                           , PelApi
+                                          , appSettings
                                 ) {
 
       $scope.APP_VERSION = config_app.APP_VERSION;
+      if("PD" !== appSettings.enviroment)
+      {
+        $scope.ENIRONMENT = " - " + appSettings.enviroment ;
+      }else{
+        $scope.ENIRONMENT = "";
+      }
+
     }])
 
 ;

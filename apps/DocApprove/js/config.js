@@ -154,6 +154,7 @@ var config_app;
 config_app = {
   APP_VERSION:110,
   fileLogger:"",
+  FileTransferSuccess:"הקובץ הורד בהצלחה",
   EAI_Status:"הקובץ לא זמין - שגיאת EAI",
   Application_Status:":הקובץ לא זמין - שגיאת AppStatatus",
   StatusCode:"הקובץ לא זמין - שגיאת StatusCode",
