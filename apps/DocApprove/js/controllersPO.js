@@ -682,29 +682,40 @@ app.controller('PoDocCtrl',['$rootScope'
 
                   PelApi.showPopup(config_app.FileTransferSuccess, result.nativeURL);
 
-                  PelApi.showLoading();
+                  //PelApi.showLoading();
 
-                  $cordovaFileOpener2.open(
-                    result.nativeURL,
-                    'application/pdf'
-                  ).then(function() {
-                      // file opened successfully
-                      console.log('SUCCESS')
-                      $ionicLoading.hide();
-                      $scope.$broadcast('scroll.refreshComplete');
-                  }, function(err) {
-                      // An error occurred. Show a message to the user
-                      console.log('ERROR : ' + err);
-                      $ionicLoading.hide();
-                      $scope.$broadcast('scroll.refreshComplete');
-                  });
+                  window.open(result.nativeURL,"_system","location=yes,enableViewportScale=yes,hidden=no");
+                  /*
 
+                  if(isIOS){
+                    window.open(file.nativeURL,"_system","location=yes,enableViewportScale=yes,hidden=no");
+                  }else if( isAndroid ){
+
+                    $cordovaFileOpener2.open(
+                      result.nativeURL,
+                      'application/pdf'
+                    ).then(function() {
+                        // file opened successfully
+                        console.log('SUCCESS')
+                        $ionicLoading.hide();
+                        $scope.$broadcast('scroll.refreshComplete');
+                    }, function(err) {
+                        // An error occurred. Show a message to the user
+                        console.log('ERROR : ' + err);
+                        $ionicLoading.hide();
+                        $scope.$broadcast('scroll.refreshComplete');
+                        PelApi.showPopup("Open File Complite With Error", err.toString());
+                    });
+                  }
+
+                  */
 
                 },function (error) {
 
                   console.log('Error');
                   console.log('===================================================');
                   console.log(error);
+                  PelApi.showPopup("File Download Complite With Error", error.toString());
 
                 }, function (progress) {
                   // PROGRESS HANDLING GOES HERE
