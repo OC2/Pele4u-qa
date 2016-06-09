@@ -644,80 +644,57 @@ app.controller('PoDocCtrl',['$rootScope'
 
                 if(isAndroid){
                   targetPath = cordova.file.externalRootDirectory + filename;
-                }else if(isIOS){
-                  targetPath = encodeURI(cordova.file.documentsDirectory + filename);
-                }
 
-                $cordovaFileTransfer.download( url
-                                             , targetPath
-                                             , {}
-                                             , true).then(function (result){
+                  $cordovaFileTransfer.download( url
+                    , targetPath
+                    , {}
+                    , true).then(function (result){
 
-                  console.log('Success');
-                  console.log('===================================================');
-                  console.log(result);
-                  var options =
-                  {
-                    location: 'yes',
-                    clearcache: 'yes',
-                    toolbar: 'no'
-                  };
-                  /*
-                  $cordovaInAppBrowser.open(result.nativeURL, '_blank', options)
-                    .then(function(event) {
-                      console.log('then_2');
+                      console.log('Success');
                       console.log('===================================================');
-                      console.log(event);
+                      console.log(result);
+                      var options =
+                      {
+                        location: 'yes',
+                        clearcache: 'yes',
+                        toolbar: 'no'
+                      };
 
+                      window.open(result.nativeURL,"_system","location=yes,enableViewportScale=yes,hidden=no");
                       $ionicLoading.hide();
                       $scope.$broadcast('scroll.refreshComplete');
-                    })
-                    .catch(function(event) {
-                      console.log('catch_2');
+
+                      /*
+                      $cordovaFileOpener2.open( result.nativeURL, 'application/pdf' ).then(function() {
+                          // file opened successfully
+                          console.log('SUCCESS')
+                          $ionicLoading.hide();
+                          $scope.$broadcast('scroll.refreshComplete');
+                        },function(err) {
+                          // An error occurred. Show a message to the user
+                          console.log('ERROR : ' + err);
+                          $ionicLoading.hide();
+                          $scope.$broadcast('scroll.refreshComplete');
+                          PelApi.showPopup("Open File Complite With Error", err.toString());
+                        }
+                      );
+                      */
+                    },function (error) {
+
+                      console.log('Error');
                       console.log('===================================================');
-                      console.log(event);
+                      console.log(error);
+                      PelApi.showPopup("File Download Complite With Error", error.toString());
+
+                    }, function (progress) {
+                      // PROGRESS HANDLING GOES HERE
                     });
-                    */
-                  $ionicLoading.hide();
-                  $scope.$broadcast('scroll.refreshComplete');
+                }else if(isIOS){
 
-                  PelApi.showPopup(config_app.FileTransferSuccess, result.nativeURL);
+                  //targetPath = encodeURI(cordova.file.documentsDirectory + filename);
+                  window.open( url , "_system" , "location=yes,enableViewportScale=yes,hidden=no" );
 
-                  PelApi.showLoading();
-
-                  //window.open(result.nativeURL,"_system","location=yes,enableViewportScale=yes,hidden=no");
-
-                  if(isIOS){
-
-                    $cordovaFileOpener2.open( result.nativeURL, 'application/pdf' ).then(function() {
-                       // file opened successfully
-                        console.log('SUCCESS')
-                        $ionicLoading.hide();
-                        $scope.$broadcast('scroll.refreshComplete');
-                      },function(err) {
-                       // An error occurred. Show a message to the user
-                        console.log('ERROR : ' + err);
-                        $ionicLoading.hide();
-                        $scope.$broadcast('scroll.refreshComplete');
-                        PelApi.showPopup("Open File Complite With Error", err.toString());
-                       }
-                    );
-                  }else if( isAndroid ){
-                        window.open(result.nativeURL,"_system","location=yes,enableViewportScale=yes,hidden=no");
-                        $ionicLoading.hide();
-                        $scope.$broadcast('scroll.refreshComplete');
-                  }
-
-                },function (error) {
-
-                  console.log('Error');
-                  console.log('===================================================');
-                  console.log(error);
-                  PelApi.showPopup("File Download Complite With Error", error.toString());
-
-                }, function (progress) {
-                  // PROGRESS HANDLING GOES HERE
-                });
+                }
 
               } else if ("PDA" === statusCode.Status) {
 
