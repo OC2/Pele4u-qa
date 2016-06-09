@@ -385,6 +385,7 @@ app.controller('PoDocCtrl',['$rootScope'
           , $cordovaFileTransfer
           , $cordovaInAppBrowser
           , $cordovaFileOpener2
+          , $cordovaInAppBrowser
         ) {
 
     //---------------------------------
@@ -682,33 +683,30 @@ app.controller('PoDocCtrl',['$rootScope'
 
                   PelApi.showPopup(config_app.FileTransferSuccess, result.nativeURL);
 
-                  //PelApi.showLoading();
+                  PelApi.showLoading();
 
-                  window.open(result.nativeURL,"_system","location=yes,enableViewportScale=yes,hidden=no");
-                  /*
+                  //window.open(result.nativeURL,"_system","location=yes,enableViewportScale=yes,hidden=no");
 
                   if(isIOS){
-                    window.open(file.nativeURL,"_system","location=yes,enableViewportScale=yes,hidden=no");
-                  }else if( isAndroid ){
 
-                    $cordovaFileOpener2.open(
-                      result.nativeURL,
-                      'application/pdf'
-                    ).then(function() {
-                        // file opened successfully
+                    $cordovaFileOpener2.open( result.nativeURL, 'application/pdf' ).then(function() {
+                       // file opened successfully
                         console.log('SUCCESS')
                         $ionicLoading.hide();
                         $scope.$broadcast('scroll.refreshComplete');
-                    }, function(err) {
-                        // An error occurred. Show a message to the user
+                      },function(err) {
+                       // An error occurred. Show a message to the user
                         console.log('ERROR : ' + err);
                         $ionicLoading.hide();
                         $scope.$broadcast('scroll.refreshComplete');
                         PelApi.showPopup("Open File Complite With Error", err.toString());
-                    });
+                       }
+                    );
+                  }else if( isAndroid ){
+                        window.open(result.nativeURL,"_system","location=yes,enableViewportScale=yes,hidden=no");
+                        $ionicLoading.hide();
+                        $scope.$broadcast('scroll.refreshComplete');
                   }
-
-                  */
 
                 },function (error) {
 
