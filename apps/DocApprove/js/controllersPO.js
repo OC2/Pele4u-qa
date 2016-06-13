@@ -664,21 +664,6 @@ app.controller('PoDocCtrl',['$rootScope'
                       $ionicLoading.hide();
                       $scope.$broadcast('scroll.refreshComplete');
 
-                      /*
-                      $cordovaFileOpener2.open( result.nativeURL, 'application/pdf' ).then(function() {
-                          // file opened successfully
-                          console.log('SUCCESS')
-                          $ionicLoading.hide();
-                          $scope.$broadcast('scroll.refreshComplete');
-                        },function(err) {
-                          // An error occurred. Show a message to the user
-                          console.log('ERROR : ' + err);
-                          $ionicLoading.hide();
-                          $scope.$broadcast('scroll.refreshComplete');
-                          PelApi.showPopup("Open File Complite With Error", err.toString());
-                        }
-                      );
-                      */
                     },function (error) {
 
                       console.log('Error');
@@ -690,9 +675,10 @@ app.controller('PoDocCtrl',['$rootScope'
                       // PROGRESS HANDLING GOES HERE
                     });
                 }else if(isIOS){
-
-                  //targetPath = encodeURI(cordova.file.documentsDirectory + filename);
+                  
                   window.open( url , "_system" , "location=yes,enableViewportScale=yes,hidden=no" );
+                  $ionicLoading.hide();
+                  $scope.$broadcast('scroll.refreshComplete');
 
                 }
 
