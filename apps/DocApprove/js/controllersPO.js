@@ -639,7 +639,6 @@ app.controller('PoDocCtrl',['$rootScope'
                 var isIOS = ionic.Platform.isIOS();
                 var isAndroid = ionic.Platform.isAndroid();
 
-                //var targetPath ="file:///storage/emulated/0/po_1534624_210998_3945377.msg";
                 var targetPath = "";
 
                 if(isAndroid){
@@ -675,8 +674,9 @@ app.controller('PoDocCtrl',['$rootScope'
                       // PROGRESS HANDLING GOES HERE
                     });
                 }else if(isIOS){
-                  
-                  window.open( url , "_system" , "location=yes,enableViewportScale=yes,hidden=no" );
+
+                  //window.open( url , "_system" , "location=yes,enableViewportScale=yes,hidden=no" );
+                  var ref = cordova.InAppBrowser.open(url, '_blank', 'location=yes,enableViewportScale=yes');
                   $ionicLoading.hide();
                   $scope.$broadcast('scroll.refreshComplete');
 
