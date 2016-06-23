@@ -90,12 +90,25 @@ app.controller('po_p3_moduleDocListCtrl', function($scope,
                   $scope.title = "אישור הזמנות רכש";
                   var rowLength = $scope.chats.length;
 
+                  /*
                   if (rowLength > 0) {
                     $scope.title = $scope.chats[0].DOC_TYPE;
                   }
 
                   $ionicLoading.hide();
                   $scope.$broadcast('scroll.refreshComplete');
+                  */
+                  if($scope.chats[0].DOC_TYPE !== undefined){
+                    //$scope.title = $scope.chats[0].DOC_TYPE;
+                    $ionicLoading.hide();
+                    $scope.$broadcast('scroll.refreshComplete');
+                  }else{
+                    $ionicLoading.hide();
+                    $scope.$broadcast('scroll.refreshComplete');
+
+                    $state.go("app.p2_moduleList");
+                  }
+
                 //}
               }
             } else if ("PDA" === pinStatus) {
@@ -639,6 +652,7 @@ app.controller('PoDocCtrl',['$rootScope'
                 var isIOS = ionic.Platform.isIOS();
                 var isAndroid = ionic.Platform.isAndroid();
 
+                //var targetPath ="file:///storage/emulated/0/po_1534624_210998_3945377.msg";
                 var targetPath = "";
 
                 if(isAndroid){
@@ -675,8 +689,7 @@ app.controller('PoDocCtrl',['$rootScope'
                     });
                 }else if(isIOS){
 
-                  //window.open( url , "_system" , "location=yes,enableViewportScale=yes,hidden=no" );
-                  var ref = cordova.InAppBrowser.open(url, '_blank', 'location=yes,enableViewportScale=yes');
+                  window.open( url , "_system" , "location=yes,enableViewportScale=yes,hidden=no" );
                   $ionicLoading.hide();
                   $scope.$broadcast('scroll.refreshComplete');
 
