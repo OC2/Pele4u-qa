@@ -71,7 +71,7 @@ angular.module('pele.factories', [])
         method:"POST" ,
         data: data,
         timeout:appSettings.timeout,
-        headers: {"Content-Type": "application/json charset=utf-8","Accept":"application/json"}
+        headers: {"Content-Type": "application/json; charset=utf-8","Accept":"application/json"}
       });
     },
     //--------------------------------------------------------------------------//

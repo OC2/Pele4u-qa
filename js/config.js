@@ -179,7 +179,7 @@ angular.module('pele.config', [])
 
 var config_app;
 config_app = {
-  APP_VERSION:"",
+  APP_VERSION:"110",
   PLAYER_ID:"",
   GOOGLE_PLAY_APP_LINK:"https://play.google.com/store/apps/details?id=com.int_pele.pele4u",
   APPLE_STORE_APP_LING:"https://appsto.re/il/yYQKab.i",
