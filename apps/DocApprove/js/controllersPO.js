@@ -65,49 +65,21 @@ app.controller('po_p3_moduleDocListCtrl', function($scope,
 
               }
               else{
-                /*
-                try{
-                  if(data.Response.OutParams.ROW[0].ORG_NAME === undefined){
-                    $ionicLoading.hide();
-                    $scope.$broadcast('scroll.refreshComplete');
-                    PelApi.goHome();
-                  }
-                }catch(e){
-                  $ionicLoading.hide();
-                  $scope.$broadcast('scroll.refreshComplete');
-                  PelApi.goHome();
-                }
-                if (data.Response.OutParams.ROW[0].ORG_NAME === null) {
 
-                  $ionicLoading.hide();
-                  $scope.$broadcast('scroll.refreshComplete');
-                  PelApi.goHome();
+                $scope.chats = data.Response.OutParams.ROW;
+                console.log($scope.chats);
+                $scope.title = "אישור הזמנות רכש";
+                var rowLength = $scope.chats.length;
 
-                } else {
-                */
-                  $scope.chats = data.Response.OutParams.ROW;
-                  console.log($scope.chats);
-                  $scope.title = "אישור הזמנות רכש";
-                  var rowLength = $scope.chats.length;
-
-                  /*
-                  if (rowLength > 0) {
-                    $scope.title = $scope.chats[0].DOC_TYPE;
-                  }
-
-                  $ionicLoading.hide();
-                  $scope.$broadcast('scroll.refreshComplete');
-                  */
-                  if($scope.chats[0].DOC_TYPE !== undefined){
+                if($scope.chats[0].ORDER_QTY !== undefined){
                     //$scope.title = $scope.chats[0].DOC_TYPE;
                     $ionicLoading.hide();
                     $scope.$broadcast('scroll.refreshComplete');
-                  }else{
+                }else{
                     $ionicLoading.hide();
                     $scope.$broadcast('scroll.refreshComplete');
-
                     $state.go("app.p2_moduleList");
-                  }
+                }
 
                 //}
               }
@@ -689,7 +661,7 @@ app.controller('PoDocCtrl',['$rootScope'
                     });
                 }else if(isIOS){
 
-                  window.open( url , "_system" , "location=yes,enableViewportScale=yes,hidden=no" );
+                  window.open( url , "_system" , "charset=utf-8,location=yes,enableViewportScale=yes,hidden=no" );
                   $ionicLoading.hide();
                   $scope.$broadcast('scroll.refreshComplete');
 

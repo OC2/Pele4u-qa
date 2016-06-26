@@ -37,7 +37,7 @@ angular.module('pele.factories', [])
         url:envUrl,
         method: "GET",
         timeout :appSettings.menuTimeout,
-        headers: {'Content-Type': 'application/json; charset=utf-8','VERSION':version}
+        headers: {"Content-Type": "application/json; charset=utf-8","VERSION":version}
       });
     },
     //------------------------------------------------------------------------//
@@ -71,7 +71,7 @@ angular.module('pele.factories', [])
         method:"POST" ,
         data: data,
         timeout:appSettings.timeout,
-        headers: {"Content-Type": "application/json","Accept":"application/json" }
+        headers: {"Content-Type": "application/json charset=utf-8","Accept":"application/json"}
       });
     },
     //--------------------------------------------------------------------------//
@@ -105,7 +105,7 @@ angular.module('pele.factories', [])
             method:"POST" ,
             data: data,
             timeout:appSettings.timeout,
-            headers: {"Content-Type": "application/json; charset=utf-8","Accept":"application/json" }
+            headers: {"Content-Type": "application/json; charset=utf-8","Accept":"application/json"}
         });
     },
     //--------------------------------------------------------------------------//
@@ -138,8 +138,7 @@ angular.module('pele.factories', [])
             method:"POST",
             data: data,
             timeout:appSettings.timeout,
-            headers: {"Content-Type": "application/json; charset=utf-8","Accept":"application/json"
-            }
+            headers: {"Content-Type": "application/json; charset=utf-8","Accept":"application/json"}
         });
     },
     //--------------------------------------------------------------------------//
@@ -171,8 +170,7 @@ angular.module('pele.factories', [])
             method:"POST",
             data: data,
             timeout:appSettings.timeout,
-            headers: {"Content-Type": "application/json; charset=utf-8","Accept":"application/json"
-            }
+            headers: {"Content-Type": "application/json; charset=utf-8","Accept":"application/json"}
         });
     },
     //-----------------------------------------------------------------------------//
@@ -259,7 +257,6 @@ angular.module('pele.factories', [])
               if(isAndroid){
                 window.open(config_app.GOOGLE_PLAY_APP_LINK, '_system', 'location=yes');
               }else if(isIOS){
-                APPLE_STORE_APP_LING
                 window.open(config_app.APPLE_STORE_APP_LING, '_system', 'location=yes');
               }
               return true;

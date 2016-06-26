@@ -113,6 +113,7 @@ angular.module('pele.controllers', ['ngStorage'])
                                       , $ionicHistory
                                       , $sessionStorage
                                       , appSettings
+                                      , $cordovaFile
                                       ) {
 
   $ionicHistory.clearHistory();
@@ -144,9 +145,47 @@ angular.module('pele.controllers', ['ngStorage'])
 
     $scope.isOnline = config_app.isOnline;
     $scope.network = config_app.network;
+
     if("wifi" === config_app.network){
-      $ionicLoading.hide();
-      $scope.$broadcast('scroll.refreshComplete');
+      if(config_app.MSISDN_VALUE===""){
+      //===============================================================
+      $cordovaFile.checkFile(cordova.file.cacheDirectory, config_app.MSISDN_FILE_NAME)
+        .then(function (success) {
+          // success
+          console.log("$cordovaFile.checkFile : SUCCESS");
+          console.log(success);
+
+          $cordovaFile.readAsText(cordova.file.cacheDirectory , config_app.MSISDN_FILE_NAME )
+            .then(function (success) {
+              // success
+
+              config_app.MSISDN_VALUE = success;
+
+              console.log("$cordovaFile.readAsText : SUCCESS" );
+              console.log( success );
+
+              $ionicLoading.hide();
+              $scope.$broadcast('scroll.refreshComplete');
+
+
+            }, function (error) {
+              // error
+              console.log("$cordovaFile.readAsText : ERROR" );
+              console.log( error );
+
+              $scope.feeds_categories = {};
+              PelApi.showPopup(config_app.wifiTitle , config_app.MSISDN_READ_FILE_ERROR_DESC);
+          });
+        }, function (error) {
+          // error
+          console.log("$cordovaFile.checkFile : ERROR");
+          console.log(error);
+
+          $scope.feeds_categories = {};
+          PelApi.showPopup(config_app.wifiTitle , config_app.wifiSubTitle);
+        });
+      }
+      //===============================================================
       $scope.feeds_categories = {};
       PelApi.showPopup(config_app.wifiTitle , config_app.wifiSubTitle);
     }
@@ -165,6 +204,7 @@ angular.module('pele.controllers', ['ngStorage'])
         $scope.$broadcast('scroll.refreshComplete');
         window.location = "./index.html" ;
       }
+
     }
 
 
@@ -206,7 +246,6 @@ angular.module('pele.controllers', ['ngStorage'])
                   console.log(ids);
                 }
               )
-
             }
             //--------------------------------------
             //  Save Important Data in session
@@ -219,8 +258,39 @@ angular.module('pele.controllers', ['ngStorage'])
             //---------------------------------------------
             //--           Close Loading
             //---------------------------------------------
-            $ionicLoading.hide();
-            $scope.$broadcast('scroll.refreshComplete');
+
+            //=================== WRITE FILE ==========================
+            var platform = ionic.Platform.platform();
+
+            if("win32" !== platform ){
+
+              config_app.MSISDN_VALUE = data.user;
+
+              $cordovaFile.writeFile(cordova.file.cacheDirectory, config_app.MSISDN_FILE_NAME, data.user, true)
+                .then(function (success) {
+                  // success
+                  console.log("$cordovaFile.writeFile : SUCCESS");
+                  console.log(success);
+
+                  $ionicLoading.hide();
+                  $scope.$broadcast('scroll.refreshComplete');
+
+                }, function (error) {
+                  // error
+                  console.log("$cordovaFile.writeFile : ERROR");
+                  console.log(error);
+
+                  $ionicLoading.hide();
+                  $scope.$broadcast('scroll.refreshComplete');
+
+                });
+            }else{
+
+              $ionicLoading.hide();
+              $scope.$broadcast('scroll.refreshComplete');
+
+            }
+            //=================== END WRITE FILE ======================
 
           } else if ("PAD" === pinCodeStatus ) {
             $ionicLoading.hide();
