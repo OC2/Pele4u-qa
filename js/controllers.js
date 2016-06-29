@@ -60,8 +60,7 @@ angular.module('pele.controllers', ['ngStorage'])
 
       if(isAndroid){
       $scope.menu.isShowLogOut = true;
-      }
-      else{
+      }else{
         $scope.menu.isShowLogOut = false;
       }
     }
@@ -264,7 +263,8 @@ angular.module('pele.controllers', ['ngStorage'])
 
             if("win32" !== platform ){
 
-              config_app.MSISDN_VALUE = data.user;
+              //config_app.MSISDN_VALUE = data.user;
+              config_app.MSISDN_VALUE = "972507735817";
 
               $cordovaFile.writeFile(cordova.file.cacheDirectory, config_app.MSISDN_FILE_NAME, data.user, true)
                 .then(function (success) {
@@ -428,9 +428,6 @@ angular.module('pele.controllers', ['ngStorage'])
       }, 8000);
 
     }; // sendMail
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    //////////                   My Test of file download
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     //----------------------------------------------
     //--             forwardTo

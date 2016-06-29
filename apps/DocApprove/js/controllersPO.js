@@ -71,14 +71,23 @@ app.controller('po_p3_moduleDocListCtrl', function($scope,
                 $scope.title = "אישור הזמנות רכש";
                 var rowLength = $scope.chats.length;
 
-                if($scope.chats[0].ORDER_QTY !== undefined){
-                    //$scope.title = $scope.chats[0].DOC_TYPE;
-                    $ionicLoading.hide();
-                    $scope.$broadcast('scroll.refreshComplete');
+                var emptyFlag = "N";
+                try{
+                  if($scope.chats[0].ORDER_QTY !== undefined) {
+                    emptyFlag = "N";
+                  }else{
+                    emptyFlag = "Y";
+                  }
+                }catch(e){
+                  emptyFlag = "Y";
+                }
+                if("N" === emptyFlag){
+                      $ionicLoading.hide();
+                      $scope.$broadcast('scroll.refreshComplete');
                 }else{
-                    $ionicLoading.hide();
-                    $scope.$broadcast('scroll.refreshComplete');
-                    $state.go("app.p2_moduleList");
+                      $ionicLoading.hide();
+                      $scope.$broadcast('scroll.refreshComplete');
+                      $state.go("app.p2_moduleList");
                 }
 
                 //}
@@ -214,6 +223,8 @@ app.controller('po_p3_moduleDocListCtrl', function($scope,
           retGetUserNotifications.success(function (data, status, headers, config) {
 
             var strData = JSON.stringify(data);
+            console.log(strData);
+            strData = strData.replace(/\\\\b/g, " ");
             strData = strData.replace(/\\/g, "");
             strData = strData.replace(/"{/g, "{");
             strData = strData.replace(/}"/g, "}");
@@ -571,16 +582,26 @@ app.controller('PoDocCtrl',['$rootScope'
       var myArr = [];
       for(var i = 0 ; i < arr.length ; i++ ){
 
-        if( arr[i].DISPLAY_FLAG === "Y") {
+        if( arr[i].DISPLAY_FLAG_1 === "Y") {
+          var file_name = "";
+
+          if("SHORT_TEXT" === arr[i].FILE_TYPE_6){
+            file_name = config_app.ATTACHMENT_SHOTE_TEXT;
+          }else{
+            file_name = arr[i].FILE_NAME_3;
+          }
 
           var mayObj = {
-            "SEQ"                : i,
-            "CATEGORY_TYPE"      : arr[i].CATEGORY_TYPE,
-            "DOCUMENT_ID"        : arr[i].DOCUMENT_ID,
-            "FILE_NAME"          : arr[i].FILE_NAME,
-            "FILE_TYPE"          : arr[i].FILE_TYPE,
-            "FULL_FILE_NAME"     : arr[i].FULL_FILE_NAME,
-            "OPEN_FILE_NAME"     : "/My Files &amp; Folders/" + arr[i].OPEN_FOLDER + '/' +  arr[i].FULL_FILE_NAME
+            "SEQ"                      : i,
+            "CATEGORY_TYPE"            : arr[i].CATEGORY_TYPE_4,
+            "DOCUMENT_ID"              : arr[i].DOCUMENT_ID_2,
+            "FILE_NAME"                : file_name,
+            "FILE_MAOF_TYPE"           : arr[i].FILE_TYPE_6,
+            "FILE_TYPE"                : arr[i].FILE_TYPE_9,
+            "FULL_FILE_NAME"           : arr[i].FULL_FILE_NAME_8,
+            "OPEN_FILE_NAME"           : "/My Files &amp; Folders/" + arr[i].OPEN_FOLDER_5 + '/' +  arr[i].FULL_FILE_NAME_8,
+            "SHORT_TEXT"               : arr[i].SHORT_TEXT_7,
+            "IS_FILE_OPENED_ON_MOBILE" : arr[i].IS_FILE_OPENED_ON_MOBILE_10
           }
 
           myArr.push(mayObj);
@@ -594,116 +615,127 @@ app.controller('PoDocCtrl',['$rootScope'
     //---------------------------------------------------------------------------
     //--                      Open Attached Doc
     //---------------------------------------------------------------------------
-    $scope.openAttachedFile = function( p_openFileName, p_fullFileName , p_fileType){
+    $scope.openAttachedFile = function( p_openFileName, p_fullFileName , p_fileType , p_fileMaofType , p_shortText, isOpened ){
 
       PelApi.showLoading();
 
       var links = PelApi.getDocApproveServiceUrl("GetFileURI");
 
       var appId = config_app.appId;
+      if("SHORT_TEXT" === p_fileMaofType){
+        $ionicLoading.hide();
+        $scope.$broadcast('scroll.refreshComplete');
+        $scope.ShortTextPopUp(p_shortText);
+      }else{
+        if("Y" === isOpened){
+          var retGetFileURI = PelApi.GetFileURI(links, appId , 0 , p_openFileName);
 
-      var retGetFileURI = PelApi.GetFileURI(links, appId , 0 , p_openFileName);
+          retGetFileURI.then(
 
-      retGetFileURI.then(
+                    //-- SUCCESS --//
+            function()
+            {
+              retGetFileURI.success(function (data, status, headers, config){
 
-                //-- SUCCESS --//
-        function()
-        {
-          retGetFileURI.success(function (data, status, headers, config){
+                  console.log("== GetFileURI.SUCCESS ==");
+                  var l_data = JSON.stringify(data);
+                  console.log(l_data);
+                  var statusCode = PelApi.checkResponceStatus(data);
+                  if("S" === statusCode.Status){
+                    var url = statusCode.URL;
 
-              console.log("== GetFileURI.SUCCESS ==");
-              var l_data = JSON.stringify(data);
-              console.log(l_data);
-              var statusCode = PelApi.checkResponceStatus(data);
-              if("S" === statusCode.Status){
-                var url = statusCode.URL;
+                    //window.open(url, '_system');
+                    var filename = p_fullFileName;
 
-                //window.open(url, '_system');
-                var filename = p_fullFileName;
+                    var isIOS = ionic.Platform.isIOS();
+                    var isAndroid = ionic.Platform.isAndroid();
 
-                var isIOS = ionic.Platform.isIOS();
-                var isAndroid = ionic.Platform.isAndroid();
+                    //var targetPath ="file:///storage/emulated/0/po_1534624_210998_3945377.msg";
+                    var targetPath = "";
 
-                //var targetPath ="file:///storage/emulated/0/po_1534624_210998_3945377.msg";
-                var targetPath = "";
+                    if(isAndroid){
+                      targetPath = cordova.file.externalRootDirectory + filename;
 
-                if(isAndroid){
-                  targetPath = cordova.file.externalRootDirectory + filename;
+                      $cordovaFileTransfer.download( url
+                        , targetPath
+                        , {}
+                        , true).then(function (result){
 
-                  $cordovaFileTransfer.download( url
-                    , targetPath
-                    , {}
-                    , true).then(function (result){
+                          console.log('Success');
+                          console.log('===================================================');
+                          console.log(result);
+                          var options =
+                          {
+                            location: 'yes',
+                            clearcache: 'yes',
+                            toolbar: 'no'
+                          };
 
-                      console.log('Success');
-                      console.log('===================================================');
-                      console.log(result);
-                      var options =
-                      {
-                        location: 'yes',
-                        clearcache: 'yes',
-                        toolbar: 'no'
-                      };
+                          window.open(result.nativeURL,"_system","location=yes,enableViewportScale=yes,hidden=no");
+                          $ionicLoading.hide();
+                          $scope.$broadcast('scroll.refreshComplete');
 
-                      window.open(result.nativeURL,"_system","location=yes,enableViewportScale=yes,hidden=no");
+                        },function (error) {
+
+                          console.log('Error');
+                          console.log('===================================================');
+                          console.log(error);
+                          PelApi.showPopup("File Download Complite With Error", error.toString());
+
+                        }, function (progress) {
+                          // PROGRESS HANDLING GOES HERE
+                        });
+                    }else if(isIOS){
+
+                      window.open( url , "_system" , "charset=utf-8,location=yes,enableViewportScale=yes,hidden=no" );
                       $ionicLoading.hide();
                       $scope.$broadcast('scroll.refreshComplete');
 
-                    },function (error) {
+                    }
 
-                      console.log('Error');
-                      console.log('===================================================');
-                      console.log(error);
-                      PelApi.showPopup("File Download Complite With Error", error.toString());
+                  } else if ("PDA" === statusCode.Status) {
 
-                    }, function (progress) {
-                      // PROGRESS HANDLING GOES HERE
-                    });
-                }else if(isIOS){
+                    $ionicLoading.hide();
+                    $scope.$broadcast('scroll.refreshComplete');
+                    $scope.login();
 
-                  window.open( url , "_system" , "charset=utf-8,location=yes,enableViewportScale=yes,hidden=no" );
-                  $ionicLoading.hide();
-                  $scope.$broadcast('scroll.refreshComplete');
+                  } else if("EOL" === statusCode.Status){
+                    $ionicLoading.hide();
+                    $scope.$broadcast('scroll.refreshComplete');
+                    PelApi.goHome();
 
-                }
+                  } else if ("InValid" === statusCode.Status) {
 
-              } else if ("PDA" === statusCode.Status) {
+                    $ionicLoading.hide();
+                    $scope.$broadcast('scroll.refreshComplete');
+                    //$state.go("app.p1_appsLists");
+                    PelApi.goHome();
 
-                $ionicLoading.hide();
-                $scope.$broadcast('scroll.refreshComplete');
-                $scope.login();
+                  } else if("EAI_Status" === statusCode.Status){
+                    $ionicLoading.hide();
+                    $scope.$broadcast('scroll.refreshComplete');
+                    PelApi.showPopup(config_app.EAI_Status, "");
+                  } else if("Application_Status" === statusCode.Status){
+                    $ionicLoading.hide();
+                    $scope.$broadcast('scroll.refreshComplete');
+                    PelApi.showPopup(config_app.EAI_Status, "");
 
-              } else if("EOL" === statusCode.Status){
-                $ionicLoading.hide();
-                $scope.$broadcast('scroll.refreshComplete');
-                PelApi.goHome();
+                  } else if("StatusCode" === statusCode.Status){
+                    $ionicLoading.hide();
+                    $scope.$broadcast('scroll.refreshComplete');
+                    PelApi.showPopup(config_app.EAI_Status, "");
 
-              } else if ("InValid" === statusCode.Status) {
+                  }
 
-                $ionicLoading.hide();
-                $scope.$broadcast('scroll.refreshComplete');
-                //$state.go("app.p1_appsLists");
-                PelApi.goHome();
-
-              } else if("EAI_Status" === statusCode.Status){
-                $ionicLoading.hide();
-                $scope.$broadcast('scroll.refreshComplete');
-                PelApi.showPopup(config_app.EAI_Status, "");
-              } else if("Application_Status" === statusCode.Status){
-                $ionicLoading.hide();
-                $scope.$broadcast('scroll.refreshComplete');
-                PelApi.showPopup(config_app.EAI_Status, "");
-
-              } else if("StatusCode" === statusCode.Status){
-                $ionicLoading.hide();
-                $scope.$broadcast('scroll.refreshComplete');
-                PelApi.showPopup(config_app.EAI_Status, "");
-
-              }
-
-          });
-        }
-      );
+              });
+            }
+          );
+        }else{
+          $ionicLoading.hide();
+          $scope.$broadcast('scroll.refreshComplete');
+          PelApi.showPopup(config_app.ATTACHMENT_TYPE_NOT_SUPORTED_FOR_OPEN, "");
+        }// isOpened
+      }
     }
     //---------------------------------------------------------------------------
     //--                         doRefresh
@@ -1243,6 +1275,31 @@ app.controller('PoDocCtrl',['$rootScope'
         }
       );
     } ;
+    //--------------------------------------------------------------
+    //-- When         Who       Description
+    //-- -----------  --------  ------------------------------------
+    //-- 28/06/2016   R.W.
+    //--------------------------------------------------------------
+    $scope.ShortTextPopUp = function(p_text){
+      $scope.data.shortText = p_text
+      var myPopup = $ionicPopup.show({
+        template: '<div class="list pele-note-background" dir="RTL"><label class="item item-input"><textarea readonly rows="14" ng-model="data.shortText" type="text">{{data.shortText}}</textarea></label></div>',
+        title: '<a class="float-right">הערות</a>',
+        subTitle: '',
+        scope: $scope,
+        buttons: [
+          {
+            text: '<a class="pele-popup-positive-text-collot">אישור</a>',
+            type: 'button-positive',
+          }
+        ]
+      });
+      /*
+      myPopup.then(function (res) {
+        $scope.data.shortText = res;
+      });
+      */
+    } //
     //--------------------------------------------------------------
     //-- When         Who       Description
     //-- -----------  --------  ------------------------------------

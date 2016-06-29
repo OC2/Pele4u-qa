@@ -26,8 +26,17 @@ angular.module('pele.factories', [])
     //--------------------------------------------------------------------//
     getMenu: function (links) {
       // LOADING
-      var envUrl = links.URL;
+      var envUrl = "";
+      var headers = {};
       var version = config_app.APP_VERSION;
+
+      if("wifi" === config_app.network){
+        envUrl = links.URL_WIFI;
+        headers = {"Content-Type": "application/json; charset=utf-8","VERSION":version, "msisdn":config_app.MSISDN_VALUE}
+      }else{
+        envUrl = links.URL;
+        headers = {"Content-Type": "application/json; charset=utf-8","VERSION":version};
+      }
 
       this.writeToLog(config_app.LOG_FILE_INFO_TYPE ,"====== getMenu ======");
       this.writeToLog(config_app.LOG_FILE_INFO_TYPE , "URL :" + JSON.stringify(envUrl));
@@ -37,7 +46,7 @@ angular.module('pele.factories', [])
         url:envUrl,
         method: "GET",
         timeout :appSettings.menuTimeout,
-        headers: {"Content-Type": "application/json; charset=utf-8","VERSION":version}
+        headers:headers
       });
     },
     //------------------------------------------------------------------------//
@@ -49,7 +58,17 @@ angular.module('pele.factories', [])
       console.log("P2 : " + config_app.token);
       var userName = config_app.userName;
 
-      var envUrl = links.URL;
+      var envUrl="";
+      var headers={};
+
+      if("wifi" === config_app.network){
+        envUrl = links.URL_WIFI;
+        headers = {"Content-Type": "application/json; charset=utf-8","VERSION":version, "msisdn":config_app.MSISDN_VALUE};
+      }else{
+        envUrl = links.URL;
+        headers = {"Content-Type": "application/json; charset=utf-8","Accept":"application/json"};
+      }
+
       var RequestHeader = links.RequestHeader;
       var data = { "Request": {
         "RequestHeader": RequestHeader,
@@ -71,7 +90,7 @@ angular.module('pele.factories', [])
         method:"POST" ,
         data: data,
         timeout:appSettings.timeout,
-        headers: {"Content-Type": "application/json; charset=utf-8","Accept":"application/json"}
+        headers: headers
       });
     },
     //--------------------------------------------------------------------------//
@@ -82,7 +101,17 @@ angular.module('pele.factories', [])
 
         var token = config_app.token;
         var userName = config_app.userName;
-        var envUrl = links.URL;
+
+        var envUrl="";
+        var headers={};
+        if("wifi" === config_app.network){
+          envUrl = links.URL_WIFI;
+          headers = {"Content-Type": "application/json; charset=utf-8","Accept":"application/json" , "msisdn":config_app.MSISDN_VALUE};
+        }else{
+          envUrl  = links.URL;
+          headers = {"Content-Type": "application/json; charset=utf-8","Accept":"application/json"};
+        }
+
         var RequestHeader = links.RequestHeader;
         var data = { "Request": {
                         "RequestHeader": RequestHeader,
@@ -104,8 +133,8 @@ angular.module('pele.factories', [])
             url:envUrl ,
             method:"POST" ,
             data: data,
-            timeout:appSettings.timeout,
-            headers: {"Content-Type": "application/json; charset=utf-8","Accept":"application/json"}
+            timeout: appSettings.timeout,
+            headers: headers
         });
     },
     //--------------------------------------------------------------------------//
@@ -114,7 +143,17 @@ angular.module('pele.factories', [])
     GetUserNotifications:function(links , appId , docId , docInitId){
         var token = config_app.token;
         var userName = config_app.userName;
-        var envUrl = links.URL;
+
+        var envUrl = "";
+        var headers = {};
+        if("wifi" === config_app.network){
+          envUrl  = links.URL_WIFI;
+          headers = {"Content-Type": "application/json; charset=utf-8","Accept":"application/json","msisdn":config_app.MSISDN_VALUE};
+        }else{
+          envUrl = links.URL;
+          headers = {"Content-Type": "application/json; charset=utf-8","Accept":"application/json"};
+        }
+
         var RequestHeader = links.RequestHeader;
         var data = { "Request": {
             "RequestHeader": RequestHeader,
@@ -125,8 +164,8 @@ angular.module('pele.factories', [])
                 "UserName": userName,
                 "DocId":docId,
                 "DocInitId":docInitId
+                }
             }
-        }
         };
 
         this.writeToLog(config_app.LOG_FILE_INFO_TYPE ,"====== GetUserNotifications ======");
@@ -138,7 +177,7 @@ angular.module('pele.factories', [])
             method:"POST",
             data: data,
             timeout:appSettings.timeout,
-            headers: {"Content-Type": "application/json; charset=utf-8","Accept":"application/json"}
+            headers: headers
         });
     },
     //--------------------------------------------------------------------------//
@@ -147,7 +186,17 @@ angular.module('pele.factories', [])
     SubmitNotification:function(links , appId , notificationId , note , actionType){
         var token = config_app.token;
         var userName = config_app.userName;
-        var envUrl = links.URL;
+
+        var envUrl="";
+        var headers={};
+        if("wifi" === config_app.network){
+          envUrl  = links.URL_WIFI;
+          headers = {"Content-Type": "application/json; charset=utf-8","Accept":"application/json","msisdn":config_app.MSISDN_VALUE};
+        }else{
+          envUrl = links.URL;
+          headers = {"Content-Type": "application/json; charset=utf-8","Accept":"application/json"};
+        }
+
         var RequestHeader = links.RequestHeader;
         var data = { "Request": {
             "RequestHeader": RequestHeader,
@@ -159,8 +208,8 @@ angular.module('pele.factories', [])
                 "NotificationId":notificationId,
                 "Note":note,
                 "ActionType":actionType
+                }
             }
-        }
         };
         this.writeToLog(config_app.LOG_FILE_INFO_TYPE ,"====== SubmitNotification ======");
         this.writeToLog(config_app.LOG_FILE_INFO_TYPE , "URL :" + JSON.stringify(envUrl));
@@ -169,8 +218,8 @@ angular.module('pele.factories', [])
             url:envUrl,
             method:"POST",
             data: data,
-            timeout:appSettings.timeout,
-            headers: {"Content-Type": "application/json; charset=utf-8","Accept":"application/json"}
+            timeout: appSettings.timeout,
+            headers: headers
         });
     },
     //-----------------------------------------------------------------------------//
@@ -236,7 +285,7 @@ angular.module('pele.factories', [])
       var Service = $filter('filter')(ServiceList, {Service: service})[0];
       return Service
     },
-//===========================================================//
+    //===========================================================//
     //==               Update Version                          ==//
     //===========================================================//
     showPopupVersionUpdate:function(title , subTitle){

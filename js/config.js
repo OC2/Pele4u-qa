@@ -26,10 +26,12 @@ angular.module('pele.config', [])
                         ServiceList:[
                           {"Service":"GetUserMenu",
                            "URL":"http://msso.pelephone.co.il/PD/MobileServices/SSOService.svc/json/GetUserMenu",
+                           "URL_WIFI":"https://msso.pelephone.co.il/PD/MobileServices/SSOService.svc/json/GetUserMenu",
                            "RequestHeader":""
                           },
                           { "Service":"GetUserModuleTypes",
                             "URL":"http://msso.pelephone.co.il/PD/REST/GetUserModuleTypes",
+                            "URL_WIFI":"https://msso.pelephone.co.il/PD/REST/GetUserModuleTypes",
                             "RequestHeader":{"ServiceName": "GetUserModuleTypes"
                                             ,"AppID": "MobileApp"
                                             ,"EnvCode": "MobileApp_PROD"
@@ -37,6 +39,7 @@ angular.module('pele.config', [])
                           },
                           {	"Service":"GtUserFormGroups",
                             "URL":"http://msso.pelephone.co.il/PD/REST/GtUserFormGroups",
+                            "URL_WIFI":"https://msso.pelephone.co.il/PD/REST/GtUserFormGroups",
                             "RequestHeader":{"ServiceName": "GetUserFormGroups"
                                             ,"AppID": "MobileApp"
                                             ,"EnvCode": "MobileApp_PROD"
@@ -44,6 +47,7 @@ angular.module('pele.config', [])
                           },
                           {	"Service":"GetUserNotif",
                             "URL":"http://msso.pelephone.co.il/PD/REST/GetUserNotif",
+                            "URL_WIFI":"https://msso.pelephone.co.il/PD/REST/GetUserNotif",
                             "RequestHeader":{"ServiceName": "GetUserNotifications"
                                             ,"AppID": "MobileApp"
                                             ,"EnvCode": "MobileApp_PROD"
@@ -51,6 +55,7 @@ angular.module('pele.config', [])
                           },
                           {	"Service":"SubmitNotif",
                             "URL":"http://msso.pelephone.co.il/PD/REST/SubmitNotif",
+                            "URL_WIFI":"https://msso.pelephone.co.il/PD/REST/SubmitNotif",
                             "RequestHeader":{"ServiceName": "SubmitNotifications"
                                             ,"AppID": "MobileApp"
                                             ,"EnvCode": "MobileApp_PROD"
@@ -58,6 +63,7 @@ angular.module('pele.config', [])
                           },
                           {	"Service":"GetUserPoOrdGroup",
                             "URL":"http://msso.pelephone.co.il/PD/REST/GetUserPoOrdGroup",
+                            "URL_WIFI":"https://msso.pelephone.co.il/PD/REST/GetUserPoOrdGroup",
                             "RequestHeader":{"ServiceName": "GetUserPoOrdGroup"
                                             ,"AppID": "MobileApp"
                                             ,"EnvCode": "MobileApp_PROD"
@@ -66,6 +72,7 @@ angular.module('pele.config', [])
                           {
                             "Service":"GetFileURI",
                             "URL":"http://msso.pelephone.co.il/DV/REST/GetFileURI",
+                            "URL_WIFI":"https://msso.pelephone.co.il/DV/REST/GetFileURI",
                             "RequestHeader":{"ServiceName": "ShareFile-GetFileURI"
                                             ,"AppID": "MobileApp"
                                             ,"EnvCode": "MobileApp_QA"
@@ -74,12 +81,15 @@ angular.module('pele.config', [])
                         ]
                       },
                       {Environment:"QA",
-                        ServiceList:[{"Service":"GetUserMenu",
-                          URL:"http://msso.pelephone.co.il/QA/MobileServices/SSOService.svc/json/GetUserMenu",
-                          "RequestHeader":""
+                        ServiceList:[
+                          {"Service":"GetUserMenu",
+                            "URL":"http://msso.pelephone.co.il/QA/MobileServices/SSOService.svc/json/GetUserMenu",
+                            "URL_WIFI":"https://msso.pelephone.co.il/QA/MobileServices/SSOService.svc/json/GetUserMenu",
+                            "RequestHeader":""
                           },
                           {"Service":"GetUserModuleTypes",
                             "URL":"http://msso.pelephone.co.il/QA/REST/GetUserModuleTypes",
+                            "URL_WIFI":"https://msso.pelephone.co.il/QA/REST/GetUserModuleTypes",
                             "RequestHeader":{"ServiceName": "GetUserModuleTypes"
                                             ,"AppID": "MobileApp"
                                             ,"EnvCode": "MobileApp_QA"
@@ -87,6 +97,7 @@ angular.module('pele.config', [])
                           },
                           {"Service":"GtUserFormGroups",
                             "URL":"http://msso.pelephone.co.il/QA/REST/GtUserFormGroups",
+                            "URL_WIFI":"https://msso.pelephone.co.il/QA/REST/GtUserFormGroups",
                             "RequestHeader":{"ServiceName": "GetUserFormGroups"
                                             ,"AppID": "MobileApp"
                                             ,"EnvCode": "MobileApp_QA"
@@ -94,6 +105,7 @@ angular.module('pele.config', [])
                           },
                           {"Service":"GetUserNotif",
                             "URL":"http://msso.pelephone.co.il/QA/REST/GetUserNotif",
+                            "URL_WIFI":"https://msso.pelephone.co.il/QA/REST/GetUserNotif",
                             "RequestHeader":{"ServiceName": "GetUserNotifications"
                                             ,"AppID": "MobileApp"
                                             ,"EnvCode": "MobileApp_QA"
@@ -101,6 +113,7 @@ angular.module('pele.config', [])
                           },
                           {"Service":"SubmitNotif",
                             "URL":"http://msso.pelephone.co.il/QA/REST/SubmitNotif",
+                            "URL_WIFI":"https://msso.pelephone.co.il/QA/REST/SubmitNotif",
                             "RequestHeader":{"ServiceName": "SubmitNotifications"
                                             ,"AppID": "MobileApp"
                                             ,"EnvCode": "MobileApp_QA"
@@ -108,6 +121,7 @@ angular.module('pele.config', [])
                           },
                           {	"Service":"GetUserPoOrdGroup",
                             "URL":"http://msso.pelephone.co.il/QA/REST/GetUserPoOrdGroup",
+                            "URL_WIFI":"https://msso.pelephone.co.il/QA/REST/GetUserPoOrdGroup",
                             "RequestHeader":{"ServiceName": "GetUserPoOrdGroup"
                                             ,"AppID": "MobileApp"
                                             ,"EnvCode": "MobileApp_QA"
@@ -116,6 +130,7 @@ angular.module('pele.config', [])
                           {
                             "Service":"GetFileURI",
                             "URL":"http://msso.pelephone.co.il/QA/REST/GetFileURI",
+                            "URL_WIFI":"https://msso.pelephone.co.il/QA/REST/GetFileURI",
                             "RequestHeader":{"ServiceName": "ShareFile-GetFileURI"
                                             ,"AppID": "MobileApp"
                                             ,"EnvCode": "MobileApp_QA"
@@ -126,10 +141,12 @@ angular.module('pele.config', [])
                       {Environment:"DV",
                         ServiceList:[{	"Service":"GetUserMenu",
                           "URL":"http://msso.pelephone.co.il/DV/MobileServices/SSOService.svc/json/GetUserMenu",
+                          "URL_WIFI":"https://msso.pelephone.co.il/DV/MobileServices/SSOService.svc/json/GetUserMenu",
                           "RequestHeader":""
                           },
                           {	"Service":"GetUserModuleTypes",
                             "URL":"http://msso.pelephone.co.il/DV/REST/GetUserModuleTypes",
+                            "URL_WIFI":"https://msso.pelephone.co.il/DV/REST/GetUserModuleTypes",
                             "RequestHeader":{"ServiceName": "GetUserModuleTypes"
                                             ,"AppID": "MobileApp"
                                             ,"EnvCode": "MobileApp_DEV"
@@ -137,6 +154,7 @@ angular.module('pele.config', [])
                           },
                           {	"Service":"GtUserFormGroups",
                             "URL":"http://msso.pelephone.co.il/DV/REST/GtUserFormGroups",
+                            "URL_WIFI":"https://msso.pelephone.co.il/DV/REST/GtUserFormGroups",
                             "RequestHeader":{"ServiceName": "GetUserFormGroups"
                                             ,"AppID": "MobileApp"
                                             ,"EnvCode": "MobileApp_DEV"
@@ -144,6 +162,7 @@ angular.module('pele.config', [])
                           },
                           {	"Service":"GetUserNotif",
                             "URL":"http://msso.pelephone.co.il/DV/REST/GetUserNotif",
+                            "URL_WIFI":"https://msso.pelephone.co.il/DV/REST/GetUserNotif",
                             "RequestHeader":{"ServiceName": "GetUserNotifications"
                                             ,"AppID": "MobileApp"
                                             ,"EnvCode": "MobileApp_DEV"
@@ -151,6 +170,7 @@ angular.module('pele.config', [])
                           },
                           {	"Service":"SubmitNotif",
                             "URL":"http://msso.pelephone.co.il/DV/REST/SubmitNotif",
+                            "URL_WIFI":"https://msso.pelephone.co.il/DV/REST/SubmitNotif",
                             "RequestHeader":{"ServiceName": "SubmitNotifications"
                                             ,"AppID": "MobileApp"
                                             ,"EnvCode": "MobileApp_DEV"
@@ -158,6 +178,7 @@ angular.module('pele.config', [])
                           },
                           {	"Service":"GetUserPoOrdGroup",
                             "URL":"http://msso.pelephone.co.il/DV/REST/GetUserPoOrdGroup",
+                            "URL_WIFI":"https://msso.pelephone.co.il/DV/REST/GetUserPoOrdGroup",
                             "RequestHeader":{"ServiceName": "GetUserPoOrdGroup"
                                             ,"AppID": "MobileApp"
                                             ,"EnvCode": "MobileApp_DEV"
@@ -166,6 +187,7 @@ angular.module('pele.config', [])
                           {
                             "Service":"GetFileURI",
                             "URL":"http://msso.pelephone.co.il/DV/REST/GetFileURI",
+                            "URL_WIFI":"https://msso.pelephone.co.il/DV/REST/GetFileURI",
                             "RequestHeader":{"ServiceName": "ShareFile-GetFileURI"
                                             ,"AppID": "MobileApp"
                                             ,"EnvCode": "MobileApp_DEV"
@@ -222,7 +244,8 @@ config_app = {
   MSISDN_STATUS:"",
   MSISDN_FILE_NAME:"MSISDN.txt",
   MSISDN_VALUE:"",
-
+  ATTACHMENT_SHOTE_TEXT:"טקסט קצר",
+  ATTACHMENT_TYPE_NOT_SUPORTED_FOR_OPEN:"קובץ לא נתמך לפתיחה במובייל",
   getUserMenuErrorMsg: "שגיאה בטעינת רשימת אפליקציות",
   getUserModuleTypesErrorMag: "בקשה הסתיימה עם שגיאה , נא לרענן מסך",
   EAI_ERROR_DESC : "EAI שגיאה בממשק",
