@@ -225,6 +225,7 @@ app.controller('po_p3_moduleDocListCtrl', function($scope,
             var strData = JSON.stringify(data);
             console.log(strData);
             strData = strData.replace(/\\\\b/g, " ");
+            strData = strData.replace(/\\\\t/g, "   ");
             strData = strData.replace(/\\/g, "");
             strData = strData.replace(/"{/g, "{");
             strData = strData.replace(/}"/g, "}");
@@ -585,8 +586,10 @@ app.controller('PoDocCtrl',['$rootScope'
         if( arr[i].DISPLAY_FLAG_1 === "Y") {
           var file_name = "";
 
-          if("SHORT_TEXT" === arr[i].FILE_TYPE_6){
-            file_name = config_app.ATTACHMENT_SHOTE_TEXT;
+          if("SHORT_TEXT" === arr[i].FILE_TYPE_6) {
+            file_name = config_app.ATTACHMENT_SHORT_TEXT;
+          }else if("LONG_TEXT" === arr[i].FILE_TYPE_6){
+            file_name = config_app.ATTACHMENT_LONG_TEXT;
           }else{
             file_name = arr[i].FILE_NAME_3;
           }
@@ -601,6 +604,7 @@ app.controller('PoDocCtrl',['$rootScope'
             "FULL_FILE_NAME"           : arr[i].FULL_FILE_NAME_8,
             "OPEN_FILE_NAME"           : "/My Files &amp; Folders/" + arr[i].OPEN_FOLDER_5 + '/' +  arr[i].FULL_FILE_NAME_8,
             "SHORT_TEXT"               : arr[i].SHORT_TEXT_7,
+            "LONG_TEXT"                : arr[i].LONG_TEXT_VALUE_11,
             "IS_FILE_OPENED_ON_MOBILE" : arr[i].IS_FILE_OPENED_ON_MOBILE_10
           }
 
@@ -615,17 +619,21 @@ app.controller('PoDocCtrl',['$rootScope'
     //---------------------------------------------------------------------------
     //--                      Open Attached Doc
     //---------------------------------------------------------------------------
-    $scope.openAttachedFile = function( p_openFileName, p_fullFileName , p_fileType , p_fileMaofType , p_shortText, isOpened ){
+    $scope.openAttachedFile = function( p_openFileName, p_fullFileName , p_fileType , p_fileMaofType , p_shortText , p_longText , isOpened ){
 
       PelApi.showLoading();
 
       var links = PelApi.getDocApproveServiceUrl("GetFileURI");
 
       var appId = config_app.appId;
-      if("SHORT_TEXT" === p_fileMaofType){
+      if("SHORT_TEXT" === p_fileMaofType) {
         $ionicLoading.hide();
         $scope.$broadcast('scroll.refreshComplete');
         $scope.ShortTextPopUp(p_shortText);
+      }else if("LONG_TEXT" === p_fileMaofType ){
+        $ionicLoading.hide();
+        $scope.$broadcast('scroll.refreshComplete');
+        $scope.ShortTextPopUp(p_longText);
       }else{
         if("Y" === isOpened){
           var retGetFileURI = PelApi.GetFileURI(links, appId , 0 , p_openFileName);
