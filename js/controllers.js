@@ -174,7 +174,11 @@ angular.module('pele.controllers', ['ngStorage'])
 
               $scope.feeds_categories = {};
               PelApi.showPopup(config_app.wifiTitle , config_app.MSISDN_READ_FILE_ERROR_DESC);
-          });
+
+              $ionicLoading.hide();
+              $scope.$broadcast('scroll.refreshComplete');
+
+            });
         }, function (error) {
           // error
           console.log("$cordovaFile.checkFile : ERROR");
@@ -182,11 +186,19 @@ angular.module('pele.controllers', ['ngStorage'])
 
           $scope.feeds_categories = {};
           PelApi.showPopup(config_app.wifiTitle , config_app.wifiSubTitle);
+
+          $ionicLoading.hide();
+          $scope.$broadcast('scroll.refreshComplete');
+
         });
       }
       //===============================================================
       $scope.feeds_categories = {};
-      PelApi.showPopup(config_app.wifiTitle , config_app.wifiSubTitle);
+//      PelApi.showPopup(config_app.wifiTitle , config_app.wifiSubTitle);
+
+      $ionicLoading.hide();
+      $scope.$broadcast('scroll.refreshComplete');
+
     }
     else{
 

@@ -605,7 +605,8 @@ app.controller('PoDocCtrl',['$rootScope'
             "OPEN_FILE_NAME"           : "/My Files &amp; Folders/" + arr[i].OPEN_FOLDER_5 + '/' +  arr[i].FULL_FILE_NAME_8,
             "SHORT_TEXT"               : arr[i].SHORT_TEXT_7,
             "LONG_TEXT"                : arr[i].LONG_TEXT_VALUE_11,
-            "IS_FILE_OPENED_ON_MOBILE" : arr[i].IS_FILE_OPENED_ON_MOBILE_10
+            "IS_FILE_OPENED_ON_MOBILE" : arr[i].IS_FILE_OPENED_ON_MOBILE_10,
+            "IOS_OPEN_FILE_NAME"       : "/My Files &amp; Folders/" + arr[i].OPEN_FOLDER_5 + '/' + arr[i].IOS_FILE_NAME_12
           }
 
           myArr.push(mayObj);
@@ -619,7 +620,7 @@ app.controller('PoDocCtrl',['$rootScope'
     //---------------------------------------------------------------------------
     //--                      Open Attached Doc
     //---------------------------------------------------------------------------
-    $scope.openAttachedFile = function( p_openFileName, p_fullFileName , p_fileType , p_fileMaofType , p_shortText , p_longText , isOpened ){
+    $scope.openAttachedFile = function( p_openFileName, p_fullFileName , p_fileType , p_fileMaofType , p_shortText , p_longText , isOpened, p_iosOpenfileName ){
 
       PelApi.showLoading();
 
@@ -636,10 +637,20 @@ app.controller('PoDocCtrl',['$rootScope'
         $scope.ShortTextPopUp(p_longText);
       }else{
         if("Y" === isOpened){
-          var retGetFileURI = PelApi.GetFileURI(links, appId , 0 , p_openFileName);
+          var l_fileName = "";
+          var isIOS = ionic.Platform.isIOS();
+          var isAndroid = ionic.Platform.isAndroid();
+          if(isAndroid){
+            l_fileName = p_openFileName;
+          } else if(isIOS){
+            l_fileName = p_iosOpenfileName;
+          }else{
+            l_fileName = p_openFileName;
+          }
+
+          var retGetFileURI = PelApi.GetFileURI(links, appId , 0 , l_fileName);
 
           retGetFileURI.then(
-
                     //-- SUCCESS --//
             function()
             {
