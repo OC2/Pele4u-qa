@@ -234,7 +234,7 @@ config_app = {
   pinCodeSubTitlePDA: "קוד מחמיר חסום. יש להגדיר קוד חדש בפורטל או ב-55",
   pinCodeSubTitlePNE: "קוד מחמיר לא קיים ...",
   pinCodeSubTitleNRP: "קוד מחמיר נעול. צריך לאפס ...",
-
+  PO_ORG_NAME:"",
   MSISDN_WRITE_FILE_ERROR_CODE: "WFE",
   MSISDN_WRITE_FILE_ERROR_DESC: "שגיאה בכתיבה אל תוך קובץ MISDN",
   MSISDN_READ_FILE_ERROR_CODE: "RWE",
