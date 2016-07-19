@@ -71,11 +71,11 @@ angular.module('pele.config', [])
                           },
                           {
                             "Service":"GetFileURI",
-                            "URL":"http://msso.pelephone.co.il/DV/REST/GetFileURI",
-                            "URL_WIFI":"https://msso.pelephone.co.il/DV/REST/GetFileURI",
+                            "URL":"http://msso.pelephone.co.il/PD/REST/GetFileURI",
+                            "URL_WIFI":"https://msso.pelephone.co.il/PD/REST/GetFileURI",
                             "RequestHeader":{"ServiceName": "ShareFile-GetFileURI"
                                             ,"AppID": "MobileApp"
-                                            ,"EnvCode": "MobileApp_QA"
+                                            ,"EnvCode": "MobileApp_PROD"
                                             ,"Timeout": "120"}
                           }
                         ]

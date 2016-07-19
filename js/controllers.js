@@ -146,6 +146,7 @@ angular.module('pele.controllers', ['ngStorage'])
     $scope.network = config_app.network;
 
     if("wifi" === config_app.network){
+      /*
       if(config_app.MSISDN_VALUE===""){
       //===============================================================
       $cordovaFile.checkFile(cordova.file.cacheDirectory, config_app.MSISDN_FILE_NAME)
@@ -192,9 +193,10 @@ angular.module('pele.controllers', ['ngStorage'])
 
         });
       }
+      */
       //===============================================================
       $scope.feeds_categories = {};
-//      PelApi.showPopup(config_app.wifiTitle , config_app.wifiSubTitle);
+      PelApi.showPopup(config_app.wifiTitle , config_app.wifiSubTitle);
 
       $ionicLoading.hide();
       $scope.$broadcast('scroll.refreshComplete');

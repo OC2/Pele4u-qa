@@ -30,7 +30,7 @@ app.controller('po_p3_moduleDocListCtrl', function($scope,
     $scope.toggleGroup(sessionDocId);
 
     $scope.shownGroup = config_app.PO_ORG_NAME;
-    
+
     var appId = config_app.appId,
       formType = $stateParams.FormType,
       pin = $stateParams.pin;
