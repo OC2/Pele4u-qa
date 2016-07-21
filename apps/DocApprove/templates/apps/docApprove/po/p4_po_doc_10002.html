@@ -166,7 +166,8 @@
                 </a>
               </div>
               <div class="item item-text-wrap text-right" ng-repeat="document in ATTACHED_DOCUMENTS" ng-show="PO_ATTACHED_DOCUMENTS_SHOW">
-                <p class="under" style="color:blue" ng-click="openAttachedFile(document.OPEN_FILE_NAME,  document.FULL_FILE_NAME , document.FILE_TYPE ,document.FILE_MAOF_TYPE , document.SHORT_TEXT , document.LONG_TEXT , document.IS_FILE_OPENED_ON_MOBILE , document.IOS_OPEN_FILE_NAME )">{{document.FILE_NAME}}</p>
+                <!-- <p class="under" style="color:blue" ng-click="openAttachedFile(document.OPEN_FILE_NAME,  document.FULL_FILE_NAME , document.FILE_TYPE ,document.FILE_MAOF_TYPE , document.SHORT_TEXT , document.LONG_TEXT , document.IS_FILE_OPENED_ON_MOBILE , document.IOS_OPEN_FILE_NAME )">{{document.FILE_NAME}}</p>-->
+                <p class="under" ng-style="getAttachmentLinkStyle(document.IS_FILE_OPENED_ON_MOBILE)" ng-click="openAttachedFile(document.OPEN_FILE_NAME,  document.FULL_FILE_NAME , document.FILE_TYPE ,document.FILE_MAOF_TYPE , document.SHORT_TEXT , document.LONG_TEXT , document.IS_FILE_OPENED_ON_MOBILE , document.IOS_OPEN_FILE_NAME )">{{document.FILE_NAME}}</p>
               </div>
 
             </ul>
