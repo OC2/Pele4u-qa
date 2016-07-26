@@ -258,6 +258,12 @@ app.controller('po_p3_moduleDocListCtrl', function($scope,
                 config_app.ApprovRejectBtnDisplay = false;
               }
 
+              try {
+                config_app.ATTACHMENT_TIME_OUT = newData.Response.OutParams.Result.ROWSET.ROW.ATTACHMENT_DOWNLOAD_TIME_OUT;
+              }catch(e){
+                config_app.ATTACHMENT_TIME_OUT = 10000;
+              }
+              
               $ionicLoading.hide();
               $scope.$broadcast('scroll.refreshComplete');
 
@@ -673,6 +679,9 @@ app.controller('PoDocCtrl',['$rootScope'
           //--     After 5 seconds application
           //---------------------------------------
           var loadingComplited = "N";
+
+          var timeOutInMiliseconds = Number(config_app.ATTACHMENT_TIME_OUT);
+
           $timeout(function() {
             if("N" === loadingComplited){
               loadingComplited = "Y";
@@ -680,7 +689,8 @@ app.controller('PoDocCtrl',['$rootScope'
               $scope.$broadcast('scroll.refreshComplete');
               PelApi.showPopup(config_app.TIMEOUT_STATUS, "");
             }
-          }, 10000);
+          }, timeOutInMiliseconds);
+
           var retGetFileURI = PelApi.GetFileURI(links, appId , 0 , l_fileName);
 
           retGetFileURI.then(
