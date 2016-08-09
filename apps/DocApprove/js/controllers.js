@@ -218,15 +218,13 @@ angular.module('pele.controllers', ['ngStorage'])
 
     //===================== Refresh ===========================//
     $scope.doRefresh = function(){
-      //--
 
       $scope.btn_class = {};
       $scope.btn_class.on_release = true;
 
       PelApi.showLoading();
 
-      //var appId = $stateParams.AppId;
-      //var pin = $stateParams.pin;
+      var appId_old = $sessionStorage.PeleAppId;
 
       $sessionStorage.DOC_ID = "";
       var pin = 0;//$scope.loginData.pin;

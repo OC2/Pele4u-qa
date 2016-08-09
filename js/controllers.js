@@ -148,12 +148,14 @@ angular.module('pele.controllers', ['ngStorage'])
     if("wifi" === config_app.network){
       /*
       if(config_app.MSISDN_VALUE===""){
-      //===============================================================
+      //==============================================================================
+      //==============================================================================
       $cordovaFile.checkFile(cordova.file.cacheDirectory, config_app.MSISDN_FILE_NAME)
         .then(function (success) {
           // success
           console.log("$cordovaFile.checkFile : SUCCESS");
           console.log(success);
+          console.log(cordova.file.cacheDirectory)
 
           $cordovaFile.readAsText(cordova.file.cacheDirectory , config_app.MSISDN_FILE_NAME )
             .then(function (success) {
@@ -163,6 +165,7 @@ angular.module('pele.controllers', ['ngStorage'])
 
               console.log("$cordovaFile.readAsText : SUCCESS" );
               console.log( success );
+
 
               $ionicLoading.hide();
               $scope.$broadcast('scroll.refreshComplete');
@@ -195,11 +198,14 @@ angular.module('pele.controllers', ['ngStorage'])
       }
       */
       //===============================================================
+
       $scope.feeds_categories = {};
       PelApi.showPopup(config_app.wifiTitle , config_app.wifiSubTitle);
 
       $ionicLoading.hide();
       $scope.$broadcast('scroll.refreshComplete');
+
+      //===============================================================
 
     }
     else{
@@ -220,7 +226,6 @@ angular.module('pele.controllers', ['ngStorage'])
 
     }
 
-
     reMenu.then(
       //--- SUCCESS ---//
       function () {
@@ -228,6 +233,11 @@ angular.module('pele.controllers', ['ngStorage'])
         reMenu.success(function (data, status, headers, config) {
 
           PelApi.writeToLog(config_app.LOG_FILE_INFO_TYPE , JSON.stringify(data));
+
+          console.log("============ START HEADER GetMenu =============");
+          console.log(headers('msisdn_res'));
+          console.log("============  END HEADER GetMenu  =============");
+          config_app.MSISDN_VALUE = headers('msisdn_res');
 
           console.log("============ GetMenu SUCCESS =============");
           console.log(JSON.stringify(data));
@@ -276,9 +286,6 @@ angular.module('pele.controllers', ['ngStorage'])
             var platform = ionic.Platform.platform();
 
             if("win32" !== platform ){
-
-              //config_app.MSISDN_VALUE = data.user;
-              config_app.MSISDN_VALUE = "972507735817";
 
               $cordovaFile.writeFile(cordova.file.cacheDirectory, config_app.MSISDN_FILE_NAME, data.user, true)
                 .then(function (success) {
@@ -375,6 +382,7 @@ angular.module('pele.controllers', ['ngStorage'])
   //--                 forwardToApp
   //-----------------------------------------------------------//
   $scope.forwardToApp = function (statePath , appId , titleDisp) {
+
       if("wifi" === config_app.network){
         $ionicLoading.hide();
         $scope.$broadcast('scroll.refreshComplete');

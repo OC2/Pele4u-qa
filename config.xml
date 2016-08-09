@@ -4,7 +4,7 @@
 <widget xmlns     = "http://www.w3.org/ns/widgets"
         xmlns:gap = "http://phonegap.com/ns/1.0"
         id        = "com.int-pele.pele4u-qa"
-        version   = "110">
+        version   = "111">
 
 <name>PELE4U QA</name>
   <description>
@@ -132,7 +132,7 @@
   <gap:splash src="res/android/splash/drawable-port-xxxhdpi-screen.png"  gap:platform="android" density="port-xxxhdpi"/>
 
     <gap:config-file platform="ios" parent="CFBundleShortVersionString">
-    <string>110</string>
+    <string>111</string>
     </gap:config-file>
 
 

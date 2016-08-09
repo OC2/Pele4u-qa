@@ -171,6 +171,11 @@ angular.module('pele.factories', [])
         this.writeToLog(config_app.LOG_FILE_INFO_TYPE ,"====== GetUserNotifications ======");
         this.writeToLog(config_app.LOG_FILE_INFO_TYPE , "URL :" + JSON.stringify(envUrl));
         this.writeToLog(config_app.LOG_FILE_INFO_TYPE , "DATA : " + JSON.stringify(data));
+        console.log( "====== GetUserNotifications ======");
+        console.log( "URL :" + JSON.stringify(envUrl) );
+        console.log( "DATA : " + JSON.stringify(data) );
+        console.log( "HEADERS : " + JSON.stringify(headers) );
+        console.log( "====== End GetUserNotifications ======");
 
         return $http({
             url:envUrl,
