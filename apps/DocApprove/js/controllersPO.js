@@ -227,10 +227,6 @@ app.controller('po_p3_moduleDocListCtrl', function($scope,
         function () {
           retGetUserNotifications.success(function (data, status, headers, config) {
 
-            console.log("============   HEADERS   ===========");
-            console.log(JSON.stringify(headers()));
-            console.log("============ END HEADERS ===========");
-
             var strData = JSON.stringify(data);
             console.log(strData);
             strData = strData.replace(/\\\\b/g, " ");
@@ -238,8 +234,6 @@ app.controller('po_p3_moduleDocListCtrl', function($scope,
             strData = strData.replace(/\\/g, "");
             strData = strData.replace(/"{/g, "{");
             strData = strData.replace(/}"/g, "}");
-            strData = strData.replace(/'/g, "");
-
             console.log("======================================");
             console.log(strData);
             console.log("======================================");
@@ -269,7 +263,7 @@ app.controller('po_p3_moduleDocListCtrl', function($scope,
               }catch(e){
                 config_app.ATTACHMENT_TIME_OUT = 10000;
               }
-
+              
               $ionicLoading.hide();
               $scope.$broadcast('scroll.refreshComplete');
 
@@ -605,17 +599,13 @@ app.controller('PoDocCtrl',['$rootScope'
         if( arr[i].DISPLAY_FLAG_1 === "Y") {
           var file_name = "";
 
-          /*
           if("SHORT_TEXT" === arr[i].FILE_TYPE_6) {
-            file_name = arr[i].FILE_NAME_3 + config_app.ATTACHMENT_SHORT_TEXT;
+            file_name = config_app.ATTACHMENT_SHORT_TEXT;
           }else if("LONG_TEXT" === arr[i].FILE_TYPE_6){
-            file_name = arr[i].FILE_NAME_3 + config_app.ATTACHMENT_LONG_TEXT;
+            file_name = config_app.ATTACHMENT_LONG_TEXT;
           }else{
             file_name = arr[i].FILE_NAME_3;
           }
-          */
-          file_name = arr[i].FILE_NAME_3;
-
 
           var mayObj = {
             "SEQ"                      : i,
@@ -626,8 +616,8 @@ app.controller('PoDocCtrl',['$rootScope'
             "FILE_TYPE"                : arr[i].FILE_TYPE_9,
             "FULL_FILE_NAME"           : arr[i].FULL_FILE_NAME_8,
             "OPEN_FILE_NAME"           : "/My Files &amp; Folders/" + arr[i].OPEN_FOLDER_5 + '/' +  arr[i].FULL_FILE_NAME_8,
-            //"SHORT_TEXT"               : arr[i].SHORT_TEXT_7,
-            //"LONG_TEXT"                : arr[i].LONG_TEXT_VALUE_11,
+            "SHORT_TEXT"               : arr[i].SHORT_TEXT_7,
+            "LONG_TEXT"                : arr[i].LONG_TEXT_VALUE_11,
             "IS_FILE_OPENED_ON_MOBILE" : arr[i].IS_FILE_OPENED_ON_MOBILE_10,
             "IOS_OPEN_FILE_NAME"       : "/My Files &amp; Folders/" + arr[i].OPEN_FOLDER_5 + '/' + arr[i].IOS_FILE_NAME_12
           }
@@ -664,7 +654,6 @@ app.controller('PoDocCtrl',['$rootScope'
       var links = PelApi.getDocApproveServiceUrl("GetFileURI");
 
       var appId = config_app.appId;
-      /*
       if("SHORT_TEXT" === p_fileMaofType) {
         $ionicLoading.hide();
         $scope.$broadcast('scroll.refreshComplete');
@@ -674,7 +663,6 @@ app.controller('PoDocCtrl',['$rootScope'
         $scope.$broadcast('scroll.refreshComplete');
         $scope.ShortTextPopUp(p_longText);
       }else{
-      */
         if("Y" === isOpened){
           var l_fileName = "";
           var isIOS = ionic.Platform.isIOS();
@@ -829,9 +817,7 @@ app.controller('PoDocCtrl',['$rootScope'
           $scope.$broadcast('scroll.refreshComplete');
           PelApi.showPopup(config_app.ATTACHMENT_TYPE_NOT_SUPORTED_FOR_OPEN, "");
         }// isOpened
-        /*
       }
-        */
     }
     //---------------------------------------------------------------------------
     //--                         doRefresh

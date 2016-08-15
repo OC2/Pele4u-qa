@@ -65,16 +65,6 @@ angular.module('pele.factories', ['ngStorage'])
       var userName = $sessionStorage.userName; // "natigree";//config_app.userName;
 
       var envUrl = links.URL;
-      var headers = {};
-      /*
-      if("wifi" === config_app.network){
-        envUrl  = links.URL_WIFI;
-        headers = {"Content-Type": "application/json; charset=utf-8","Accept":"application/json","msisdn":config_app.MSISDN_VALUE};
-      }else{
-        envUrl = links.URL;
-        headers = {"Content-Type": "application/json; charset=utf-8","Accept":"application/json"};
-      }
-      */
       var RequestHeader = links.RequestHeader;
       var data = { "Request": {
         "RequestHeader": RequestHeader,
@@ -90,15 +80,7 @@ angular.module('pele.factories', ['ngStorage'])
       this.writeToLog(config_app.LOG_FILE_INFO_TYPE ,"====== getUserModuleTypes ======");
       this.writeToLog(config_app.LOG_FILE_INFO_TYPE , "URL :" + JSON.stringify(envUrl));
       this.writeToLog(config_app.LOG_FILE_INFO_TYPE , "DATA : " + JSON.stringify(data));
-      /*
-      return $http({
-        url:envUrl ,
-        method:"POST" ,
-        data: data,
-        timeout:appSettings.timeout,
-        headers: headers
-      });
-      */
+
       return $http({
         url:envUrl ,
         method:"POST" ,
@@ -106,7 +88,6 @@ angular.module('pele.factories', ['ngStorage'])
         timeout:appSettings.timeout,
         headers: {"Content-Type": "application/json","Accept":"application/json" }
       });
-
     },
     //--------------------------------------------------------------------------//
     //--                       GetUserFormGroups  PAGE3                       --//
@@ -166,12 +147,6 @@ angular.module('pele.factories', ['ngStorage'])
         this.writeToLog(config_app.LOG_FILE_INFO_TYPE ,"====== GetUserNotifications ======");
         this.writeToLog(config_app.LOG_FILE_INFO_TYPE , "URL :" + JSON.stringify(envUrl));
         this.writeToLog(config_app.LOG_FILE_INFO_TYPE , "DATA : " + JSON.stringify(data));
-
-        console.log( "====== GetUserNotifications ======");
-        console.log( "URL :" + JSON.stringify(envUrl) );
-        console.log( "DATA : " + JSON.stringify(data) );
-      //  console.log( "HEADERS : " + JSON.stringify(headers) );
-        console.log( "====== End GetUserNotifications ======");
 
         return $http({
             url:envUrl,
