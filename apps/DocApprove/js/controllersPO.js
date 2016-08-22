@@ -34,13 +34,14 @@ app.controller('po_p3_moduleDocListCtrl', function($scope,
     var appId = config_app.appId,
       formType = $stateParams.FormType,
       pin = $stateParams.pin;
+    /*
     if ("wifi" === config_app.network) {
       $ionicLoading.hide();
       $scope.$broadcast('scroll.refreshComplete');
       PelApi.showPopup(config_app.wifiTitle, config_app.wifiSubTitle);
     }
     else {
-
+    */
       var links = PelApi.getDocApproveServiceUrl("GetUserPoOrdGroup");
 
       var retGetUserFormGroups = PelApi.GetUserPoOrdGroupGroup(links, appId, formType, pin);
@@ -151,7 +152,9 @@ app.controller('po_p3_moduleDocListCtrl', function($scope,
           });
         }
       );
+    /*
     }
+    */
   };
   //---------------------------------------------------------
   //-- When        Who       Description
@@ -214,9 +217,11 @@ app.controller('po_p3_moduleDocListCtrl', function($scope,
     var appId = config_app.appId;
     $scope.appId = config_app.appId;
     var statePath = 'app.doc_' + docId;
+    /*
     if("wifi" === config_app.network){
       PelApi.showPopup(config_app.wifiTitle , config_app.wifiSubTitle);
     }else {
+    */
       PelApi.showLoading();
 
       var links = PelApi.getDocApproveServiceUrl("GetUserNotif");
@@ -263,7 +268,7 @@ app.controller('po_p3_moduleDocListCtrl', function($scope,
               }catch(e){
                 config_app.ATTACHMENT_TIME_OUT = 10000;
               }
-              
+
               $ionicLoading.hide();
               $scope.$broadcast('scroll.refreshComplete');
 
@@ -321,7 +326,9 @@ app.controller('po_p3_moduleDocListCtrl', function($scope,
           });
         }
       );
+    /*
     }
+    */
   } // forwardToDoc
 
   $scope.feed = [];
@@ -599,6 +606,7 @@ app.controller('PoDocCtrl',['$rootScope'
         if( arr[i].DISPLAY_FLAG_1 === "Y") {
           var file_name = "";
 
+          /*
           if("SHORT_TEXT" === arr[i].FILE_TYPE_6) {
             file_name = config_app.ATTACHMENT_SHORT_TEXT;
           }else if("LONG_TEXT" === arr[i].FILE_TYPE_6){
@@ -606,6 +614,9 @@ app.controller('PoDocCtrl',['$rootScope'
           }else{
             file_name = arr[i].FILE_NAME_3;
           }
+          */
+          file_name = arr[i].FILE_NAME_3;
+
 
           var mayObj = {
             "SEQ"                      : i,
@@ -616,8 +627,8 @@ app.controller('PoDocCtrl',['$rootScope'
             "FILE_TYPE"                : arr[i].FILE_TYPE_9,
             "FULL_FILE_NAME"           : arr[i].FULL_FILE_NAME_8,
             "OPEN_FILE_NAME"           : "/My Files &amp; Folders/" + arr[i].OPEN_FOLDER_5 + '/' +  arr[i].FULL_FILE_NAME_8,
-            "SHORT_TEXT"               : arr[i].SHORT_TEXT_7,
-            "LONG_TEXT"                : arr[i].LONG_TEXT_VALUE_11,
+            //"SHORT_TEXT"               : arr[i].SHORT_TEXT_7,
+            //"LONG_TEXT"                : arr[i].LONG_TEXT_VALUE_11,
             "IS_FILE_OPENED_ON_MOBILE" : arr[i].IS_FILE_OPENED_ON_MOBILE_10,
             "IOS_OPEN_FILE_NAME"       : "/My Files &amp; Folders/" + arr[i].OPEN_FOLDER_5 + '/' + arr[i].IOS_FILE_NAME_12
           }
@@ -654,15 +665,7 @@ app.controller('PoDocCtrl',['$rootScope'
       var links = PelApi.getDocApproveServiceUrl("GetFileURI");
 
       var appId = config_app.appId;
-      if("SHORT_TEXT" === p_fileMaofType) {
-        $ionicLoading.hide();
-        $scope.$broadcast('scroll.refreshComplete');
-        $scope.ShortTextPopUp(p_shortText);
-      }else if("LONG_TEXT" === p_fileMaofType ){
-        $ionicLoading.hide();
-        $scope.$broadcast('scroll.refreshComplete');
-        $scope.ShortTextPopUp(p_longText);
-      }else{
+
         if("Y" === isOpened){
           var l_fileName = "";
           var isIOS = ionic.Platform.isIOS();
@@ -674,7 +677,6 @@ app.controller('PoDocCtrl',['$rootScope'
           }else{
             l_fileName = p_openFileName;
           }
-
           //---------------------------------------
           //--     After 5 seconds application
           //---------------------------------------
@@ -759,6 +761,9 @@ app.controller('PoDocCtrl',['$rootScope'
                         $ionicLoading.hide();
                         $scope.$broadcast('scroll.refreshComplete');
 
+                      } else{
+                        $ionicLoading.hide();
+                        $scope.$broadcast('scroll.refreshComplete');
                       }
                     }
                   } else if ("PDA" === statusCode.Status) {
@@ -817,7 +822,9 @@ app.controller('PoDocCtrl',['$rootScope'
           $scope.$broadcast('scroll.refreshComplete');
           PelApi.showPopup(config_app.ATTACHMENT_TYPE_NOT_SUPORTED_FOR_OPEN, "");
         }// isOpened
+      /*
       }
+      */
     }
     //---------------------------------------------------------------------------
     //--                         doRefresh
@@ -850,7 +857,7 @@ app.controller('PoDocCtrl',['$rootScope'
 
 
       $sessionStorage.DOC_ID = docId;
-
+      /*
       if("wifi" === config_app.network){
         $ionicLoading.hide();
         $scope.$broadcast('scroll.refreshComplete');
@@ -858,6 +865,7 @@ app.controller('PoDocCtrl',['$rootScope'
         //$state.go("app.p1_appsLists");
       }
       else {
+      */
         if(config_app.docDetails.ERROR !== "NULL") {
           PelApi.showPopup(config_app.interfaceErrorTitle, config_app.docDetails.ERROR);
           return;
@@ -906,7 +914,9 @@ app.controller('PoDocCtrl',['$rootScope'
         $ionicLoading.hide();
         $scope.$broadcast('scroll.refreshComplete');
 
+      /*
       }
+      */
     }; // doRefresh
 
     $scope.redStyle = function(flag){
@@ -981,12 +991,14 @@ app.controller('PoDocCtrl',['$rootScope'
       var notificationId = $scope.NOTIFICATION_ID;
       var actionType = 'APPROVE';
       var note = '';
+      /*
       if("wifi" === config_app.network){
         $ionicLoading.hide();
         $scope.$broadcast('scroll.refreshComplete');
         PelApi.showPopup(config_app.wifiTitle , config_app.wifiSubTitle);
         //$state.go("app.p1_appsLists");
       }else {
+      */
         //===================================================//
         //==        Add Note Yes/No popup
         //===================================================//
@@ -1140,7 +1152,9 @@ app.controller('PoDocCtrl',['$rootScope'
             );
           };
         });
+      /*
       }
+      */
     };
     //-----------------------------------
     //--         OK
@@ -1153,6 +1167,7 @@ app.controller('PoDocCtrl',['$rootScope'
       var notificationId = $scope.NOTIFICATION_ID;
       var actionType = 'OK';
       var note = '';
+      /*
       if("wifi" === config_app.network){
         $ionicLoading.hide();
         $scope.$broadcast('scroll.refreshComplete');
@@ -1160,6 +1175,7 @@ app.controller('PoDocCtrl',['$rootScope'
         //$state.go("app.p1_appsLists");
       }
       else {
+      */
         PelApi.showLoading();
         var links3 = PelApi.getDocApproveServiceUrl("SubmitNotif");
         var retSubmitNotification = PelApi.SubmitNotification(links3, appId, notificationId, note, actionType);
@@ -1204,7 +1220,9 @@ app.controller('PoDocCtrl',['$rootScope'
               })
           }
         );
+      /*
       } // else WIFI
+      */
     };
     //----------------------------------------
     //--         REJECT                     --
@@ -1213,12 +1231,14 @@ app.controller('PoDocCtrl',['$rootScope'
       var appId = config_app.appId;
       var notificationId = $scope.NOTIFICATION_ID;
       var actionType = "REJECT";
+      /*
       if("wifi" === config_app.network){
         $ionicLoading.hide();
         $scope.$broadcast('scroll.refreshComplete');
         PelApi.showPopup(config_app.wifiTitle , config_app.wifiSubTitle);
         //$state.go("app.p1_appsLists");
       }else {
+      */
         if($scope.data.note !== undefined){
           $scope.submitNotif(actionType , $scope.data.note)
         }else {
@@ -1254,7 +1274,9 @@ app.controller('PoDocCtrl',['$rootScope'
             }
           });
         }
+      /*
       }
+      */
     }; // docReject
     //==============================================================
     //==============================================================
@@ -1262,12 +1284,14 @@ app.controller('PoDocCtrl',['$rootScope'
       var appId = config_app.appId;
       var notificationId = $scope.NOTIFICATION_ID;
       var actionType = "APPROVE";
+      /*
       if("wifi" === config_app.network){
         $ionicLoading.hide();
         $scope.$broadcast('scroll.refreshComplete');
         PelApi.showPopup(config_app.wifiTitle , config_app.wifiSubTitle);
         //$state.go("app.p1_appsLists");
       }else {
+      */
         if($scope.data.note !== undefined){
           $scope.submitNotif(actionType , $scope.data.note)
         }else {
@@ -1304,7 +1328,9 @@ app.controller('PoDocCtrl',['$rootScope'
             }
           });
         }
+      /*
       }
+      */
     }; // docApproveWitnNote
     //--------------------------------------------------------------
     //

@@ -3,6 +3,31 @@
  */
 var app = angular.module('pele.services', []);
 
+app.service('srvShareData', function($window) {
+  var KEY = 'App.SelectedValue';
+
+
+  var addData = function(newObj) {
+
+    mydata = [];
+    mydata.push(newObj);
+    $window.sessionStorage.setItem(KEY, JSON.stringify(mydata));
+  };
+
+  var getData = function(){
+    var mydata = $window.sessionStorage.getItem(KEY);
+    if (mydata) {
+      mydata = JSON.parse(mydata);
+    }
+    return mydata || [];
+  };
+
+  return {
+    addData: addData,
+    getData: getData
+  };
+});
+
 // PUSH NOTIFICATIONS
 app.service('PushNotificationsService', function ($rootScope, $cordovaPush, NodePushServer, GCM_SENDER_ID){
   /* Apple recommends you register your application for push notifications on the device every time it’s

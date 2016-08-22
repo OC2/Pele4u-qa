@@ -65,6 +65,16 @@ angular.module('pele.factories', ['ngStorage'])
       var userName = $sessionStorage.userName; // "natigree";//config_app.userName;
 
       var envUrl = links.URL;
+      var headers = {};
+
+      if("wifi" === config_app.network){
+        envUrl  = links.URL_WIFI;
+        headers = {"Content-Type": "application/json; charset=utf-8","Accept":"application/json","msisdn":config_app.MSISDN_VALUE};
+      }else{
+        envUrl = links.URL;
+        headers = {"Content-Type": "application/json; charset=utf-8","Accept":"application/json"};
+      }
+
       var RequestHeader = links.RequestHeader;
       var data = { "Request": {
         "RequestHeader": RequestHeader,
@@ -86,8 +96,17 @@ angular.module('pele.factories', ['ngStorage'])
         method:"POST" ,
         data: data,
         timeout:appSettings.timeout,
+        headers: headers
+      });
+      /*
+      return $http({
+        url:envUrl ,
+        method:"POST" ,
+        data: data,
+        timeout:appSettings.timeout,
         headers: {"Content-Type": "application/json","Accept":"application/json" }
       });
+      */
     },
     //--------------------------------------------------------------------------//
     //--                       GetUserFormGroups  PAGE3                       --//
@@ -97,7 +116,18 @@ angular.module('pele.factories', ['ngStorage'])
 
         var token = config_app.token;
         var userName = config_app.userName;
+
         var envUrl = links.URL;
+        var headers = {};
+
+        if("wifi" === config_app.network){
+          envUrl  = links.URL_WIFI;
+          headers = {"Content-Type": "application/json; charset=utf-8","Accept":"application/json","msisdn":config_app.MSISDN_VALUE};
+        }else{
+          envUrl = links.URL;
+          headers = {"Content-Type": "application/json; charset=utf-8","Accept":"application/json"};
+        }
+
         var RequestHeader = links.RequestHeader;
         var data = { "Request": {
                         "RequestHeader": RequestHeader,
@@ -114,7 +144,15 @@ angular.module('pele.factories', ['ngStorage'])
         this.writeToLog(config_app.LOG_FILE_INFO_TYPE ,"====== GetUserFormGroups ======");
         this.writeToLog(config_app.LOG_FILE_INFO_TYPE , "URL :" + JSON.stringify(envUrl));
         this.writeToLog(config_app.LOG_FILE_INFO_TYPE , "DATA : " + JSON.stringify(data));
+        return $http({
+          url:envUrl ,
+          method:"POST" ,
+          data: data,
+          timeout:appSettings.timeout,
+          headers: headers
+        });
 
+        /*
         return $http({
             url:envUrl ,
             method:"POST" ,
@@ -122,6 +160,8 @@ angular.module('pele.factories', ['ngStorage'])
             timeout:appSettings.timeout,
             headers: {"Content-Type": "application/json; charset=utf-8","Accept":"application/json" }
         });
+        */
+
     },
     //--------------------------------------------------------------------------//
     //--                       GetUserNotifications  PAGE4                    --//
@@ -129,7 +169,18 @@ angular.module('pele.factories', ['ngStorage'])
     GetUserNotifications:function(links , appId , docId , docInitId){
         var token = config_app.token;
         var userName = config_app.userName;
+
         var envUrl = links.URL;
+        var headers = {};
+
+        if("wifi" === config_app.network){
+          envUrl  = links.URL_WIFI;
+          headers = {"Content-Type": "application/json; charset=utf-8","Accept":"application/json","msisdn":config_app.MSISDN_VALUE};
+        }else{
+          envUrl = links.URL;
+          headers = {"Content-Type": "application/json; charset=utf-8","Accept":"application/json"};
+        }
+
         var RequestHeader = links.RequestHeader;
         var data = { "Request": {
             "RequestHeader": RequestHeader,
@@ -149,13 +200,23 @@ angular.module('pele.factories', ['ngStorage'])
         this.writeToLog(config_app.LOG_FILE_INFO_TYPE , "DATA : " + JSON.stringify(data));
 
         return $http({
-            url:envUrl,
-            method:"POST",
-            data: data,
-            timeout:appSettings.timeout,
-            headers: {"Content-Type": "application/json; charset=utf-8","Accept":"application/json"
-            }
+          url:envUrl,
+          method:"POST",
+          data: data,
+          timeout:appSettings.timeout,
+          headers: headers
         });
+
+      /*
+      return $http({
+          url:envUrl,
+          method:"POST",
+          data: data,
+          timeout:appSettings.timeout,
+          headers: {"Content-Type": "application/json; charset=utf-8","Accept":"application/json"
+          }
+      });
+      */
     },
     //--------------------------------------------------------------------------//
     //--                       SubmitNotification  PAGE4                      --//
@@ -199,6 +260,15 @@ angular.module('pele.factories', ['ngStorage'])
       var token = config_app.token;
       var userName = config_app.userName;
       var envUrl = links.URL;
+
+      if("wifi" === config_app.network){
+        envUrl  = links.URL_WIFI;
+        headers = {"Content-Type": "application/json; charset=utf-8","Accept":"application/json","msisdn":config_app.MSISDN_VALUE};
+      }else{
+        envUrl = links.URL;
+        headers = {"Content-Type": "application/json; charset=utf-8","Accept":"application/json"};
+      }
+
       var RequestHeader = links.RequestHeader;
       var data = {
         "Request": {
@@ -219,7 +289,15 @@ angular.module('pele.factories', ['ngStorage'])
       console.log("====== GetFileURI ======");
       console.log( JSON.stringify(data));
 
+      return $http({
+        url:envUrl ,
+        method:"POST" ,
+        data: data,
+        timeout:appSettings.timeout,
+        headers: headers
+      });
 
+      /*
       return $http({
         url:envUrl ,
         method:"POST" ,
@@ -227,6 +305,7 @@ angular.module('pele.factories', ['ngStorage'])
         timeout:appSettings.timeout,
         headers: {"Content-Type": "application/json; charset=utf-8","Accept":"application/json" }
       });
+      */
 
     },// End GetFileURI
 
@@ -238,7 +317,18 @@ angular.module('pele.factories', ['ngStorage'])
 
       var token = config_app.token;
       var userName = config_app.userName;
+
       var envUrl = links.URL;
+      var headers = {};
+
+      if("wifi" === config_app.network){
+        envUrl  = links.URL_WIFI;
+        headers = {"Content-Type": "application/json; charset=utf-8","Accept":"application/json","msisdn":config_app.MSISDN_VALUE};
+      }else{
+        envUrl = links.URL;
+        headers = {"Content-Type": "application/json; charset=utf-8","Accept":"application/json"};
+      }
+
       var RequestHeader = links.RequestHeader;
       var data = { "Request": {
         "RequestHeader": RequestHeader,
@@ -261,8 +351,17 @@ angular.module('pele.factories', ['ngStorage'])
         method:"POST" ,
         data: data,
         timeout:appSettings.timeout,
+        headers: headers
+      });
+      /*
+      return $http({
+        url:envUrl ,
+        method:"POST" ,
+        data: data,
+        timeout:appSettings.timeout,
         headers: {"Content-Type": "application/json; charset=utf-8","Accept":"application/json" }
       });
+      */
     },
     //-----------------------------------------------------------------------------//
     //--                      GetPinCodeStatus                                   --//

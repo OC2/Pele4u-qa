@@ -201,7 +201,7 @@ angular.module('pele.config', [])
 
 var config_app;
 config_app = {
-  APP_VERSION:"110",
+  APP_VERSION:"111",
   PLAYER_ID:"",
   GOOGLE_PLAY_APP_LINK:"https://play.google.com/store/apps/details?id=com.int_pele.pele4u",
   APPLE_STORE_APP_LING:"https://appsto.re/il/yYQKab.i",
@@ -259,7 +259,6 @@ config_app = {
   errorMsg: "",
   pinCodeErrorInd: "N",
   pinCodeReq: "Y",
-  appId:"",
   token: "",
   appId:"2313E2E95ADDFDB3E050AE0A5B0768D2",
   user: "",

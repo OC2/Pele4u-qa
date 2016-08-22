@@ -94,6 +94,7 @@ angular.module('pele.controllers', ['ngStorage'])
                                             $timeout ,
                                             $sessionStorage,
                                             appSettings
+                                            ,srvShareData
                                             ) {
     //----------------------- LOGIN --------------------------//
 
@@ -166,11 +167,14 @@ angular.module('pele.controllers', ['ngStorage'])
     //======= onClick ========//
     $scope.onClick = function (formType, docQty) {
       if(0 < docQty){
+
+        /*
         if("wifi" === config_app.network){
           $ionicLoading.hide();
           $scope.$broadcast('scroll.refreshComplete');
           PelApi.showPopup(config_app.wifiTitle , config_app.wifiSubTitle);
         }else{
+        */
           //var appId = $stateParams.AppId;
           var path = "";
           if( "HR" === formType ){
@@ -181,7 +185,9 @@ angular.module('pele.controllers', ['ngStorage'])
 
           appId = config_app.appId;
           $state.go(path , {AppId: appId, FormType: formType, pin:"0"});
+        /*
         }
+        */
       }
     };
 
@@ -220,6 +226,10 @@ angular.module('pele.controllers', ['ngStorage'])
     $scope.doRefresh = function(){
       //--
 
+      console.log("------------------------------------");
+      console.log(      srvShareData.getData()          );
+      console.log("------------------------------------");
+      $scope.menuPageData = srvShareData.getData();
       $scope.btn_class = {};
       $scope.btn_class.on_release = true;
 
@@ -234,16 +244,27 @@ angular.module('pele.controllers', ['ngStorage'])
       console.log("appId : " + appId);
 
       var titleDisp = $sessionStorage.title;
-      var appId = config_app.appId;
-      config_app.token = $sessionStorage.token;
-      config_app.userName = $sessionStorage.userName;
+      // var appId = config_app.appId;
 
+      var appId               = $scope.menuPageData[0].PeleAppId
+      config_app.appId        = appId;
+      config_app.token        = $sessionStorage.token;
+      config_app.userName     = $sessionStorage.userName;
+      if(config_app.network === "" || config_app.network === undefined){
+        config_app.network = $scope.menuPageData[0].PeleNetwork;
+      }
+      if(config_app.MSISDN_VALUE === "" || config_app.MSISDN_VALUE === undefined){
+        config_app.MSISDN_VALUE = $scope.menuPageData[0].PeleMsisdnValue;
+      }
+
+      /*
       if("wifi" === config_app.network){
         $ionicLoading.hide();
         $scope.$broadcast('scroll.refreshComplete');
         PelApi.showPopup(config_app.wifiTitle , config_app.wifiSubTitle);
       }
       else {
+      */
         var links = PelApi.getDocApproveServiceUrl("GetUserModuleTypes");
 
         var retUserModuleTypes = PelApi.getUserModuleTypes(links, appId, pin);
@@ -359,7 +380,9 @@ angular.module('pele.controllers', ['ngStorage'])
             });
           }
         );
+      /*
       }
+      */
     }; // doRefresh
     //======= dats section ====//
     $scope.category_sources = [];
@@ -391,13 +414,14 @@ angular.module('pele.controllers', ['ngStorage'])
       var appId = config_app.appId,
         formType = $stateParams.FormType,
         pin = $stateParams.pin;
+      /*
       if("wifi" === config_app.network){
         $ionicLoading.hide();
         $scope.$broadcast('scroll.refreshComplete');
         PelApi.showPopup(config_app.wifiTitle , config_app.wifiSubTitle);
       }
       else {
-
+      */
         var links = PelApi.getDocApproveServiceUrl("GtUserFormGroups");
 
         var retGetUserFormGroups = PelApi.GetUserFormGroups(links, appId, formType, pin);
@@ -489,7 +513,9 @@ angular.module('pele.controllers', ['ngStorage'])
             });
           }
         );
+      /*
       }
+      */
     };
     //---------------------------------------------------------
     //-- When        Who       Description
@@ -542,9 +568,11 @@ angular.module('pele.controllers', ['ngStorage'])
       //var appId = $stateParams.AppId;
       var appId = config_app.appId;
       var statePath = 'app.doc_' + docId;
+      /*
       if("wifi" === config_app.network){
         PelApi.showPopup(config_app.wifiTitle , config_app.wifiSubTitle);
       }else {
+      */
         PelApi.showLoading();
 
         var links = PelApi.getDocApproveServiceUrl("GetUserNotif");
@@ -651,7 +679,9 @@ angular.module('pele.controllers', ['ngStorage'])
             });
           }
         );
+      /*
       }
+      */
     } // forwardToDoc
 
     $scope.feed = [];
@@ -890,7 +920,7 @@ angular.module('pele.controllers', ['ngStorage'])
         docInitId = $stateParams.DocInitId;
 
       $sessionStorage.DOC_ID = docId;
-
+      /*
       if("wifi" === config_app.network){
         $ionicLoading.hide();
         $scope.$broadcast('scroll.refreshComplete');
@@ -898,6 +928,7 @@ angular.module('pele.controllers', ['ngStorage'])
         //$state.go("app.p1_appsLists");
       }
       else {
+      */
         console.log(config_app.docDetails);
         if(config_app.docDetails.DOC_LINES.length > 1){
           $scope.shownGroup = null;
@@ -936,8 +967,9 @@ angular.module('pele.controllers', ['ngStorage'])
 
         $ionicLoading.hide();
         $scope.$broadcast('scroll.refreshComplete');
-
+      /*
       }
+      */
     }; // doRefresh
 
     $scope.redStyle = function(flag){
@@ -999,12 +1031,14 @@ angular.module('pele.controllers', ['ngStorage'])
       var notificationId = $scope.NOTIFICATION_ID;
       var actionType = 'APPROVE';
       var note = '';
+      /*
       if("wifi" === config_app.network){
         $ionicLoading.hide();
         $scope.$broadcast('scroll.refreshComplete');
         PelApi.showPopup(config_app.wifiTitle , config_app.wifiSubTitle);
         //$state.go("app.p1_appsLists");
       }else {
+      */
         //===================================================//
         //==        Add Note Yes/No popup
         //===================================================//
@@ -1205,7 +1239,9 @@ angular.module('pele.controllers', ['ngStorage'])
             );
           };
         });
+      /*
       }
+      */
     };
     //-----------------------------------
     //--         OK
@@ -1219,6 +1255,7 @@ angular.module('pele.controllers', ['ngStorage'])
       var notificationId = $scope.NOTIFICATION_ID;
       var actionType = 'OK';
       var note = '';
+      /*
       if("wifi" === config_app.network){
         $ionicLoading.hide();
         $scope.$broadcast('scroll.refreshComplete');
@@ -1226,6 +1263,7 @@ angular.module('pele.controllers', ['ngStorage'])
         //$state.go("app.p1_appsLists");
       }
       else {
+      */
             PelApi.showLoading();
             var links3 = PelApi.getDocApproveServiceUrl("SubmitNotif");
             var retSubmitNotification = PelApi.SubmitNotification(links3, appId, notificationId, note, actionType);
@@ -1293,7 +1331,9 @@ angular.module('pele.controllers', ['ngStorage'])
                   })
               }
             );
+        /*
         } // else WIFI
+        */
     };
     //----------------------------------------
     //--         REJECT                     --
@@ -1303,12 +1343,14 @@ angular.module('pele.controllers', ['ngStorage'])
       var appId = config_app.appId;
       var notificationId = $scope.NOTIFICATION_ID;
       var actionType = "REJECT";
+      /*
       if("wifi" === config_app.network){
         $ionicLoading.hide();
         $scope.$broadcast('scroll.refreshComplete');
         PelApi.showPopup(config_app.wifiTitle , config_app.wifiSubTitle);
         //$state.go("app.p1_appsLists");
       }else {
+      */
         if($scope.data.note !== undefined){
           $scope.submitNotif(actionType , $scope.data.note)
         }else {
@@ -1346,7 +1388,9 @@ angular.module('pele.controllers', ['ngStorage'])
             }
           });
         }
+      /*
       }
+      */
     }; // docReject
     //--------------------------------------------------------------
     //
