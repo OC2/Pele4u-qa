@@ -117,6 +117,14 @@ angular.module('pele.controllers', ['ngStorage'])
                                       ) {
 
   $ionicHistory.clearHistory();
+
+  //=======================================================//
+  //== When        Who         Description               ==//
+  //============== =========== ============================//
+  //== 28/08/2016  R.W.        getConfigFile             ==//
+  //=======================================================//
+
+  //=======================================================//
   //=======================================================//
   //== When        Who         Description               ==//
   //== ----------  ----------  ------------------------- ==//
@@ -133,7 +141,7 @@ angular.module('pele.controllers', ['ngStorage'])
       }
     }// pushBtnClass
 
-  $scope.onBtnAction = function(){
+    $scope.onBtnAction = function(){
     btnClass.activ = !btnClass.activ;
   };
     /**
@@ -141,7 +149,7 @@ angular.module('pele.controllers', ['ngStorage'])
      *                    GetUserMenuMain
      * ==========================================================
      */
-  $scope.GetUserMenuMain = function(){
+    $scope.GetUserMenuMain = function(){
     var links = PelApi.getDocApproveServiceUrl("GetUserMenu");
 
     try{
@@ -263,16 +271,20 @@ angular.module('pele.controllers', ['ngStorage'])
     $scope.isOnline = config_app.isOnline;
     $scope.network = config_app.network;
 
+    //-------------------------------//
+    PelApi.setPELE4_SETTINGS_DIRECTORY();
+    //-------------------------------//
     var continueFlag = "Y";
 
     if("wifi" === config_app.network){
 
       if(config_app.MSISDN_VALUE===""){
 
-          $cordovaFile.checkFile(cordova.file.dataDirectory, config_app.MSISDN_FILE_NAME)
+          var filePath = PelApi.getfull_SETTINGS_DIRECTORY_NAME();
+          $cordovaFile.checkFile(filePath, config_app.MSISDN_FILE_NAME)
             .then(function (success) {
               // success
-              $cordovaFile.readAsText(cordova.file.dataDirectory , config_app.MSISDN_FILE_NAME )
+              $cordovaFile.readAsText(filePath , config_app.MSISDN_FILE_NAME )
                 .then(function (success) {
                   // success
 
@@ -369,16 +381,17 @@ angular.module('pele.controllers', ['ngStorage'])
             var platform = ionic.Platform.platform();
 
             if("win32" !== platform ){
-              $cordovaFile.checkFile(cordova.file.dataDirectory, config_app.MSISDN_FILE_NAME)
+              var filePath = PelApi.getfull_SETTINGS_DIRECTORY_NAME();
+              $cordovaFile.checkFile(filePath , config_app.MSISDN_FILE_NAME)
                 .then(function (success) {
                   // success ( file exist )
-                  $cordovaFile.removeFile(cordova.file.dataDirectory, config_app.MSISDN_FILE_NAME)
+                  $cordovaFile.removeFile(filePath , config_app.MSISDN_FILE_NAME)
                     .then(function (success) {
                       // success ( remove file )
-                      $cordovaFile.createFile(cordova.file.dataDirectory, config_app.MSISDN_FILE_NAME, true)
+                      $cordovaFile.createFile(filePath , config_app.MSISDN_FILE_NAME, true)
                         .then(function (success) {
                           // success ( create file )
-                          $cordovaFile.writeFile(cordova.file.dataDirectory, config_app.MSISDN_FILE_NAME, config_app.MSISDN_VALUE, true)
+                          $cordovaFile.writeFile(filePath , config_app.MSISDN_FILE_NAME, config_app.MSISDN_VALUE, true)
                             .then(function (success) {
                               // success
                               console.log("$cordovaFile.writeFile : SUCCESS");
@@ -406,10 +419,10 @@ angular.module('pele.controllers', ['ngStorage'])
                     });
               }, function (error) {
                   // error
-                  $cordovaFile.createFile(cordova.file.dataDirectory, config_app.MSISDN_FILE_NAME, true)
+                  $cordovaFile.createFile(filePath, config_app.MSISDN_FILE_NAME, true)
                     .then(function (success) {
                       // success ( create file )
-                      $cordovaFile.writeFile(cordova.file.dataDirectory, config_app.MSISDN_FILE_NAME, data.user, true)
+                      $cordovaFile.writeFile(filePath, config_app.MSISDN_FILE_NAME, config_app.MSISDN_VALUE, true)
                         .then(function (success) {
                           // success
                           console.log("$cordovaFile.writeFile : SUCCESS");
@@ -479,7 +492,6 @@ angular.module('pele.controllers', ['ngStorage'])
       }
     );
     }
-
   }
   //------------------------------------------------------
   //--                  Switch APP
@@ -503,7 +515,8 @@ angular.module('pele.controllers', ['ngStorage'])
         return false;
       } else if(i.Path) {
         var path = i.Path; //"apps/" + i.Path + "/app.html";
-        window.location.href = path;
+        //window.location.href = path;
+        $state.go(path, {"AppId": i.AppId, "Title": i.Title, "Pin": i.Pin});
       }
 
     };
@@ -517,12 +530,12 @@ angular.module('pele.controllers', ['ngStorage'])
       srvShareData.addData({"PeleNetwork":config_app.network , "PeleMsisdnValue":config_app.MSISDN_VALUE ,"PeleAppId" : appId });
 
       var i = {};
-        // i.Path = statePath;
-      i.Path = "apps/DocApprove/app.html"; // Replace after modefication in SSO
+      i.Path  = statePath;
+      i.AppId = appId;
+      i.Title = titleDisp;
+      i.Pin   = 0;
+
       $scope.appSwitch(i);
-      /*
-      }
-      */
 
     };
   //-------------------------------//

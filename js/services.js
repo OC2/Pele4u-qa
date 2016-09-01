@@ -3,13 +3,17 @@
  */
 var app = angular.module('pele.services', []);
 
+
 app.service('srvShareData', function($window) {
   var KEY = 'App.SelectedValue';
 
-
   var addData = function(newObj) {
-
-    mydata = [];
+    var mydata = $window.sessionStorage.getItem(KEY);
+    if (mydata) {
+      mydata = JSON.parse(mydata);
+    } else {
+      mydata = [];
+    }
     mydata.push(newObj);
     $window.sessionStorage.setItem(KEY, JSON.stringify(mydata));
   };

@@ -12,6 +12,23 @@ angular.module('pele', ['ionic'
                            ,'pele.factories'
                            ,'pele.config'
                            ,'pele.services'
+                           //-----------------------------------------//
+                           //--        docApprove                   --//
+                           //-----------------------------------------//
+                           ,'pele.P2_moduleListCtrl'
+                           //-----------------------------------------//
+                           //--        docApprove/PO                --//
+                           //-----------------------------------------//
+                           ,'pele.p3_po_moduleDocListCtrl'
+                           ,'pele.p4_po_doc_10002Ctrl'
+                           //-----------------------------------------//
+                           //--        docApprove/HR                --//
+                           //-----------------------------------------//
+                           ,'pele.p3_hr_moduleDocListCtrl'
+                           ,'pele.p4_hr_docCtrl'
+                           //-----------------------------------------//
+                           //--           Settings                  --//
+                           //-----------------------------------------//
                            ,'fileLogger'
                           ])
 
@@ -90,8 +107,8 @@ angular.module('pele', ['ionic'
     templateUrl: 'templates/menu.html',
     controller: 'AppCtrl'
   })
-  //---- P1 ----//
-  .state('app.p1_appsLists', {
+    //---- P1 ----//
+    .state('app.p1_appsLists', {
       url: '/p1_appsLists',
       views: {
         'menuContent': {
@@ -100,6 +117,91 @@ angular.module('pele', ['ionic'
         }
       }
     })
+    //----------------------------------------------------------------------------//
+    //--                         docApprove
+    //----------------------------------------------------------------------------//
+    .state('app.p2_moduleList', {
+      url: '/p2_moduleList/:AppId/:Title/:Pin',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/apps/DocApprove/p2_moduleList.html',
+          controller:  'P2_moduleListCtrl'
+        }
+      }
+    })
+    //-------------------------------------------//
+    //--               PO                      --//
+    //-------------------------------------------//
+    .state('app.p3_po_moduleDocList', {
+      url: "/p3_po_moduleDocList/:AppId/:FormType/:Pin",
+      views: {
+        'menuContent': {
+          templateUrl: "templates/apps/DocApprove/PO/p3_po_moduleDocList.html",
+          controller: 'p3_po_moduleDocListCtrl'
+        }
+      }
+    })
+    .state('app.doc_10002', {
+      url: "/doc_10002/:DocId/:DocInitId",
+      views: {
+        'menuContent': {
+          templateUrl: "templates/apps/DocApprove/PO/p4_po_doc_10002.html",
+          controller: 'p4_po_doc_10002Ctrl'
+        }
+      }
+    })
+    //-------------------------------------------//
+    //--               HR                      --//
+    //-------------------------------------------//
+    .state('app.p3_hr_moduleDocList', {
+      url: "/p3_hr_moduleDocList/:AppId/:FormType/:Pin",
+      views: {
+        'menuContent': {
+          templateUrl: "templates/apps/DocApprove/HR/p3_moduleDocList.html",
+          controller: 'p3_hr_moduleDocListCtrl'
+        }
+      }
+    })
+                //--------------------------------------------//
+                //--             HR/242                     --//
+                //--------------------------------------------//
+    .state('app.doc_242', {
+      url: "/doc_242/:AppId/:DocId/:DocInitId",
+      views: {
+        'menuContent': {
+          templateUrl: "templates/apps/DocApprove/HR/p4_doc_242.html",
+          controller: 'p4_hr_docCtrl'
+        }
+      }
+    })
+                //--------------------------------------------//
+                //--            HR/806                      --//
+                //--------------------------------------------//
+    .state('app.doc_806', {
+      url: "/doc_806/:AppId/:DocId/:DocInitId",
+      views: {
+        'menuContent': {
+          templateUrl: "templates/apps/DocApprove/HR/p4_doc_806.html",
+          controller: 'p4_hr_docCtrl'
+        }
+      }
+    })
+                //--------------------------------------------//
+                //--                   HR/807               --//
+                //--------------------------------------------//
+    .state('app.doc_807', {
+      url: "/doc_807/:AppId/:DocId/:DocInitId",
+      views: {
+        'menuContent': {
+          templateUrl: "templates/apps/DocApprove/HR/p4_doc_807.html",
+          controller: 'p4_hr_docCtrl'
+        }
+      }
+    })
+    //----------------------------------------------------------------------------//
+    //--                         End docApprove
+    //----------------------------------------------------------------------------//
+
     //---- home ----//
     .state('app.home', {
       url: '/home/:showLoading',

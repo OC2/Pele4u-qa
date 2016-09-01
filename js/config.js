@@ -14,7 +14,8 @@ angular.module('pele.config', [])
     translateFlag:"N",
     flashTime: 2500 ,
     getUserMenuError: "שגיאת קבלת התפריטים למשתמש, קוד שגיאה - ",
-    MODULE_TYPES_FORWARD_PATH : {"HR" : "app.p3_moduleDocList" , "POAPPRV" : "app.po_p3_moduleDocList"},
+    MODULE_TYPES_FORWARD_PATH : { "HR"      : "app.p3_hr_moduleDocList"
+                                , "POAPPRV" : "app.p3_po_moduleDocList"},
     ACTION_HISTORY:{"FORWARD":"אישור" , "NO_ACTION":"לא נדרש אישור" , "REJECT":"דחייה" ,"WAITING":"ממתין" },
     APPROVE : {text: '<i id="APPROVE" class="icon ion-checkmark-circled text-center"></i> אישור'},
     APPROVE_AND_NOTE : {text: '<i id="APPROVE_AND_NOTE" class="icon ion-checkmark-circled text-center"></i> אישור עם הערה'},
@@ -229,6 +230,7 @@ config_app = {
   wifiSubTitle: "האפליקציה פעילה ברשת סלולארית בלבד",
   declineTitle: "לפני דחייה",
   declineSubTitle: "חובה להזין הערה",
+  Pin:"",
   pinCodeErrorVal: "קוד מחמיר שגוי",
   pinCodeErrorInit: "לא הוגדר קוד מחמיר. יש להגדיר בפורטל או ב-55",
   pinCodeErrorLock: "קוד מחמיר נעול. יש להגדיר קוד חדש בפורטל או ב-55",
@@ -238,6 +240,9 @@ config_app = {
   pinCodeSubTitlePNE: "קוד מחמיר לא קיים ...",
   pinCodeSubTitleNRP: "קוד מחמיר נעול. צריך לאפס ...",
   PO_ORG_NAME:"",
+  SETTINGS_DIRECTORY_NAME:"PELE4U_SETTINGS",
+  ATTACHMENT_DIRECTORY_NAME:"PELE4U_ATTACHMENTS",
+
   MSISDN_WRITE_FILE_ERROR_CODE: "WFE",
   MSISDN_WRITE_FILE_ERROR_DESC: "שגיאה בכתיבה אל תוך קובץ MISDN",
   MSISDN_READ_FILE_ERROR_CODE: "RWE",
@@ -263,7 +268,6 @@ config_app = {
   appId:"2313E2E95ADDFDB3E050AE0A5B0768D2",
   user: "",
   userName: "",
-
   PIN: "0",
   GetUserMenu: "",
   GetUserModuleTypes: "",
