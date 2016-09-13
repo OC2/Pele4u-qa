@@ -40,7 +40,7 @@
     <plugin name="cordova-plugin-file" spec="3.0.0" source="pgb" />
     <plugin name="de.appplant.cordova.plugin.email-composer" spec="0.8.2" source="pgb" />
     <plugin name="wellbload.cordova.appversion" spec="0.1.4" source="pgb" />
-
+  <plugin name="cordova-plugin-nativestorage" source="npm" />
     <plugin name="onesignal-cordova-plugin" source="npm" /> <!-- for Push Notif O.H / R.W. 08/02/2016 -->
 
     <preference name="phonegap-version" value="cli-5.4.1" /> <!-- for Push Notif O.H / R.W. 08/02/2016 -->
