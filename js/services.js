@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 angular.module('starter.services', [])
 
 .factory('Chats', function() {
@@ -30,6 +31,31 @@ angular.module('starter.services', [])
     lastText: 'This is wicked good ice cream.',
     face: 'img/mike.png'
   }];
+=======
+/**
+ * Created by User on 27/01/2016.
+ */
+var app = angular.module('pele.services', []);
+
+app.service('srvShareData', function($window) {
+  var KEY = 'App.SelectedValue';
+
+
+  var addData = function(newObj) {
+
+    mydata = [];
+    mydata.push(newObj);
+    $window.sessionStorage.setItem(KEY, JSON.stringify(mydata));
+  };
+
+  var getData = function(){
+    var mydata = $window.sessionStorage.getItem(KEY);
+    if (mydata) {
+      mydata = JSON.parse(mydata);
+    }
+    return mydata || [];
+  };
+>>>>>>> parent of dbb49c9... 111.12
 
   return {
     all: function() {

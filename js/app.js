@@ -5,12 +5,25 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
+<<<<<<< HEAD
 angular.module('starter', ['ionic'
                           ,'ngCordova'
                           , 'ngStorage'
                           , 'ngCordova.plugins.nativeStorage'
                           , 'starter.controllers'
                           , 'starter.services'])
+=======
+angular.module('pele', ['ionic'
+                           ,'ngCordova'
+                           ,'ngStorage'
+                           ,'tabSlideBox'
+                           ,'pele.controllers'
+                           ,'pele.factories'
+                           ,'pele.config'
+                           ,'pele.services'
+                           ,'fileLogger'
+                          ])
+>>>>>>> parent of dbb49c9... 111.12
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -42,6 +55,7 @@ angular.module('starter', ['ionic'
     abstract: true,
     templateUrl: 'templates/tabs.html'
   })
+<<<<<<< HEAD
 
   // Each tab has its own nav history stack:
 
@@ -80,6 +94,26 @@ angular.module('starter', ['ionic'
       'tab-account': {
         templateUrl: 'templates/tab-account.html',
         controller: 'AccountCtrl'
+=======
+  //---- P1 ----//
+  .state('app.p1_appsLists', {
+      url: '/p1_appsLists',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/p1_appsLists.html',
+          controller: 'P1_appsListCtrl'
+        }
+      }
+    })
+    //---- home ----//
+    .state('app.home', {
+      url: '/home/:showLoading',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/p1_appsLists.html',
+          controller: 'homeCtrl'
+        }
+>>>>>>> parent of dbb49c9... 111.12
       }
     }
   });

@@ -1,0 +1,75 @@
+{
+  "ROWSET": {
+    "ROW": [
+      {
+        "WF_ITEM_TYPE": "POAPPRV",
+        "ORG_NAME": "חטיבת הכספים",
+        "ORDER_QTY": "1",
+        "ORDER_DETAILS": {
+          "ORDER_DETAILS_ROW": {
+            "PO_HEADER_ID": "937215",
+            "PO_ORDER": "הז 210751",
+            "PO_AMOUNT": "37025 USD",
+            "VENDOR_NAME": "השטיח המעופף בע\"מ",
+            "SUBMIT_DATE": "03-12-2015",
+            "DOC_ID": "10002",
+            "COMMENTS": "השטיח המעופף, השלמה לגמר חשבון נופש כריתים, כולל מעמ, מאי- יוני 2015"
+          }
+        }
+      },
+      {
+        "WF_ITEM_TYPE": "POAPPRV",
+        "ORG_NAME": "חטיבת הנדסה",
+        "ORDER_QTY": "2",
+        "ORDER_DETAILS": {
+          "ORDER_DETAILS_ROW": [
+            {
+              "PO_HEADER_ID": "654161",
+              "PO_ORDER": "הז 200938",
+              "PO_AMOUNT": "173500 שח",
+              "VENDOR_NAME": "אייץ' אנד או רשתות אופנה (2003) בע\"מ",
+              "SUBMIT_DATE": "22-04-2015",
+              "DOC_ID": "10002",
+              "COMMENTS": "הטבת ביגוד 2014 כולל מעמ- השלמה"
+            },
+            {
+              "PO_HEADER_ID": "937173",
+              "PO_ORDER": "הז 210709",
+              "PO_AMOUNT": "450000 שח",
+              "VENDOR_NAME": "ואיוסופט בעמ",
+              "SUBMIT_DATE": "01-12-2015",
+              "DOC_ID": "10002",
+              "COMMENTS": "Connected Car (השקעות)"
+            }
+          ]
+        }
+      },
+      {
+        "WF_ITEM_TYPE": "POAPPRV",
+        "ORG_NAME": "חטיבת מערכות מידע",
+        "ORDER_QTY": "2",
+        "ORDER_DETAILS": {
+          "ORDER_DETAILS_ROW": [
+            {
+              "PO_HEADER_ID": "960161",
+              "PO_ORDER": "הז 211114",
+              "PO_AMOUNT": "100050 שח",
+              "VENDOR_NAME": "אדלר חומסקי תקשורת שיווקית בעמ",
+              "SUBMIT_DATE": "22-12-2015",
+              "DOC_ID": "10002"
+            },
+            {
+              "PO_HEADER_ID": "947165",
+              "PO_ORDER": "הז 211094",
+              "PO_AMOUNT": "24600 EUR",
+              "VENDOR_NAME": "GyD Iberica",
+              "SUBMIT_DATE": "09-12-2015",
+              "DOC_ID": "10002",
+              "COMMENTS": "TripleSIM"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}
