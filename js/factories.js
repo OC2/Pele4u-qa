@@ -230,8 +230,20 @@ angular.module('pele.factories', ['ngStorage','LocalStorageModule'])
     SubmitNotification:function(links , appId , notificationId , note , actionType){
         var token = config_app.token;
         var userName = config_app.userName;
+
         var envUrl = links.URL;
+        var headers = {};
+
+        if("wifi" === config_app.network){
+          envUrl  = links.URL_WIFI;
+          headers = {"Content-Type": "application/json; charset=utf-8","Accept":"application/json","msisdn":config_app.MSISDN_VALUE};
+        }else{
+          envUrl = links.URL;
+          headers = {"Content-Type": "application/json; charset=utf-8","Accept":"application/json"};
+        }
+
         var RequestHeader = links.RequestHeader;
+
         var data = { "Request": {
             "RequestHeader": RequestHeader,
             "InParams": {
@@ -253,8 +265,7 @@ angular.module('pele.factories', ['ngStorage','LocalStorageModule'])
             method:"POST",
             data: data,
             timeout:appSettings.timeout,
-            headers: {"Content-Type": "application/json; charset=utf-8","Accept":"application/json"
-            }
+            headers: headers
         });
     },
     //--------------------------------------------------------------------------//
