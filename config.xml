@@ -43,10 +43,12 @@
   <plugin name="cordova-plugin-nativestorage" source="npm" />
     <plugin name="onesignal-cordova-plugin" source="npm" /> <!-- for Push Notif O.H / R.W. 08/02/2016 -->
 
-    <preference name="phonegap-version" value="cli-5.4.1" /> <!-- for Push Notif O.H / R.W. 08/02/2016 -->
+
+  <preference name="phonegap-version" value="cli-5.4.1" /> <!-- for Push Notif O.H / R.W. 08/02/2016 -->
     <preference name="android-build-tool" value="gradle" /> <!-- for Push Notif O.H / R.W.  08/02/2016 -->
 
     <plugin name="io.github.pwlin.cordova.plugins.fileopener2" spec="1.0.11" source="pgb" />
+
   <!--
         Define a specific version of PhoneGap to build into your app.
         <preference name="phonegap-version"       value="3.5.0" />
@@ -132,7 +134,7 @@
   <gap:splash src="res/android/splash/drawable-port-xxxhdpi-screen.png"  gap:platform="android" density="port-xxxhdpi"/>
 
     <gap:config-file platform="ios" parent="CFBundleShortVersionString">
-    <string>111</string>
+    <string>112</string>
     </gap:config-file>
 
 
