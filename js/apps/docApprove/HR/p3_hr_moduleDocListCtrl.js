@@ -69,7 +69,7 @@ app.controller('p3_hr_moduleDocListCtrl', function($scope, $stateParams, $http, 
 
             $ionicLoading.hide();
             $scope.$broadcast('scroll.refreshComplete');
-            //$state.go("app.p1_appsLists");
+            config_app.IS_TOKEN_VALID = "N";
             PelApi.goHome();
 
           } else if ("EAI_ERROR" === pinStatus){
@@ -81,6 +81,7 @@ app.controller('p3_hr_moduleDocListCtrl', function($scope, $stateParams, $http, 
           } else if("EOL" === pinStatus){
             $ionicLoading.hide();
             $scope.$broadcast('scroll.refreshComplete');
+            config_app.IS_TOKEN_VALID = "N";
             PelApi.goHome();
           } else if ("ERROR_CODE" === pinStatus){
 

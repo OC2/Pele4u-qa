@@ -238,8 +238,8 @@ angular.module('pele.P2_moduleListCtrl', ['ngStorage'])
 
               $ionicLoading.hide();
               $scope.$broadcast('scroll.refreshComplete');
-              //$state.go("app.p1_appsLists");
-              //PelApi.goHome();
+              config_app.IS_TOKEN_VALID = "N";
+              PelApi.goHome();
 
             } else if ("EAI_ERROR" === pinCodeStatus) {
 

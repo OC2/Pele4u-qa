@@ -298,7 +298,7 @@ config_app = {
   ATTACHMENT_TYPE_NOT_SUPORTED_FOR_OPEN:"סוג הקובץ אינו נתמך",
   getUserMenuErrorMsg: "שגיאה בטעינת רשימת אפליקציות",
   getUserModuleTypesErrorMag: "בקשה הסתיימה עם שגיאה , נא לרענן מסך",
-  EAI_ERROR_DESC : "EAI שגיאה בממשק",
+  EAI_ERROR_DESC : "שגיאה בממשק.",
   loadingMsg: "ממתין לטעינת נתונים ...",
   isAddNoteTitle: "האם ברצונך להוסיף הערה?",
   errorMsg: "",
