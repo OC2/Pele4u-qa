@@ -1,3 +1,19 @@
+Skip to content
+This repository
+Search
+Pull requests
+Issues
+Gist
+ @OC2
+ Unwatch 1
+  Star 0
+  Fork 0 OC2/Pele4u-qa
+ Code  Issues 0  Pull requests 0  Wiki  Pulse  Graphs  Settings
+Branch: master Find file Copy pathPele4u-qa/config.xml
+839d4f9  16 hours ago
+@OC2 OC2 TEst Project
+1 contributor
+RawBlameHistory     Executable File  170 lines (146 sloc)  11.1 KB
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!-- config.xml reference: https://build.phonegap.com/docs/config-xml -->
@@ -40,7 +56,7 @@
     <plugin name="cordova-plugin-file" spec="3.0.0" source="pgb" />
     <plugin name="de.appplant.cordova.plugin.email-composer" spec="0.8.2" source="pgb" />
     <plugin name="wellbload.cordova.appversion" spec="0.1.4" source="pgb" />
-  <plugin name="cordova-plugin-nativestorage" source="npm" />
+
     <plugin name="onesignal-cordova-plugin" source="npm" /> <!-- for Push Notif O.H / R.W. 08/02/2016 -->
 
 
@@ -167,3 +183,5 @@
     </platform>
 
 </widget>
+Contact GitHub API Training Shop Blog About
+© 2016 GitHub, Inc. Terms Privacy Security Status Help
