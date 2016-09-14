@@ -14,7 +14,24 @@ angular.module('pele.config', [])
     translateFlag:"N",
     flashTime: 2500 ,
     getUserMenuError: "שגיאת קבלת התפריטים למשתמש, קוד שגיאה - ",
-    MODULE_TYPES_FORWARD_PATH : {"HR" : "app.p3_moduleDocList" , "POAPPRV" : "app.po_p3_moduleDocList"},
+    GOOGLE_PLAY_APP_LINK:"https://play.google.com/store/apps/details?id=com.int_pele.pele4u",
+    APPLE_STORE_APP_LING:"https://appsto.re/il/yYQKab.i",
+    PIN_STATUS: {
+      "EOL": "",//- End of life
+      "PAD": "גישה נחסמה, נה לפנות ל 55 ...", // - Pin access denied after 3 time
+      "PWA": "גישה הלא נכונה ...", // - Pin wrong access
+      "NRP": "קוד מחמיר נעול. צריך לאפס ...", // - Need to reset Pin
+      "PNE": "קוד מחמיר לא קיים ...", //  Pin not Exist
+      "PCR": "הזינו קוד מחמיר, אפליקצייה דורשת הזדהות",
+      "InValid": "",// - general error
+      "Valid": "",
+      "SYS_ERROR": "שגיאה מערכתי ..."
+    },
+    tabs: [{"text": "סבב מאשרים"}, {"text": "תוכן טופס"}],
+    ATTACHMENT_BLUE_STYLE:{"color":"blue"},
+    ATTACHMENT_GRAY_STYLE:{"color":"gray"},
+    MODULE_TYPES_FORWARD_PATH : { "HR"      : "app.p3_hr_moduleDocList"
+                                , "POAPPRV" : "app.p3_po_moduleDocList"},
     ACTION_HISTORY:{"FORWARD":"אישור" , "NO_ACTION":"לא נדרש אישור" , "REJECT":"דחייה" ,"WAITING":"ממתין" },
     APPROVE : {text: '<i id="APPROVE" class="icon ion-checkmark-circled text-center"></i> אישור'},
     APPROVE_AND_NOTE : {text: '<i id="APPROVE_AND_NOTE" class="icon ion-checkmark-circled text-center"></i> אישור עם הערה'},
@@ -77,6 +94,12 @@ angular.module('pele.config', [])
                                             ,"AppID": "MobileApp"
                                             ,"EnvCode": "MobileApp_PROD"
                                             ,"Timeout": "120"}
+                          },
+                          {
+                            "Service":"IsSessionValidJson",
+                            "URL":"http://msso.pelephone.co.il/PD/MobileServices/SSOService.svc/json/IsSessionValidJson",
+                            "URL_WIFI":"http://msso.pelephone.co.il/PD/MobileServices/SSOService.svc/json/IsSessionValidJson",
+                            "RequestHeader":""
                           }
                         ]
                       },
@@ -135,6 +158,12 @@ angular.module('pele.config', [])
                                             ,"AppID": "MobileApp"
                                             ,"EnvCode": "MobileApp_QA"
                                             ,"Timeout": "120"}
+                          },
+                          {
+                            "Service":"IsSessionValidJson",
+                            "URL":"http://msso.pelephone.co.il/QA/MobileServices/SSOService.svc/json/IsSessionValidJson",
+                            "URL_WIFI":"https://msso.pelephone.co.il/QA/MobileServices/SSOService.svc/json/IsSessionValidJson",
+                            "RequestHeader":""
                           }
                         ]
                       },
@@ -192,19 +221,34 @@ angular.module('pele.config', [])
                                             ,"AppID": "MobileApp"
                                             ,"EnvCode": "MobileApp_DEV"
                                             ,"Timeout": "120"}
+                          },
+                          {
+                            "Service":"IsSessionValidJson",
+                            "URL":"http://msso.pelephone.co.il/DV/MobileServices/SSOService.svc/json/IsSessionValidJson",
+                            "URL_WIFI":"http://msso.pelephone.co.il/DV/MobileServices/SSOService.svc/json/IsSessionValidJson",
+                            "RequestHeader":""
                           }
 			]
                       }
                     ]
 });
 
-
 var config_app;
 config_app = {
   APP_VERSION:"111",
+  PIN_CODE_AUTHENTICATION_REQUIRED_CODE :"10000",
+  IS_TOKEN_VALID:"N",
+  TITLE_WIFI_FIRST_CONNECTION_1:"בעת כניסה ראשונה",
+  TITLE_WIFI_FIRST_CONNECTION_2:"יש לעבור לגלישה ברשת סלולרית",
+  TITLE_SYSTEM_MESSAGES:"באפשרותך לבצע כניסה ללא קוד הזדהות על ידי מעבר לגלישה ברשת סלולרית",
+  TITLE_OTP_REQUEST:"שלח",
+  TITLE_OTP_INPUT:"קוד הזדהות",
+  TITLE_SEND_OTP:"כניסה",
+  TITLE_RESET_PASSWORD_LINK:"קבלת קוד הזדהות חדש",
+  TITLE_SEND_OTP_LINK:"שליחת קוד הזדהות",
+  TITLE_FORGOT_PASSWORD:"בקשה לקוד הזדהות",
+  TITLE_LOGIN:"הזנת קוד הזדהות",
   PLAYER_ID:"",
-  GOOGLE_PLAY_APP_LINK:"https://play.google.com/store/apps/details?id=com.int_pele.pele4u",
-  APPLE_STORE_APP_LING:"https://appsto.re/il/yYQKab.i",
   fileLogger:"",
   FileTransferSuccess:"הקובץ הורד בהצלחה",
   EAI_Status:"קובץ אינו זמין",
@@ -219,25 +263,26 @@ config_app = {
   LOG_FILE_ERROR_TYPE: "E",
   LOG_FILE_WARN_TYPE: "W",
   WIFI_CHECK: true,
-  ATTACHMENT_BLUE_STYLE:{"color":"blue"},
-  ATTACHMENT_GRAY_STYLE:{"color":"gray"},
   network: "",
   isOnline: "",
   pinCodeLock: false,
   interfaceErrorTitle: "שגיאת ממשק",
   wifiTitle: "WiFi- יש להתנתק מ",
-  wifiSubTitle: "האפליקציה פעילה ברשת סלולארית בלבד",
+  wifiSubTitle: "לצורך הזדהות ראשונית",
   declineTitle: "לפני דחייה",
   declineSubTitle: "חובה להזין הערה",
-  pinCodeErrorVal: "קוד מחמיר שגוי",
+  Pin:"",
+  pinCodeErrorVal: "קוד הזדהות שגוי",
   pinCodeErrorInit: "לא הוגדר קוד מחמיר. יש להגדיר בפורטל או ב-55",
-  pinCodeErrorLock: "קוד מחמיר נעול. יש להגדיר קוד חדש בפורטל או ב-55",
+  pinCodeErrorLock: "קוד הזדהות ננעל, נא לפנות ל-55",
   pinCodeSubTitlePCR: "חובה להזין קוד מחמיר",
-  pinCodeSubTitlePWA: "קוד מחמיר שגוי",
-  pinCodeSubTitlePDA: "קוד מחמיר חסום. יש להגדיר קוד חדש בפורטל או ב-55",
+  pinCodeSubTitlePWA:"קוד הזדהות שגוי" ,
+  pinCodeSubTitlePDA: "קוד מחמיר נחסם, נא לפנות ל-55",
   pinCodeSubTitlePNE: "קוד מחמיר לא קיים ...",
   pinCodeSubTitleNRP: "קוד מחמיר נעול. צריך לאפס ...",
   PO_ORG_NAME:"",
+  SETTINGS_DIRECTORY_NAME:"PELE4U_SETTINGS",
+  ATTACHMENT_DIRECTORY_NAME:"PELE4U_ATTACHMENTS",
   MSISDN_WRITE_FILE_ERROR_CODE: "WFE",
   MSISDN_WRITE_FILE_ERROR_DESC: "שגיאה בכתיבה אל תוך קובץ MISDN",
   MSISDN_READ_FILE_ERROR_CODE: "RWE",
@@ -263,48 +308,9 @@ config_app = {
   appId:"2313E2E95ADDFDB3E050AE0A5B0768D2",
   user: "",
   userName: "",
-
   PIN: "0",
   GetUserMenu: "",
   GetUserModuleTypes: "",
-  tabs: [{"text": "סבב מאשרים"}, {"text": "תוכן טופס"}],
-  PIN_STATUS: {
-    "EOL": "",//- End of life
-    "PAD": "גישה נחסמה, נה לפנות ל 55 ...", // - Pin access denied after 3 time
-    "PWA": "גישה הלא נכונה ...", // - Pin wrong access
-    "NRP": "קוד מחמיר נעול. צריך לאפס ...", // - Need to reset Pin
-    "PNE": "קוד מחמיר לא קיים ...", //  Pin not Exist
-    "PCR": "הזינו קוד מחמיר, אפליקצייה דורשת הזדהות",
-    "InValid": "",// - general error
-    "Valid": "",
-    "SYS_ERROR": "שגיאה מערכתי ..."
-  },
-  adv: {
-    "ROWSET": {
-      "ROW": [
-        {
-          "IMG": "1",
-          "TEXT": "טקסת חופשי כהשלה לתמונה ניתן לכתוב עד 500 תווים" +
-          "טקסת חופשי כהשלה לתמונה ניתן לכתוב עד 500 תווים" +
-          "טקסת חופשי כהשלה לתמונה ניתן לכתוב עד 500 תווים"
-        },
-        {
-          "IMG": "2",
-          "TEXT": "טקסת חופשי כהשלה לתמונה ניתן לכתוב עד 500 תווים" +
-          "טקסת חופשי כהשלה לתמונה ניתן לכתוב עד 500 תווים" +
-          "טקסת חופשי כהשלה לתמונה ניתן לכתוב עד 500 תווים"
-        },
-        {
-          "IMG": "3",
-          "TEXT": "טקסת חופשי כהשלה לתמונה ניתן לכתוב עד 500 תווים"
-        },
-        {
-          "IMG": "4",
-          "TEXT": "טקסת חופשי כהשלה לתמונה ניתן לכתוב עד 500 תווים"
-        }
-      ]
-    }
-  },
   docDetails: {},
   ApprovRejectBtnDisplay: true,
 };

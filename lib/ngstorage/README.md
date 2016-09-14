@@ -35,14 +35,6 @@ npm install ngstorage
 
 *NOTE:* We are `ngstorage` and *NOT* `ngStorage`. The casing is important!
 
-### nuget
-
-```bash
-Install-Package gsklee.ngStorage
-```
-
-Or search for `Angular ngStorage` in the nuget package manager. <https://www.nuget.org/packages/gsklee.ngStorage>
-
 CDN
 ===
 
@@ -161,56 +153,6 @@ You can store anything except those [not supported by JSON](http://www.json.org/
 * `Infinity`, `NaN` - Will be replaced with `null`.
 * `undefined`, Function - Will be removed.
 
-### Usage from config phase
-
-To read and set values during the Angular config phase use the `.get/.set`
-functions provided by the provider.
-
-```javascript
-var app = angular.module('app', ['ngStorage'])
-.config(['$localStorageProvider',
-    function ($localStorageProvider) {
-        $localStorageProvider.get('MyKey');
-
-        $localStorageProvider.set('MyKey', { k: 'value' });
-    }]);
-```
-
-### Prefix
-
-To change the prefix used by ngStorage use the provider function `setKeyPrefix`
-during the config phase.
-
-```javascript
-var app = angular.module('app', ['ngStorage'])
-.config(['$localStorageProvider',
-    function ($localStorageProvider) {
-        $localStorageProvider.setKeyPrefix('NewPrefix');
-    }])
-```
-
-### Custom serialization
-
-To change how ngStorage serializes and deserializes values (uses JSON by default) you can use your own functions.
-
-```javascript
-angular.module('app', ['ngStorage'])
-.config(['$localStorageProvider', 
-  function ($localStorageProvider) {
-    var mySerializer = function (value) {
-      // Do what you want with the value.
-      return value;
-    };
-    
-    var myDeserializer = function (value) {
-      return value;
-    };
-
-    $localStorageProvider.setSerializer(mySerializer);
-    $localStorageProvider.setDeserializer(myDeserializer);
-  }];)
-```
-
 ### Minification
 Just run `$ npm install` to install dependencies.  Then run `$ grunt` for minification.
 
@@ -218,7 +160,7 @@ Just run `$ npm install` to install dependencies.  Then run `$ grunt` for minifi
 
 #### Watch the watch
 
-ngStorage internally uses an Angular watch to monitor changes to the `$storage`/`$localStorage` objects. That means that a digest cycle is required to persist your new values into the browser local storage.
+ngStorage internally uses an Angular watch to monitor changes to the `$storage`/`$localStorage` objects. That means that a digest cycle is required to persist your new values into the browser local storage. 
 Normally this is not a problem, but, for example, if you launch a new window after saving a value...
 
 ```javascript
@@ -234,17 +176,6 @@ the new values will not reliably be saved into the browser local storage. Allow 
 $scope.$storage.school = theSchool;
 $log.debug("launching and saving the new value" + url);
 $timeout(function(){
-   var myWindow = $window.open("", "_self");
-   myWindow.document.write(response.data);
-});
-```
-
-or better using `$scope.$evalAsync` as:
-
-```javascript
-$scope.$storage.school = theSchool;
-$log.debug("launching and saving the new value" + url);
-$scope.$evalAsync(function(){
    var myWindow = $window.open("", "_self");
    myWindow.document.write(response.data);
 });

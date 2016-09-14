@@ -1,6 +1,17 @@
-angular.module('pele.factories', [])
-
-.factory('PelApi',function($http ,$rootScope,appSettings,$state,$ionicLoading,$filter,$ionicPopup,$timeout,$fileLogger) {
+angular.module('pele.factories', ['ngStorage','LocalStorageModule'])
+.factory('PelApi',function( $http
+                          , $rootScope
+                          , appSettings
+                          , $state
+                          , $ionicLoading
+                          , $filter
+                          , $ionicPopup
+                          , $timeout
+                          , $fileLogger
+                          , $sessionStorage
+                          , $localStorage
+                          , $cordovaFile
+                          ) {
   return {
     sendPincode: function (pincode) {
       return $http({
@@ -20,7 +31,38 @@ angular.module('pele.factories', [])
         timeout:appSettings.timeout,
         headers: {'Content-Type': 'application/json; charset=utf-8' }
       });
-    }   ,
+    },
+
+    GetMsisdn:function(){
+      /*
+      var msisdn = window.localStorage.get("msisdn")
+      return msisdn;
+      */
+      return "";
+    },// GetMsisdn
+    //--------------------------------------------------------------------------//
+    //--                       IsSessionValidJson                             --//
+    //--------------------------------------------------------------------------//
+    IsSessionValidJson:function(links , appId , pin){
+      var envUrl = links.URL;
+      var headers = "";
+      var version = config_app.APP_VERSION
+      var parameters = "/" + config_app.token + "/" + appId + "/" + pin;
+      if("wifi" === config_app.network){
+        envUrl = links.URL_WIFI + parameters;
+        headers = {"Content-Type": "application/json; charset=utf-8","VERSION":version , "msisdn":config_app.MSISDN_VALUE}
+      }else{
+        envUrl = links.URL + parameters;
+        headers = {"Content-Type": "application/json; charset=utf-8","VERSION":version};
+      }
+
+      return   $http({
+        url:envUrl,
+        method: "GET",
+        timeout :appSettings.menuTimeout,
+        headers:headers
+      });
+    },
     //--------------------------------------------------------------------//
     //                    GetUserMenu PAGE 1                              //
     //--------------------------------------------------------------------//
@@ -58,12 +100,12 @@ angular.module('pele.factories', [])
       console.log("P2 : " + config_app.token);
       var userName = config_app.userName;
 
-      var envUrl="";
-      var headers={};
+      var envUrl = links.URL;
+      var headers = {};
 
       if("wifi" === config_app.network){
-        envUrl = links.URL_WIFI;
-        headers = {"Content-Type": "application/json; charset=utf-8","VERSION":version, "msisdn":config_app.MSISDN_VALUE};
+        envUrl  = links.URL_WIFI;
+        headers = {"Content-Type": "application/json; charset=utf-8","Accept":"application/json","msisdn":config_app.MSISDN_VALUE};
       }else{
         envUrl = links.URL;
         headers = {"Content-Type": "application/json; charset=utf-8","Accept":"application/json"};
@@ -102,13 +144,14 @@ angular.module('pele.factories', [])
         var token = config_app.token;
         var userName = config_app.userName;
 
-        var envUrl="";
-        var headers={};
+        var envUrl = links.URL;
+        var headers = {};
+
         if("wifi" === config_app.network){
-          envUrl = links.URL_WIFI;
-          headers = {"Content-Type": "application/json; charset=utf-8","Accept":"application/json" , "msisdn":config_app.MSISDN_VALUE};
+          envUrl  = links.URL_WIFI;
+          headers = {"Content-Type": "application/json; charset=utf-8","Accept":"application/json","msisdn":config_app.MSISDN_VALUE};
         }else{
-          envUrl  = links.URL;
+          envUrl = links.URL;
           headers = {"Content-Type": "application/json; charset=utf-8","Accept":"application/json"};
         }
 
@@ -128,13 +171,12 @@ angular.module('pele.factories', [])
         this.writeToLog(config_app.LOG_FILE_INFO_TYPE ,"====== GetUserFormGroups ======");
         this.writeToLog(config_app.LOG_FILE_INFO_TYPE , "URL :" + JSON.stringify(envUrl));
         this.writeToLog(config_app.LOG_FILE_INFO_TYPE , "DATA : " + JSON.stringify(data));
-
         return $http({
-            url:envUrl ,
-            method:"POST" ,
-            data: data,
-            timeout: appSettings.timeout,
-            headers: headers
+          url:envUrl ,
+          method:"POST" ,
+          data: data,
+          timeout:appSettings.timeout,
+          headers: headers
         });
     },
     //--------------------------------------------------------------------------//
@@ -144,8 +186,9 @@ angular.module('pele.factories', [])
         var token = config_app.token;
         var userName = config_app.userName;
 
-        var envUrl = "";
+        var envUrl = links.URL;
         var headers = {};
+
         if("wifi" === config_app.network){
           envUrl  = links.URL_WIFI;
           headers = {"Content-Type": "application/json; charset=utf-8","Accept":"application/json","msisdn":config_app.MSISDN_VALUE};
@@ -164,8 +207,8 @@ angular.module('pele.factories', [])
                 "UserName": userName,
                 "DocId":docId,
                 "DocInitId":docInitId
-                }
             }
+        }
         };
 
         this.writeToLog(config_app.LOG_FILE_INFO_TYPE ,"====== GetUserNotifications ======");
@@ -173,12 +216,13 @@ angular.module('pele.factories', [])
         this.writeToLog(config_app.LOG_FILE_INFO_TYPE , "DATA : " + JSON.stringify(data));
 
         return $http({
-            url:envUrl,
-            method:"POST",
-            data: data,
-            timeout:appSettings.timeout,
-            headers: headers
+          url:envUrl,
+          method:"POST",
+          data: data,
+          timeout:appSettings.timeout,
+          headers: headers
         });
+
     },
     //--------------------------------------------------------------------------//
     //--                       SubmitNotification  PAGE4                      --//
@@ -186,17 +230,7 @@ angular.module('pele.factories', [])
     SubmitNotification:function(links , appId , notificationId , note , actionType){
         var token = config_app.token;
         var userName = config_app.userName;
-
-        var envUrl="";
-        var headers={};
-        if("wifi" === config_app.network){
-          envUrl  = links.URL_WIFI;
-          headers = {"Content-Type": "application/json; charset=utf-8","Accept":"application/json","msisdn":config_app.MSISDN_VALUE};
-        }else{
-          envUrl = links.URL;
-          headers = {"Content-Type": "application/json; charset=utf-8","Accept":"application/json"};
-        }
-
+        var envUrl = links.URL;
         var RequestHeader = links.RequestHeader;
         var data = { "Request": {
             "RequestHeader": RequestHeader,
@@ -208,8 +242,8 @@ angular.module('pele.factories', [])
                 "NotificationId":notificationId,
                 "Note":note,
                 "ActionType":actionType
-                }
             }
+        }
         };
         this.writeToLog(config_app.LOG_FILE_INFO_TYPE ,"====== SubmitNotification ======");
         this.writeToLog(config_app.LOG_FILE_INFO_TYPE , "URL :" + JSON.stringify(envUrl));
@@ -218,9 +252,192 @@ angular.module('pele.factories', [])
             url:envUrl,
             method:"POST",
             data: data,
-            timeout: appSettings.timeout,
-            headers: headers
+            timeout:appSettings.timeout,
+            headers: {"Content-Type": "application/json; charset=utf-8","Accept":"application/json"
+            }
         });
+    },
+    //--------------------------------------------------------------------------//
+    //--                       GetFileURI  PAGE_PO4 ATTACHMENTS               --//
+    //--------------------------------------------------------------------------//
+    GetFileURI:function (links , appId , pin , fileOrFolder) {
+
+
+      var token = config_app.token;
+      var userName = config_app.userName;
+      var envUrl = links.URL;
+
+      if("wifi" === config_app.network){
+        envUrl  = links.URL_WIFI;
+        headers = {"Content-Type": "application/json; charset=utf-8","Accept":"application/json","msisdn":config_app.MSISDN_VALUE};
+      }else{
+        envUrl = links.URL;
+        headers = {"Content-Type": "application/json; charset=utf-8","Accept":"application/json"};
+      }
+
+      var RequestHeader = links.RequestHeader;
+      var data = {
+        "Request": {
+          "RequestHeader": RequestHeader,
+          "InParams": {
+            "Token": token,
+            "AppId": appId,
+            "PIN": pin,
+            "UserName": userName,
+            "FileOrFolder": fileOrFolder
+          }
+        }
+      };
+
+      this.writeToLog(config_app.LOG_FILE_INFO_TYPE ,"====== GetFileURI ======");
+      this.writeToLog(config_app.LOG_FILE_INFO_TYPE , "URL :" + JSON.stringify(envUrl));
+      this.writeToLog(config_app.LOG_FILE_INFO_TYPE , "DATA : " + JSON.stringify(data));
+      console.log("====== GetFileURI ======");
+      console.log( JSON.stringify(data));
+
+      return $http({
+        url:envUrl ,
+        method:"POST" ,
+        data: data,
+        timeout:appSettings.timeout,
+        headers: headers
+      });
+    },// End GetFileURI
+
+    //--------------------------------------------------------------------------//
+    //--                       GetUserPoOrdGroupGroup  PAGE_PO3                       --//
+    //--------------------------------------------------------------------------//
+    GetUserPoOrdGroupGroup:function (links , appId , formType, pin) {
+
+
+      var token = config_app.token;
+      var userName = config_app.userName;
+
+      var envUrl = links.URL;
+      var headers = {};
+
+      if("wifi" === config_app.network){
+        envUrl  = links.URL_WIFI;
+        headers = {"Content-Type": "application/json; charset=utf-8","Accept":"application/json","msisdn":config_app.MSISDN_VALUE};
+      }else{
+        envUrl = links.URL;
+        headers = {"Content-Type": "application/json; charset=utf-8","Accept":"application/json"};
+      }
+
+      var RequestHeader = links.RequestHeader;
+      var data = { "Request": {
+        "RequestHeader": RequestHeader,
+        "InParams": {
+          "Token": token,
+          "AppId": appId,
+          "PIN": pin,
+          "UserName": userName,
+          "FormType": formType
+        }
+      }
+      };
+
+      this.writeToLog(config_app.LOG_FILE_INFO_TYPE ,"====== GetUserFormGroups ======");
+      this.writeToLog(config_app.LOG_FILE_INFO_TYPE , "URL :" + JSON.stringify(envUrl));
+      this.writeToLog(config_app.LOG_FILE_INFO_TYPE , "DATA : " + JSON.stringify(data));
+
+      return $http({
+        url:envUrl ,
+        method:"POST" ,
+        data: data,
+        timeout:appSettings.timeout,
+        headers: headers
+      });
+
+    },
+    //-----------------------------------------------------------------------------//
+    //--                      GetPinCodeStatus                                   --//
+    //-----------------------------------------------------------------------------//
+    GetPinCodeStatus2:function(data,interface){
+      var stat = {status:"",description:""};
+      //------------------------------------
+      //-- Check EAI Status
+      //------------------------------------
+      if("SubmitNotif" === interface){
+        var eaiStatus_SubmitNotif = undefined;
+        var SessionStatus_SubmitNotif = undefined;
+        var P_ERROR_CODE = undefined;
+        var P_ERROR_DESC = undefined;
+
+        //-- Get EAI_Status --//
+        try{
+          eaiStatus_SubmitNotif = data.Response.ResponseHeader.EAI_Status;
+        }catch(e){
+          eaiStatus_SubmitNotif = undefined;
+        }
+
+        //-- Get SessionStatus -- //
+        try{
+          SessionStatus_SubmitNotif = data.Response.OutParams.SessionStatus
+        }catch(e){
+          SessionStatus_SubmitNotif = undefined;
+        }
+
+        //-- Get P_ERROR_CODE & P_ERROR_DESC -- //
+        try{
+          P_ERROR_CODE_SubmitNotif = data.Response.OutParams.P_ERROR_CODE;
+          P_ERROR_DESC_SubmitNotif = data.Response.OutParams.P_ERROR_DESC;
+        }catch(e){
+          P_ERROR_CODE_SubmitNotif = undefined;
+          P_ERROR_DESC_SubmitNotif = undefined;
+        }
+
+        if("0" !== eaiStatus_SubmitNotif && eaiStatus_SubmitNotif !== undefined){
+          stat.status = "EAI_ERROR";
+        }else if(0!==P_ERROR_CODE_SubmitNotif && undefined !== P_ERROR_CODE_SubmitNotif){
+          stat.status = "ERROR_CODE";
+          stat.description = P_ERROR_DESC_SubmitNotif;
+        }else {
+          stat.status = data.Response.OutParams.SessionStatus;
+        }
+      }else{
+        var eaiStatus = data.Response.ResponseHeader.EAI_Status;
+        if("0"!== eaiStatus && undefined !== eaiStatus){
+          stat.status = "EAI_ERROR";
+        }else{
+          try{
+            var SessionStatus = data.Response.OutParams.SessionStatus;
+            if("InValid" === SessionStatus){
+              stat.status = "InValid";
+              return stat;
+            }
+            var errorCode = data.Response.OutParams.P_ERROR_CODE;
+            var errorDesc = data.Response.OutParams.P_ERROR_DESC;
+            if(0!==errorCode && undefined !== errorCode){
+              stat.status = "ERROR_CODE";
+              stat.description = errorDesc;
+            }else{
+              if("getMenu" === interface){
+                stat.status = data.Status;
+                if("OLD" === status.status){
+                  return stat;
+                }
+                if("PAD" !== stat ){
+                  stat.status = "Valid"
+                }
+              }else if("getUserModuleTypes" === interface
+                || "GetUserFormGroups" === interface
+                || "GetUserPoOrdGroupGroup" === interface
+                || "GetUserNotif" === interface
+                || "GetUserNotifications" === interface
+                || "SubmitNotif" === interface
+                || "IsSessionValidJson" === interface
+              ){
+                stat.status = data.Response.OutParams.SessionStatus;
+              }
+
+            }
+          }catch(e){
+            stat.status = "Valid";
+          }
+        }
+      }
+      return stat;
     },
     //-----------------------------------------------------------------------------//
     //--                      GetPinCodeStatus                                   --//
@@ -366,7 +583,7 @@ angular.module('pele.factories', [])
                 e.preventDefault();
               } else {
                 var pin = $rootScope.data.pincode;
-                $state.go("app.p2_moduleList",{AppId : appId , title:titleDisp ,"pin":pin});
+                $state.go("app.p2_moduleList",{"AppId" : appId , "Title":titleDisp ,"Pin":pin});
                 return $rootScope.data.pincode;
               }
             }
@@ -412,6 +629,9 @@ angular.module('pele.factories', [])
         if("APPROVE" === buttonsArr[i].LOOKUP_CODE){
           buttons.push(appSettings.APPROVE);
         }
+        if("APPROVE_AND_NOTE" === buttonsArr[i].LOOKUP_CODE){
+          buttons.push(appSettings.APPROVE_AND_NOTE);
+        }
         if("REJECT" === buttonsArr[i].LOOKUP_CODE){
           buttons.push(appSettings.REJECT);
         }
@@ -438,8 +658,221 @@ angular.module('pele.factories', [])
         console.log('== E ==');
         $fileLogger.error(text);
       }
-    }// writeToLog
+
+    },// writeToLog
+    goHome:function(){
+      //window.location = "./../../index.html" ;
+      $state.go("app.p1_appsLists");
+    },
+    showIconCollapseInAcctionHistory : function(showFlag , hidenFlag){
+      var retVal = "";
+      if(hidenFlag === true){
+        retVal = "";
+      }else if(showFlag === true){
+        retVal = "icon-collapse";
+      }else if(showFlag === false){
+        retVal = "icon-expand";
+      }
+
+      return retVal;
+
+    },
+    getfull_SETTINGS_DIRECTORY_NAME : function() {
+      var retVal = "";
+      var platformPath = "";
+      var isIOS = ionic.Platform.isIOS();
+      var isAndroid = ionic.Platform.isAndroid();
+      var platform = ionic.Platform.platform();
+      if ("win32" !== platform) {
+
+        if(isIOS){
+          platformPath = cordova.file.dataDirectory;
+        }else if(isAndroid){
+          platformPath = cordova.file.externalApplicationStorageDirectory
+        }
+
+        retVal = platformPath + config_app.SETTINGS_DIRECTORY_NAME;
+      }
+      return retVal;
+    },
+    getfull_ATTACHMENT_DIRECTORY_NAME : function() {
+      var retVal = "";
+      var platformPath = "";
+      var isIOS = ionic.Platform.isIOS();
+      var isAndroid = ionic.Platform.isAndroid();
+      var platform = ionic.Platform.platform();
+      if ("win32" !== platform) {
+
+        if(isIOS){
+          platformPath = cordova.file.dataDirectory;
+        }else if(isAndroid){
+          platformPath = cordova.file.externalApplicationStorageDirectory
+        }
+
+        retVal = platformPath + config_app.ATTACHMENT_DIRECTORY_NAME;
+      }
+      return retVal;
+    },
+
+    setPELE4_ATTACHMENT_DIRECTORY : function(){
+      var platform = ionic.Platform.platform();
+      var platformPath = "";
+      var isIOS = ionic.Platform.isIOS();
+      var isAndroid = ionic.Platform.isAndroid();
+
+      if ("win32" !== platform) {
+
+        if(isIOS){
+          platformPath = cordova.file.dataDirectory;
+        }else if(isAndroid){
+          platformPath = cordova.file.externalApplicationStorageDirectory
+        }
+
+        //------------------------------- Set ATTACHMENT_DIRECTORY_NAME ---------------------//
+        $cordovaFile.checkDir(platformPath, config_app.ATTACHMENT_DIRECTORY_NAME)
+          .then(function (success) {
+            // success
+            console.log("SUCCESS 1 : " + success);
+          }, function (error) {
+            // error
+
+            if (error.message === "NOT_FOUND_ERR") {
+              $cordovaFile.createDir(platformPath, config_app.ATTACHMENT_DIRECTORY_NAME, true)
+                .then(function (success) {
+                  // success
+                  console.log("$cordovaFile.createDir SUCCESS : " + success);
+                }, function (error) {
+                  // error
+                  console.log("$cordovaFile.createDir ERROR : " + error);
+                });
+            }
+            console.log("ERROR : " + error);
+          });
+      }
+    },
+    setPELE4_SETTINGS_DIRECTORY : function(){
+      //------------------------------- Set SETTINGS_DIRECTORY ---------------------//
+      var platform = ionic.Platform.platform();
+      var platformPath = "";
+      var isIOS = ionic.Platform.isIOS();
+      var isAndroid = ionic.Platform.isAndroid();
+
+      if ("win32" !== platform) {
+        if(isIOS){
+          platformPath = cordova.file.dataDirectory;
+        }else if(isAndroid){
+          platformPath = cordova.file.externalApplicationStorageDirectory
+        }
+
+        $cordovaFile.checkDir(platformPath , config_app.SETTINGS_DIRECTORY_NAME)
+          .then(function (success) {
+            // success
+            console.log("SUCCESS 2 : " + success);
+          }, function (error) {
+            // error
+            if (error.message === "NOT_FOUND_ERR") {
+              $cordovaFile.createDir(platformPath , config_app.SETTINGS_DIRECTORY_NAME, false)
+                .then(function (success) {
+                  // success
+                  console.log("$cordovaFile.createDir SUCCESS 3: " + success);
+                }, function (error) {
+                  // error
+                  console.log("$cordovaFile.createDir ERROR : " + error);
+                });
+            }
+            console.log("ERROR : " + error);
+          });
+
+      }
+    },
+    delete_ATTACHMENT_DIRECTORY_NAME : function(){
+      var platform = ionic.Platform.platform();
+      var platformPath = "";
+      var isIOS = ionic.Platform.isIOS();
+      var isAndroid = ionic.Platform.isAndroid();
+
+      if ("win32" !== platform) {
+
+        if(isIOS){
+          platformPath = cordova.file.dataDirectory;
+        }else if(isAndroid){
+          platformPath = cordova.file.externalApplicationStorageDirectory
+        }
+
+        $cordovaFile.checkDir(platformPath , config_app.ATTACHMENT_DIRECTORY_NAME)
+          .then(function (success) {
+            // success
+            var filePath = platformPath + config_app.ATTACHMENT_DIRECTORY_NAME;
+
+            $cordovaFile.removeRecursively(platformPath , config_app.ATTACHMENT_DIRECTORY_NAME )
+              .then(function (success) {
+                // success
+                console.log("$cordovaFile.removeRecursively SUCCESS 4: " + success);
+                $cordovaFile.createDir(platformPath , config_app.SETTINGS_DIRECTORY_NAME, false)
+                  .then(function (success) {
+                    // success
+                    console.log("$cordovaFile.createDir SUCCESS 5: " + success);
+                  }, function (error) {
+                    // error
+                    console.log("$cordovaFile.createDir ERROR : " + error);
+                  });
+              }, function (error) {
+                // error
+                console.log("$cordovaFile.removeRecursively ERROR : " + error);
+              });
+
+
+          }, function (error) {
+            // error
+            if (error.message === "NOT_FOUND_ERR") {
+              $cordovaFile.createDir(platformPath , config_app.ATTACHMENT_DIRECTORY_NAME, true)
+                .then(function (success) {
+                  // success
+                  console.log("$cordovaFile.createDir SUCCESS 6: " + success);
+                }, function (error) {
+                  // error
+                  console.log("$cordovaFile.createDir ERROR : " + error);
+                });
+            }
+            console.log("ERROR : " + error);
+          });
+      }
+    },
+    checkResponceStatus : function(data){
+
+      var retVal = {};
+
+      var EAI_Status         = data.Response.ResponseHeader.EAI_Status;
+      var Application_Status = data.Response.ResponseHeader.Application_Status;
+      var StatusCode         = data.Response.OutParams.Status.StatusCode;
+      var SessionStatus      = data.Response.OutParams.SessionStatus;
+
+      retVal.Status = "S";
+
+      if("0" !== EAI_Status){
+        retVal.Status ="EAI_Status";
+        return;
+      }
+
+      if("S" !== Application_Status){
+        retVal.Status ="Application_Status";
+        return retVal;
+      }
+
+      if("0" !== StatusCode){
+        retVal.Status ="StatusCode";
+        return retVal;
+      }
+
+      if("Valid" !== SessionStatus){
+        retVal.Status = SessionStatus;
+        return retVal;
+      }
+
+      retVal.URL    =  data.Response.OutParams.URI;
+      return retVal;
+    }
+
   };
 })
-
 ;
