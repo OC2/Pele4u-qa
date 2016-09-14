@@ -1,19 +1,4 @@
-Skip to content
-This repository
-Search
-Pull requests
-Issues
-Gist
- @OC2
- Unwatch 1
-  Star 0
-  Fork 0 OC2/Pele4u-qa
- Code  Issues 0  Pull requests 0  Wiki  Pulse  Graphs  Settings
-Branch: master Find file Copy pathPele4u-qa/config.xml
-839d4f9  16 hours ago
-@OC2 OC2 TEst Project
-1 contributor
-RawBlameHistory     Executable File  170 lines (146 sloc)  11.1 KB
+
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!-- config.xml reference: https://build.phonegap.com/docs/config-xml -->
