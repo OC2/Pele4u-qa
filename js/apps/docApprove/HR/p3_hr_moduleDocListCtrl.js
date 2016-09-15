@@ -48,6 +48,7 @@ app.controller('p3_hr_moduleDocListCtrl', function($scope, $stateParams, $http, 
               $ionicLoading.hide();
               $scope.$broadcast('scroll.refreshComplete');
               //$state.go("app.p1_appsLists");
+              config_app.IS_TOKEN_VALID = "N";
               PelApi.goHome();
             }else{
               $scope.chats = data.Response.OutParams.ROW;

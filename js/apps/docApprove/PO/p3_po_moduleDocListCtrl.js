@@ -80,7 +80,11 @@ app.controller('p3_po_moduleDocListCtrl', function($scope,
               }else{
                 $ionicLoading.hide();
                 $scope.$broadcast('scroll.refreshComplete');
-                $state.go("app.p2_moduleList");
+                var appId = $stateParams.AppId,
+                  formType = $stateParams.FormType,
+                  pin = $stateParams.Pin;
+
+                $state.go("app.p2_moduleList",{"AppId": appId, "Title": "", "Pin": pin});
               }
 
               //}
@@ -89,7 +93,9 @@ app.controller('p3_po_moduleDocListCtrl', function($scope,
 
             $ionicLoading.hide();
             $scope.$broadcast('scroll.refreshComplete');
-            $scope.login();
+            //$scope.login();
+            config_app.IS_TOKEN_VALID = "N";
+            PelApi.goHome();
 
           } else if("EOL" === pinStatus){
             $ionicLoading.hide();
@@ -266,6 +272,7 @@ app.controller('p3_po_moduleDocListCtrl', function($scope,
           } else if("EOL" === pinStatus){
             $ionicLoading.hide();
             $scope.$broadcast('scroll.refreshComplete');
+            config_app.IS_TOKEN_VALID = "N";
             PelApi.goHome();
 
           } else if ("EAI_ERROR" === pinStatus){
@@ -279,7 +286,16 @@ app.controller('p3_po_moduleDocListCtrl', function($scope,
             $ionicLoading.hide();
             $scope.$broadcast('scroll.refreshComplete');
             PelApi.showPopup(stat.description, "");
+
+          }else if ("PCR" === pinStatus) {
+
+            $ionicLoading.hide();
+            $scope.$broadcast('scroll.refreshComplete');
+            config_app.IS_TOKEN_VALID = "N";
+            PelApi.goHome();
+
           }
+
 
         }).error(function (data, status, headers, config) {
 

@@ -675,6 +675,9 @@ angular.module('pele.factories', ['ngStorage','LocalStorageModule'])
       //window.location = "./../../index.html" ;
       $state.go("app.p1_appsLists");
     },
+    goLogIn:function(){
+      $state.go("app.login");
+    },
     showIconCollapseInAcctionHistory : function(showFlag , hidenFlag){
       var retVal = "";
       if(hidenFlag === true){

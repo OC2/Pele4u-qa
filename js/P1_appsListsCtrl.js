@@ -133,12 +133,15 @@ app.controller('P1_appsListCtrl'
             $ionicLoading.hide();
             $scope.$broadcast('scroll.refreshComplete');
             errorMsg = appSettings.PIN_STATUS.PAD;
-            PelApi.showPopup(config_app.pinCodeSubTitlePCR , "");
+            //PelApi.showPopup(config_app.pinCodeSubTitlePCR , "");
+            config_app.IS_TOKEN_VALID = "N";
+            PelApi.goHome();
           }else if("PWA" === pinCodeStatus){
             $ionicLoading.hide();
             $scope.$broadcast('scroll.refreshComplete');
-            errorMsg = appSettings.PIN_STATUS.PAD;
-            PelApi.showPopup(config_app.pinCodeSubTitlePWA , "");
+            config_app.IS_TOKEN_VALID = "N";
+            PelApi.goHome();
+            //PelApi.showPopup(config_app.pinCodeSubTitlePWA , "");
           }else if("OLD" === pinCodeStatus){
             $ionicLoading.hide();
             $scope.$broadcast('scroll.refreshComplete');

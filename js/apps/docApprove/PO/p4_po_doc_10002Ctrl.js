@@ -304,7 +304,7 @@ app.controller('p4_po_doc_10002Ctrl'
           }
         }, timeOutInMiliseconds);
 
-        var retGetFileURI = PelApi.GetFileURI(links, appId , 0 , l_fileName);
+        var retGetFileURI = PelApi.GetFileURI(links, appId , config_app.Pin , l_fileName);
 
         retGetFileURI.then(
           //-- SUCCESS --//
@@ -382,7 +382,8 @@ app.controller('p4_po_doc_10002Ctrl'
                   loadingComplited = "Y";
                   $ionicLoading.hide();
                   $scope.$broadcast('scroll.refreshComplete');
-                  $scope.login();
+                  config_app.IS_TOKEN_VALID = "N";
+                  PelApi.goHome();
                 }
 
               } else if("EOL" === statusCode.Status){

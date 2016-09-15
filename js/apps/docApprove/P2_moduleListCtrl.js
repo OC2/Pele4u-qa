@@ -97,7 +97,7 @@ angular.module('pele.P2_moduleListCtrl', ['ngStorage'])
         }
 
         appId = config_app.appId;
-        $state.go(path , {AppId: appId, FormType: formType, Pin:"0"});
+        $state.go(path , {AppId: appId, FormType: formType, Pin: config_app.Pin});
       }
     };
 
@@ -203,7 +203,8 @@ angular.module('pele.P2_moduleListCtrl', ['ngStorage'])
               //var appId = $stateParams.AppId;
               var appId = config_app.appId;
               var titleDisp = $stateParams.title;
-              var pincode = PelApi.showPinCode(appId, titleDisp, config_app.pinCodeSubTitlePWA);
+              config_app.IS_TOKEN_VALID = "N";
+              PelApi.goHome();
 
             } else if ("PCR" === pinCodeStatus) {
 
@@ -212,15 +213,16 @@ angular.module('pele.P2_moduleListCtrl', ['ngStorage'])
               $scope.loginData.error = appSettings.PIN_STATUS.PAD;
               var appId = config_app.appId;
               var titleDisp = $stateParams.title;
-              // Create the login modal that we will use later
-              var pincode = PelApi.showPinCode(appId, titleDisp, config_app.pinCodeSubTitlePCR);
-              $scope.doLogin();
+              config_app.IS_TOKEN_VALID = "N";
+              PelApi.goHome();
 
             } else if ("PAD" === pinCodeStatus) {
 
               $ionicLoading.hide();
               $scope.$broadcast('scroll.refreshComplete');
-              PelApi.showPopup(config_app.pinCodeSubTitlePDA, "");
+              //PelApi.showPopup(config_app.pinCodeSubTitlePDA, "");
+              config_app.IS_TOKEN_VALID = "N";
+              PelApi.goHome();
 
             } else if ("PNE" === pinCodeStatus) {
 
