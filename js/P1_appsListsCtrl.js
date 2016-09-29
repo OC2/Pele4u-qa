@@ -114,7 +114,7 @@ app.controller('P1_appsListCtrl'
             $sessionStorage.userName = config_app.GetUserMenu.userName;
 
             config_app.Pin = config_app.GetUserMenu.PinCode;
-            if(config_app.PIN_CODE_AUTHENTICATION_REQUIRED_CODE === config_app.Pin){
+            if(config_app.PIN_CODE_AUTHENTICATION_REQUIRED_CODE === config_app.Pin ){
               $state.go('app.login');
             }else{
               config_app.Pin = config_app.GetUserMenu.PinCode;

@@ -365,7 +365,7 @@ app.controller('p4_po_doc_10002Ctrl'
                         PelApi.showPopup("File Download Complite With Error", error.toString());
                       }, function (progress) {
                         // PROGRESS HANDLING GOES HERE
-                      });
+                    });
                   } else if (isIOS) {
                     loadingComplited = "Y";
                     window.open(url, "_system", "charset=utf-8,location=yes,enableViewportScale=yes,hidden=no");

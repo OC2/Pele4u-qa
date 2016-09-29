@@ -32,7 +32,35 @@ angular.module('pele.factories', ['ngStorage','LocalStorageModule'])
         headers: {'Content-Type': 'application/json; charset=utf-8' }
       });
     },
+    getAppId : function(){
 
+      var menuList = config_app.GetUserMenu;
+
+      var pinCodeReq = "N";
+      var appId = "";
+
+      if(menuList.menuItems !== undefined){
+        var appList = menuList.menuItems;
+        var length = appList.length;
+
+        for(var i = 0; i < length ; i++ ){
+          var pin = appList[i].Pin
+          if(pin !== false){
+            pinCodeReq = "Y";
+            appId = appList[i].AppId;
+            i = length;
+          }
+        }
+        try{
+        if(appId === ""){
+          appId = appList[0].AppId;
+        }
+        }catch(e){
+          appId = config_app.appId;
+        }
+      }
+      return appId;
+    },
     GetMsisdn:function(){
       /*
       var msisdn = window.localStorage.get("msisdn")
@@ -55,6 +83,9 @@ angular.module('pele.factories', ['ngStorage','LocalStorageModule'])
         envUrl = links.URL + parameters;
         headers = {"Content-Type": "application/json; charset=utf-8","VERSION":version};
       }
+
+      this.writeToLog(config_app.LOG_FILE_ERROR_TYPE , "======== factories.IsSessionValidJson() ===========");
+      this.writeToLog(config_app.LOG_FILE_ERROR_TYPE , envUrl);
 
       return   $http({
         url:envUrl,

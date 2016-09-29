@@ -184,5 +184,168 @@ angular.module('pele.controllers', ['ngStorage'])
       }
 
     }])
+  .controller('FileCtrl' , function($scope , $cordovaFile){
+    console.log("======== FileCtrl =========");
+    $scope.CHECK_FILE = "";
+    $scope.CREATE_FILE = "";
+    $scope.REMOVE_FILE = "";
+    $scope.WRITE_FILE = "";
+    $scope.READ_AS_TEXT = "";
+    $scope.FILE_TEXT = {};
+    var isIOS = ionic.Platform.isIOS();
+    var isAndroid = ionic.Platform.isAndroid();
+    var p_path = "";
+    var p_dir = "FILE_TEST_DIR";
+    var p_file = "FILE.txt";
+    if(isAndroid){
+      p_path = cordova.file.externalDataDirectory + p_dir + "/";
+    }else if(isIOS){
+      p_path = cordova.file.dataDirectory + p_dir + "/";
+    }
+    //----------------------------------------------------------//
+    //----------------------------------------------------------//
+    $scope.checkFile = function(){
+      $cordovaFile.checkFile(p_path, p_file)
+        .then(function (success) {
+          // success
+          $scope.CHECK_FILE = "SUCCESS";
+        }, function (error) {
+          // error
+          $scope.CHECK_FILE = "ERROR";
+        });
+    }
+    //----------------------------------------------------------//
+    //--                  createFile
+    //----------------------------------------------------------//
+    $scope.createFile = function(){
+      $cordovaFile.createFile(p_path, p_file, true)
+        .then(function (success) {
+          // success
+          $scope.CREATE_FILE = "SUCCESS";
+        }, function (error) {
+          // error
+          $scope.CREATE_FILE = "ERROR";
+        });
+    }
+    //-------------------------------------------------//
+    //--               removeFile                     --//
+    //-------------------------------------------------//
+    $scope.removeFile = function(){
+      $cordovaFile.removeFile(p_path, p_file)
+        .then(function (success) {
+          // success
+          $scope.REMOVE_FILE = "SUCCESS";
+        }, function (error) {
+          // error
+          $scope.REMOVE_FILE = "ERROR";
+        });
+    }
 
+    //-------------------------------------------------//
+    //--               writeFile                     --//
+    //-------------------------------------------------//
+    $scope.writeFile = function(){
+      var l_value = $scope.FILE_TEXT.note
+      $cordovaFile.writeFile(p_path, p_file ,l_value, true)
+        .then(function (success) {
+          // success
+          $scope.WRITE_FILE = "SUCCESS";
+        }, function (error) {
+          // error
+          $scope.WRITE_FILE = "ERROR";
+        });
+    }
+
+    //----------------------------------------------------//
+    //--                readAsText                      --//
+    //----------------------------------------------------//
+    $scope.readAsText = function(){
+      $cordovaFile.readAsText(p_path, p_file)
+        .then(function (success) {
+          // success
+          $scope.READ_AS_TEXT = "SUCCESS";
+          $scope.FILE_TEXT.note = success;
+        }, function (error) {
+          // error
+          $scope.READ_AS_TEXT = "ERROR";
+        });
+    }
+  })
+  .controller('DirCtrl', function($scope , $cordovaFile) {
+    console.log("======== DirCtrl =========");
+    $scope.FREE_DISK_SPACE = "";
+    $scope.CHECK_DIR = "";
+    $scope.CREATE_DIR = "";
+    $scope.REMOVE_DIR = "";
+    var isIOS = ionic.Platform.isIOS();
+    var isAndroid = ionic.Platform.isAndroid();
+    var p_path = "";
+    var p_dir = "FILE_TEST_DIR";
+    if(isAndroid){
+      p_path = cordova.file.externalDataDirectory;
+    }else if(isIOS){
+      p_path = cordova.file.dataDirectory;
+    }
+    //-----------------------------------------------------//
+    //--               getFreeDiskSpace                  --//
+    //-----------------------------------------------------//
+    $scope.getFreeDiskSpace = function(){
+      $cordovaFile.getFreeDiskSpace()
+        .then(function (success) {
+          // success in kilobytes
+          console.log(success);
+          $scope.FREE_DISK_SPACE = success;
+        }, function (error) {
+          // error
+          console,log(error);
+        });
+    }; // getFreeDiskSpace
+    //-------------------------------------------------------//
+    //--                    checkDir                       --//
+    //-------------------------------------------------------//
+    $scope.checkDir = function(){
+      $cordovaFile.checkDir(p_path, p_dir)
+        .then(function (success) {
+          // success
+          $scope.CHECK_DIR = "SUCCESS";
+        }, function (error) {
+          // error
+          $scope.CHECK_DIR = "ERROR";
+        });
+    }; // checkDir
+    //-------------------------------------------------------//
+    //--                  createDir
+    //-------------------------------------------------------//
+    $scope.createDir = function(){
+      $cordovaFile.createDir(p_path, p_dir , false)
+        .then(function (success) {
+          // success
+          $scope.CREATE_DIR = "SUCCESS";
+        }, function (error) {
+          // error
+          $scope.CREATE_DIR = "ERROR";
+        });
+    };
+    //-------------------------------------------------------//
+    //--               removeDir                           --//
+    //-------------------------------------------------------//
+    $scope.removeDir = function(){
+      $cordovaFile.removeDir(p_path, p_dir)
+        .then(function (success) {
+          // success
+          $scope.REMOVE_DIR = "SUCCESS";
+        }, function (error) {
+          // error
+          $scope.REMOVE_DIR = "ERROR";
+        });
+    } // removeDir
+
+    $cordovaFile.checkFile(cordova.file.dataDirectory, "some_file.txt")
+      .then(function (success) {
+        // success
+      }, function (error) {
+        // error
+      });
+
+  })
 ;

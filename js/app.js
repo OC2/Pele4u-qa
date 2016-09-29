@@ -275,6 +275,27 @@ angular.module('pele', ['ionic'
         }
       }
     })
+  //------------------------------------------------------//
+  //--            delete after test                     --//
+  //------------------------------------------------------//
+  .state('app.dir', {
+       url: '/dir',
+       views: {
+         'menuContent': {
+           templateUrl: 'templates/dir.html',
+           controller: 'DirCtrl'
+         }
+       }
+     })
+  .state('app.file', {
+       url: '/file',
+       views: {
+         'menuContent': {
+           templateUrl: 'templates/file.html',
+           controller: 'FileCtrl'
+         }
+       }
+  })
   ;
 
   // if none of the above states are matched, use this as the fallback

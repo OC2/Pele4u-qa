@@ -25,7 +25,8 @@ app.controller('LoginCtrl', function( $scope
         var length = appList.length;
 
         for(var i = 0; i < length ; i++ ){
-          if(appList[i].Pin){
+          var pin = appList[i].Pin
+          if(pin !== false){
             pinCodeReq = "Y";
             appId = appList[i].AppId;
             i = length;
@@ -47,8 +48,9 @@ app.controller('LoginCtrl', function( $scope
 
     var links = PelApi.getDocApproveServiceUrl("IsSessionValidJson");
 
-    var appId = $scope.getAppId();
+    var appId = PelApi.getAppId();
     var pin   = $scope.user.pin;
+    $scope.user.pin = "";
 
     if(appId !== ""){
       var retIsSessionValidJson = PelApi.IsSessionValidJson(links , appId , pin );
@@ -59,11 +61,13 @@ app.controller('LoginCtrl', function( $scope
           retIsSessionValidJson.success(function (data, status, headers, config) {
 
             var pinStatus = data;
+            PelApi.writeToLog(config_app.LOG_FILE_ERROR_TYPE , "=========== IsSessionValidJson ================");
+            PelApi.writeToLog(config_app.LOG_FILE_ERROR_TYPE , JSON.stringify(data));
 
             if ("Valid" === pinStatus) {
               $ionicLoading.hide();
               $scope.$broadcast('scroll.refreshComplete');
-              config_app.Pin = $scope.user.pin;
+              config_app.Pin = pin;
               config_app.IS_TOKEN_VALID = "Y";
               $state.go('app.p1_appsLists');
             } else if("PWA" === pinStatus){

@@ -98,7 +98,7 @@ angular.module('pele.config', [])
                           {
                             "Service":"IsSessionValidJson",
                             "URL":"http://msso.pelephone.co.il/PD/MobileServices/SSOService.svc/json/IsSessionValidJson",
-                            "URL_WIFI":"http://msso.pelephone.co.il/PD/MobileServices/SSOService.svc/json/IsSessionValidJson",
+                            "URL_WIFI":"https://msso.pelephone.co.il/PD/MobileServices/SSOService.svc/json/IsSessionValidJson",
                             "RequestHeader":""
                           }
                         ]
@@ -225,7 +225,7 @@ angular.module('pele.config', [])
                           {
                             "Service":"IsSessionValidJson",
                             "URL":"http://msso.pelephone.co.il/DV/MobileServices/SSOService.svc/json/IsSessionValidJson",
-                            "URL_WIFI":"http://msso.pelephone.co.il/DV/MobileServices/SSOService.svc/json/IsSessionValidJson",
+                            "URL_WIFI":"https://msso.pelephone.co.il/DV/MobileServices/SSOService.svc/json/IsSessionValidJson",
                             "RequestHeader":""
                           }
 			]
