@@ -131,23 +131,11 @@ app.controller('p3_po_moduleDocListCtrl', function($scope,
         });
       }
       //--- ERROR ---//
-      , function () {
-        retGetUserFormGroups.success(function (data, status, headers, config) {
-
-          PelApi.writeToLog(config_app.LOG_FILE_ERROR_TYPE, "success : " + JSON.stringify(data));
-
+      , function (response) {
+          PelApi.writeToLog(config_app.LOG_FILE_ERROR_TYPE, "GetUserPoOrdGroupGroup : " + JSON.stringify(response));
           $ionicLoading.hide();
           $scope.$broadcast('scroll.refreshComplete');
           PelApi.showPopup(config_app.getUserModuleTypesErrorMag, "");
-
-        }).error(function (data, status, headers, config) {
-
-          PelApi.writeToLog(config_app.LOG_FILE_ERROR_TYPE, "error : " + JSON.stringify(data));
-
-          $ionicLoading.hide();
-          $scope.$broadcast('scroll.refreshComplete');
-          PelApi.showPopup(config_app.getUserModuleTypesErrorMag, "");
-        });
       }
     );
     /*
@@ -309,24 +297,10 @@ app.controller('p3_po_moduleDocListCtrl', function($scope,
       }
       //--- ERROR ---//
       , function () {
-
-        retGetUserNotifications.success(function (data, status, headers, config) {
-
-          PelApi.writeToLog(config_app.LOG_FILE_ERROR_TYPE , "success : " + JSON.stringify(data));
-
+          PelApi.writeToLog(config_app.LOG_FILE_ERROR_TYPE , "GetUserNotifications : " + JSON.stringify(GetUserNotifications));
           $ionicLoading.hide();
           $scope.$broadcast('scroll.refreshComplete');
           PelApi.showPopup(config_app.getUserModuleTypesErrorMag , "");
-
-        }).error(function (data, status, headers, config) {
-
-          PelApi.writeToLog(config_app.LOG_FILE_ERROR_TYPE , "error : " + JSON.stringify(data));
-
-          $ionicLoading.hide();
-          $scope.$broadcast('scroll.refreshComplete');
-          PelApi.showPopup(config_app.getUserModuleTypesErrorMag , "");
-
-        });
       }
     );
   } // forwardToDoc

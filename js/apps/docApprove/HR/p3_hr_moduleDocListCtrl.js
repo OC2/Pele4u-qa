@@ -98,23 +98,11 @@ app.controller('p3_hr_moduleDocListCtrl', function($scope, $stateParams, $http, 
         });
       }
       //--- ERROR ---//
-      , function () {
-        retGetUserFormGroups.success(function (data, status, headers, config) {
-
-          PelApi.writeToLog(config_app.LOG_FILE_ERROR_TYPE , "success : " + JSON.stringify(data));
-
+      , function (response) {
+          PelApi.writeToLog(config_app.LOG_FILE_ERROR_TYPE , "GtUserFormGroups : " + JSON.stringify(response));
           $ionicLoading.hide();
           $scope.$broadcast('scroll.refreshComplete');
           PelApi.showPopup(config_app.getUserModuleTypesErrorMag , "");
-
-        }).error(function (data, status, headers, config) {
-
-          PelApi.writeToLog(config_app.LOG_FILE_ERROR_TYPE , "error : " + JSON.stringify(data));
-
-          $ionicLoading.hide();
-          $scope.$broadcast('scroll.refreshComplete');
-          PelApi.showPopup(config_app.getUserModuleTypesErrorMag , "");
-        });
       }
     );
 
@@ -258,25 +246,11 @@ app.controller('p3_hr_moduleDocListCtrl', function($scope, $stateParams, $http, 
 
       }
       //--- ERROR ---//
-      , function () {
-
-        retGetUserNotifications.success(function (data, status, headers, config) {
-
-          PelApi.writeToLog(config_app.LOG_FILE_ERROR_TYPE , "success : " + JSON.stringify(data));
-
+      , function (response) {
+          PelApi.writeToLog(config_app.LOG_FILE_ERROR_TYPE , "GetUserNotif : " + JSON.stringify( response ));
           $ionicLoading.hide();
           $scope.$broadcast('scroll.refreshComplete');
           PelApi.showPopup(config_app.getUserModuleTypesErrorMag , "");
-
-        }).error(function (data, status, headers, config) {
-
-          PelApi.writeToLog(config_app.LOG_FILE_ERROR_TYPE , "error : " + JSON.stringify(data));
-
-          $ionicLoading.hide();
-          $scope.$broadcast('scroll.refreshComplete');
-          PelApi.showPopup(config_app.getUserModuleTypesErrorMag , "");
-
-        });
       }
     );
   } // forwardToDoc

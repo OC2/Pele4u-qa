@@ -43,7 +43,23 @@ app.controller('P1_appsListCtrl'
   $scope.onBtnAction = function(){
     btnClass.activ = !btnClass.activ;
   };
-  /**
+  //-----------------------------------------------------------
+  //-- When        Who       Description
+  //-- ----------  --------  -----------------------------------
+  //-- 06/10/2016  R.W.
+  //-----------------------------------------------------------
+  $scope.setSettings = function(){
+    var l_fileName = "/My Files &amp; Folders/" + appSettings.enviroment + "/PO/PO_" + appSettings.enviroment + "_220628/po_1768326_220628_4214854_110916161222.docx"
+    p_fullFileName = "po_1768326_220628_4214854_110916161222.docx"
+    var appId = config_app.appId;
+
+    var lPath = PelApi.getfull_SETTINGS_DIRECTORY_NAME();
+    var links = PelApi.getDocApproveServiceUrl("GetFileURI");
+    var retGetFileURI = PelApi.GetFileURI(links, appId , config_app.Pin , l_fileName);
+
+  }
+
+  /*
    * ==========================================================
    *                    GetUserMenuMain
    * ==========================================================
@@ -151,18 +167,12 @@ app.controller('P1_appsListCtrl'
         });
       }
       //--- ERROR ---//
-      , function () {
-        reMenu.success(function (data, status, headers, config) {
-          PelApi.writeToLog(config_app.LOG_FILE_ERROR_TYPE , "success : " + JSON.stringify(data));
+      , function (response) {
+          PelApi.writeToLog(config_app.LOG_FILE_ERROR_TYPE , JSON.stringify(response));
+          console.log(config_app.LOG_FILE_ERROR_TYPE + " : " + JSON.stringify(response))
           $ionicLoading.hide();
           $scope.$broadcast('scroll.refreshComplete');
           PelApi.showPopup(config_app.getUserModuleTypesErrorMag , "");
-        }).error(function (data, status, headers, config) {
-          PelApi.writeToLog(config_app.LOG_FILE_ERROR_TYPE , "error : " + JSON.stringify(data));
-          $ionicLoading.hide();
-          $scope.$broadcast('scroll.refreshComplete');
-          PelApi.showPopup(config_app.getUserModuleTypesErrorMag , "");
-        });
       }
     );
   } //  GetUserMenuMain

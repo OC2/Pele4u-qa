@@ -84,8 +84,8 @@ angular.module('pele.factories', ['ngStorage','LocalStorageModule'])
         headers = {"Content-Type": "application/json; charset=utf-8","VERSION":version};
       }
 
-      this.writeToLog(config_app.LOG_FILE_ERROR_TYPE , "======== factories.IsSessionValidJson() ===========");
-      this.writeToLog(config_app.LOG_FILE_ERROR_TYPE , envUrl);
+      this.writeToLog(config_app.LOG_FILE_INFO_TYPE , "======== factories.IsSessionValidJson() ===========");
+      this.writeToLog(config_app.LOG_FILE_INFO_TYPE , envUrl);
 
       return   $http({
         url:envUrl,
@@ -735,7 +735,6 @@ angular.module('pele.factories', ['ngStorage','LocalStorageModule'])
         }else if(isAndroid){
           platformPath = cordova.file.externalApplicationStorageDirectory
         }
-
         retVal = platformPath + config_app.SETTINGS_DIRECTORY_NAME;
       }
       return retVal;

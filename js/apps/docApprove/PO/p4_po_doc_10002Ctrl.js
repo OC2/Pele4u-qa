@@ -430,6 +430,12 @@ app.controller('p4_po_doc_10002Ctrl'
               }
             });
           }
+          , function (response) {
+            PelApi.writeToLog(config_app.LOG_FILE_ERROR_TYPE , "GetFileURI : " + JSON.stringify(response));
+            $ionicLoading.hide();
+            $scope.$broadcast('scroll.refreshComplete');
+            PelApi.showPopup(config_app.getUserModuleTypesErrorMag , "");
+          }
         );
       }else{
         $ionicLoading.hide();
