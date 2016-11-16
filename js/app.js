@@ -45,6 +45,19 @@ angular.module('pele', ['ionic'
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
 
+    //----------------------------------
+    //--    Create/Open Log File
+    //----------------------------------
+    $fileLogger.setStorageFilename(config_app.LOG_FILE_NAME);
+    //----------------------------------
+    //--   Delete Old Log File data
+    //----------------------------------
+    $fileLogger.deleteLogfile();
+    //----------------------------------
+    //--  Write open row to log file
+    //----------------------------------
+    PelApi.writeToLog(config_app.LOG_FILE_INFO_TYPE ,'=============== Start ==============');
+
     //-----------------------------------------
     //--   Registration for Push Notification
     //-----------------------------------------
@@ -94,35 +107,27 @@ angular.module('pele', ['ionic'
       });
     }
 
-    if (window.cordova && window.cordova.plugins.Keyboard) {
+    //----------------------------------------
+    //--    Get Version from config.xml
+    //----------------------------------------
+    window.cordova.getAppVersion(function (version) {
+
+      config_app.APP_VERSION = version;
+      console.log("window.cordova.getAppVersion() : " + config_app.APP_VERSION);
+      PelApi.writeToLog(config_app.LOG_FILE_INFO_TYPE, "window.cordova.getAppVersion() : " + config_app.APP_VERSION);
+
+    });
+
+    if (window.cordova && window.cordova.plugins.Keyboard)
+    {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
       cordova.plugins.Keyboard.disableScroll(true);
-
-      //----------------------------------------
-      //--    Get Version from config.xml
-      //----------------------------------------
-      window.cordova.getAppVersion(function (version) {
-        config_app.APP_VERSION = version;
-      });
-      console.log("VERSION : " + config_app.APP_VERSION);
-
     }
     if (window.StatusBar) {
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
-    //----------------------------------
-    //--    Create/Open Log File
-    //----------------------------------
-    $fileLogger.setStorageFilename(config_app.LOG_FILE_NAME);
-    //----------------------------------
-    //--   Delete Old Log File data
-    //----------------------------------
-    $fileLogger.deleteLogfile();
-    //----------------------------------
-    //--  Write open row to log file
-    //----------------------------------
-    PelApi.writeToLog(config_app.LOG_FILE_INFO_TYPE ,'=============== Start ==============');
+
 
     //----------------------------------
     //--    Go To Application List

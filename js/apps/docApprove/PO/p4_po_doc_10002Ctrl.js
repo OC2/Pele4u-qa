@@ -22,8 +22,7 @@ app.controller('p4_po_doc_10002Ctrl'
     , $sessionStorage
     , $cordovaFileTransfer
     , $cordovaInAppBrowser
-    , $cordovaFileOpener2
-    , $cordovaInAppBrowser
+    /* rem by R.W 07/11/2016 , $cordovaFileOpener2 */
   ) {
 
     //---------------------------------
