@@ -184,7 +184,7 @@ angular.module('pele.controllers', ['ngStorage'])
       }
 
     }])
-  .controller('FileCtrl' , function($scope , $cordovaFile){
+  .controller('FileCtrl' , function($scope , $cordovaFile , PelApi){
     console.log("======== FileCtrl =========");
     $scope.CHECK_FILE = "";
     $scope.CREATE_FILE = "";
@@ -284,7 +284,7 @@ angular.module('pele.controllers', ['ngStorage'])
         });
     }
   })
-  .controller('DirCtrl', function($scope , $cordovaFile) {
+  .controller('DirCtrl', function($scope , $cordovaFile , PelApi) {
     console.log("======== DirCtrl =========");
     $scope.FREE_DISK_SPACE = "";
     $scope.CHECK_DIR = "";
