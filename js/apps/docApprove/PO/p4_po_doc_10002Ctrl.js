@@ -681,24 +681,11 @@ app.controller('p4_po_doc_10002Ctrl'
                     });
                 },
                 //---- ERROR -----//
-                function () {
-                  retSubmitNotification.success(function (data, status, headers, config) {
-
-                    PelApi.writeToLog(config_app.LOG_FILE_ERROR_TYPE , "success : " + JSON.stringify(data));
-
-                    $ionicLoading.hide();
-                    $scope.$broadcast('scroll.refreshComplete');
-                    $ionicNavBarDelegate.back();
-                  }),
-                    retSubmitNotification.error(function (data, status, headers, config) {
-
-                      PelApi.writeToLog(config_app.LOG_FILE_ERROR_TYPE , "error : " + JSON.stringify(data));
-
-                      $ionicLoading.hide();
-                      $scope.$broadcast('scroll.refreshComplete');
-                      $ionicNavBarDelegate.back();
-
-                    })
+                function (response) {
+                  PelApi.writeToLog(config_app.LOG_FILE_ERROR_TYPE , "SubmitNotification : " + JSON.stringify(response));
+                  $ionicLoading.hide();
+                  $scope.$broadcast('scroll.refreshComplete');
+                  $ionicNavBarDelegate.back();
                 }
               );
             }
@@ -717,35 +704,15 @@ app.controller('p4_po_doc_10002Ctrl'
                 $ionicLoading.hide();
                 $scope.$broadcast('scroll.refreshComplete');
                 $ionicNavBarDelegate.back();
-              }),
-                retSubmitNotification.error(function (data, status, headers, config) {
-
-                  PelApi.writeToLog(config_app.LOG_FILE_ERROR_TYPE , "success.error : " + JSON.stringify(data));
-
-                  $ionicLoading.hide();
-                  $scope.$broadcast('scroll.refreshComplete');
-                  $ionicNavBarDelegate.back();
-                });
+              });
             },
             //---- ERROR -----//
-            function () {
-              retSubmitNotification.success(function (data, status, headers, config) {
+            function (response) {
+              PelApi.writeToLog(config_app.LOG_FILE_ERROR_TYPE , "retSubmitNotification : " + JSON.stringify(response));
 
-                PelApi.writeToLog(config_app.LOG_FILE_ERROR_TYPE , "success : " + JSON.stringify(data));
-
-                $ionicLoading.hide();
-                $scope.$broadcast('scroll.refreshComplete');
-                $ionicNavBarDelegate.back();
-              }),
-                retSubmitNotification.error(function (data, status, headers, config) {
-
-                  PelApi.writeToLog(config_app.LOG_FILE_ERROR_TYPE , "error : " + JSON.stringify(data));
-
-                  $ionicLoading.hide();
-                  $scope.$broadcast('scroll.refreshComplete');
-                  $ionicNavBarDelegate.back();
-
-                })
+              $ionicLoading.hide();
+              $scope.$broadcast('scroll.refreshComplete');
+              $ionicNavBarDelegate.back();
             }
           );
         };
@@ -776,35 +743,16 @@ app.controller('p4_po_doc_10002Ctrl'
             $ionicLoading.hide();
             $scope.$broadcast('scroll.refreshComplete');
             $ionicNavBarDelegate.back();
-          }),
-            retSubmitNotification.error(function (data, status, headers, config) {
-
-              PelApi.writeToLog(config_app.LOG_FILE_ERROR_TYPE , "success.error" + JSON.stringify(data));
-
-              $ionicLoading.hide();
-              $scope.$broadcast('scroll.refreshComplete');
-              $ionicNavBarDelegate.back();
-            });
+          });
         },
         //---- ERROR -----//
-        function () {
-          retSubmitNotification.success(function (data, status, headers, config) {
+        function (response) {
+          PelApi.writeToLog(config_app.LOG_FILE_ERROR_TYPE , "success : " + JSON.stringify(response));
 
-            PelApi.writeToLog(config_app.LOG_FILE_ERROR_TYPE , "success : " + JSON.stringify(data));
+          $ionicLoading.hide();
+          $scope.$broadcast('scroll.refreshComplete');
+          $ionicNavBarDelegate.back();
 
-            $ionicLoading.hide();
-            $scope.$broadcast('scroll.refreshComplete');
-            $ionicNavBarDelegate.back();
-          }),
-            retSubmitNotification.error(function (data, status, headers, config) {
-
-              PelApi.writeToLog(config_app.LOG_FILE_ERROR_TYPE , "error : " + JSON.stringify(data));
-
-              $ionicLoading.hide();
-              $scope.$broadcast('scroll.refreshComplete');
-              $ionicNavBarDelegate.back();
-
-            })
         }
       );
     };
@@ -915,35 +863,16 @@ app.controller('p4_po_doc_10002Ctrl'
             $ionicLoading.hide();
             $scope.$broadcast('scroll.refreshComplete');
             $ionicNavBarDelegate.back();
-          }),
-            retSubmitNotification.error(function (data, status, headers, config) {
-
-              PelApi.writeToLog(config_app.LOG_FILE_ERROR_TYPE , "success.error : " + JSON.stringify(data));
-
-              $ionicLoading.hide();
-              $scope.$broadcast('scroll.refreshComplete');
-              $ionicNavBarDelegate.back();
-            });
+          });
         },
         //---- ERROR -----//
-        function () {
-          retSubmitNotification.success(function (data, status, headers, config) {
+        function (response) {
 
-            PelApi.writeToLog(config_app.LOG_FILE_ERROR_TYPE , "success : " + JSON.stringify(data));
+          PelApi.writeToLog(config_app.LOG_FILE_ERROR_TYPE , "retSubmitNotification : " + JSON.stringify(response));
 
-            $ionicLoading.hide();
-            $scope.$broadcast('scroll.refreshComplete');
-            $ionicNavBarDelegate.back();
-          }),
-            retSubmitNotification.error(function (data, status, headers, config) {
-
-              PelApi.writeToLog(config_app.LOG_FILE_ERROR_TYPE , "error : " + JSON.stringify(data));
-
-              $ionicLoading.hide();
-              $scope.$broadcast('scroll.refreshComplete');
-              $ionicNavBarDelegate.back();
-
-            })
+          $ionicLoading.hide();
+          $scope.$broadcast('scroll.refreshComplete');
+          $ionicNavBarDelegate.back();
         }
       );
     } ;

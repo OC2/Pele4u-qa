@@ -91,10 +91,6 @@ app.controller('p3_hr_moduleDocListCtrl', function($scope, $stateParams, $http, 
             PelApi.showPopup(stat.description, "");
 
           }
-        }).error(function (data, status, headers, config) {
-          $ionicLoading.hide();
-          $scope.$broadcast('scroll.refreshComplete');
-          PelApi.showPopup(config_app.getUserModuleTypesErrorMag , "");
         });
       }
       //--- ERROR ---//
@@ -235,15 +231,7 @@ app.controller('p3_hr_moduleDocListCtrl', function($scope, $stateParams, $http, 
             PelApi.showPopup(stat.description, "");
 
           }
-        }).error(function (data, status, headers, config) {
-
-          PelApi.writeToLog(config_app.LOG_FILE_ERROR_TYPE , "success.error : " + JSON.stringify(data));
-
-          $ionicLoading.hide();
-          $scope.$broadcast('scroll.refreshComplete');
-          PelApi.showPopup(config_app.getUserModuleTypesErrorMag , "");
         });
-
       }
       //--- ERROR ---//
       , function (response) {

@@ -124,10 +124,6 @@ app.controller('p3_po_moduleDocListCtrl', function($scope,
             PelApi.showPopup(stat.description, "");
 
           }
-        }).error(function (data, status, headers, config) {
-          $ionicLoading.hide();
-          $scope.$broadcast('scroll.refreshComplete');
-          PelApi.showPopup(config_app.getUserModuleTypesErrorMag, "");
         });
       }
       //--- ERROR ---//
@@ -285,19 +281,11 @@ app.controller('p3_po_moduleDocListCtrl', function($scope,
           }
 
 
-        }).error(function (data, status, headers, config) {
-
-          PelApi.writeToLog(config_app.LOG_FILE_ERROR_TYPE , "success.error : " + JSON.stringify(data));
-
-          $ionicLoading.hide();
-          $scope.$broadcast('scroll.refreshComplete');
-          PelApi.showPopup(config_app.getUserModuleTypesErrorMag , "");
         });
-
       }
       //--- ERROR ---//
-      , function () {
-          PelApi.writeToLog(config_app.LOG_FILE_ERROR_TYPE , "GetUserNotifications : " + JSON.stringify(GetUserNotifications));
+      , function (response) {
+          PelApi.writeToLog(config_app.LOG_FILE_ERROR_TYPE , "GetUserNotifications : " + JSON.stringify(response));
           $ionicLoading.hide();
           $scope.$broadcast('scroll.refreshComplete');
           PelApi.showPopup(config_app.getUserModuleTypesErrorMag , "");

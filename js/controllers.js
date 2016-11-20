@@ -212,6 +212,8 @@ angular.module('pele.controllers', ['ngStorage'])
         }, function (error) {
           // error
           $scope.CHECK_FILE = "ERROR";
+          PelApi.writeToLog(config_app.LOG_FILE_ERROR_TYPE ,"checkFile(" + p_path + "," + p_file + ") ");
+          PelApi.writeToLog(config_app.LOG_FILE_ERROR_TYPE ,error);
         });
     }
     //----------------------------------------------------------//
@@ -224,6 +226,8 @@ angular.module('pele.controllers', ['ngStorage'])
           $scope.CREATE_FILE = "SUCCESS";
         }, function (error) {
           // error
+          PelApi.writeToLog(config_app.LOG_FILE_ERROR_TYPE ,"createFile(" + p_path + "," + p_file + ") ");
+          PelApi.writeToLog(config_app.LOG_FILE_ERROR_TYPE ,error);
           $scope.CREATE_FILE = "ERROR";
         });
     }
@@ -237,6 +241,9 @@ angular.module('pele.controllers', ['ngStorage'])
           $scope.REMOVE_FILE = "SUCCESS";
         }, function (error) {
           // error
+          PelApi.writeToLog(config_app.LOG_FILE_ERROR_TYPE ,"removeFile(" + p_path + "," + p_file + ") ");
+          PelApi.writeToLog(config_app.LOG_FILE_ERROR_TYPE ,error);
+
           $scope.REMOVE_FILE = "ERROR";
         });
     }
@@ -252,6 +259,9 @@ angular.module('pele.controllers', ['ngStorage'])
           $scope.WRITE_FILE = "SUCCESS";
         }, function (error) {
           // error
+          PelApi.writeToLog(config_app.LOG_FILE_ERROR_TYPE ,"writeFile(" + p_path + "," + p_file + ") ");
+          PelApi.writeToLog(config_app.LOG_FILE_ERROR_TYPE ,error);
+
           $scope.WRITE_FILE = "ERROR";
         });
     }
@@ -267,6 +277,9 @@ angular.module('pele.controllers', ['ngStorage'])
           $scope.FILE_TEXT.note = success;
         }, function (error) {
           // error
+          PelApi.writeToLog(config_app.LOG_FILE_ERROR_TYPE ,"readAsText(" + p_path + "," + p_file + ") ");
+          PelApi.writeToLog(config_app.LOG_FILE_ERROR_TYPE ,error);
+
           $scope.READ_AS_TEXT = "ERROR";
         });
     }
@@ -297,7 +310,10 @@ angular.module('pele.controllers', ['ngStorage'])
           $scope.FREE_DISK_SPACE = success;
         }, function (error) {
           // error
-          console,log(error);
+          PelApi.writeToLog(config_app.LOG_FILE_ERROR_TYPE ,"getFreeDiskSpace() ");
+          PelApi.writeToLog(config_app.LOG_FILE_ERROR_TYPE ,error);
+          console.log(error);
+          $scope.FREE_DISK_SPACE = "-1";
         });
     }; // getFreeDiskSpace
     //-------------------------------------------------------//
@@ -310,6 +326,9 @@ angular.module('pele.controllers', ['ngStorage'])
           $scope.CHECK_DIR = "SUCCESS";
         }, function (error) {
           // error
+          PelApi.writeToLog(config_app.LOG_FILE_ERROR_TYPE ,"checkDir(" + p_path + "," + p_dir + ") ");
+          PelApi.writeToLog(config_app.LOG_FILE_ERROR_TYPE ,error);
+
           $scope.CHECK_DIR = "ERROR";
         });
     }; // checkDir
@@ -323,6 +342,8 @@ angular.module('pele.controllers', ['ngStorage'])
           $scope.CREATE_DIR = "SUCCESS";
         }, function (error) {
           // error
+          PelApi.writeToLog(config_app.LOG_FILE_ERROR_TYPE ,"createDir(" + p_path + "," + p_dir + ") ");
+          PelApi.writeToLog(config_app.LOG_FILE_ERROR_TYPE ,error);
           $scope.CREATE_DIR = "ERROR";
         });
     };
@@ -336,16 +357,12 @@ angular.module('pele.controllers', ['ngStorage'])
           $scope.REMOVE_DIR = "SUCCESS";
         }, function (error) {
           // error
+          PelApi.writeToLog(config_app.LOG_FILE_ERROR_TYPE ,"removeDir(" + p_path + "," + p_dir + ") ");
+          PelApi.writeToLog(config_app.LOG_FILE_ERROR_TYPE ,error);
+
           $scope.REMOVE_DIR = "ERROR";
         });
     } // removeDir
-
-    $cordovaFile.checkFile(cordova.file.dataDirectory, "some_file.txt")
-      .then(function (success) {
-        // success
-      }, function (error) {
-        // error
-      });
 
   })
 ;

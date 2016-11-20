@@ -4,8 +4,8 @@
 <widget xmlns     = "http://www.w3.org/ns/widgets"
         xmlns:gap = "http://phonegap.com/ns/1.0"
         id        = "com.int-pele.pele4u-qa"
-        version   = "113"
-        versionCode= "11300" >
+        version   = "113.1"
+        versionCode= "11301" >
 
 <name>PELE4U_QA</name>
   <description>
@@ -53,7 +53,9 @@
       <param name="URL_SCHEME" value="pele4u" />
     </plugin>
 
-    <preference name="phonegap-version" value="cli-6.3.0" /> <!-- for Push Notif O.H / R.W. 08/02/2016 -->
+    <!-- Rem by R.W 17/11/2016 <preference name="phonegap-version" value="cli-6.3.0" /> rollback for deep test on different divices -->
+    <preference name="phonegap-version" value="cli-5.4.1" /><!-- for Push Notif O.H / R.W. 08/02/2016 -->
+
     <preference name="android-build-tool" value="gradle" /> <!-- for Push Notif O.H / R.W.  08/02/2016 -->
     <preference name="android-minSdkVersion" value="9" />
     <!--   <preference name="android-maxSdkVersion" value="15" /> -->
@@ -93,16 +95,16 @@
 
     <!-- Define app icon for each platform. -->
 
-   <icon src="icon.png" />
+    <icon src="icon.png" />
 
-   <platform name="android">
-  <icon src="res/android/icon/drawable-ldpi-icon.png"   qualifier="ldpi"/>
-  <icon src="res/android/icon/drawable-mdpi-icon.png"   qualifier="mdpi"/>
-  <icon src="res/android/icon/drawable-hdpi-icon.png"   qualifier="hdpi"/>
-  <icon src="res/android/icon/drawable-xhdpi-icon.png"  qualifier="xhdpi"/>
-  <icon src="res/android/icon/drawable-xxhdpi-icon.png"  qualifier="xxhdpi"/>
-  <icon src="res/android/icon/drawable-xxxhdpi-icon.png"  qualifier="xxxhdpi"/>
-</platform>
+  <platform name="android">
+    <icon src="res/android/icon/drawable-ldpi-icon.png"   qualifier="ldpi"/>
+    <icon src="res/android/icon/drawable-mdpi-icon.png"   qualifier="mdpi"/>
+    <icon src="res/android/icon/drawable-hdpi-icon.png"   qualifier="hdpi"/>
+    <icon src="res/android/icon/drawable-xhdpi-icon.png"  qualifier="xhdpi"/>
+    <icon src="res/android/icon/drawable-xxhdpi-icon.png"  qualifier="xxhdpi"/>
+    <icon src="res/android/icon/drawable-xxxhdpi-icon.png"  qualifier="xxxhdpi"/>
+  </platform>
   <platform name="ios">
   <icon src="res/ios/icon/icon-small.png" width="29" height="29"/>
   <icon src="res/ios/icon/icon-small@2x.png" width="58" height="58"/>
@@ -122,7 +124,7 @@
   <icon src="res/ios/icon/icon-72@2x.png" width="144" height="144"/>
   <icon src="res/ios/icon/icon-76.png" width="76" height="76"/>
   <icon src="res/ios/icon/icon-76@2x.png" width="152" height="152"/>
-</platform>
+  </platform>
   <splash src="splash.png" />
   <splash src="res/ios/splash/Default-568h@2x~iphone.png"  platform="ios" width="640" height="1136"/>
   <splash src="res/ios/splash/Default-667h.png"  platform="ios" width="750" height="1334"/>
@@ -153,7 +155,7 @@
   <splash src="res/android/splash/drawable-port-xxxhdpi-screen.png"  platform="android" density="port-xxxhdpi"/>
 
     <gap:config-file platform="ios" parent="CFBundleShortVersionString">
-    <string>113</string>
+    <string>113.1</string>
     </gap:config-file>
 
 
@@ -183,6 +185,6 @@
     <platform name="ios">
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
-    </platform>
+  </platform>
 
 </widget>

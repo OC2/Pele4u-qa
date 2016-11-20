@@ -61,8 +61,8 @@ app.controller('LoginCtrl', function( $scope
           retIsSessionValidJson.success(function (data, status, headers, config) {
 
             var pinStatus = data;
-            PelApi.writeToLog(config_app.LOG_FILE_ERROR_TYPE , "=========== IsSessionValidJson ================");
-            PelApi.writeToLog(config_app.LOG_FILE_ERROR_TYPE , JSON.stringify(data));
+            PelApi.writeToLog(config_app.LOG_FILE_INFO_TYPE , "=========== IsSessionValidJson ================");
+            PelApi.writeToLog(config_app.LOG_FILE_INFO_TYPE , JSON.stringify(data));
 
             if ("Valid" === pinStatus) {
               $ionicLoading.hide();
@@ -115,23 +115,12 @@ app.controller('LoginCtrl', function( $scope
           });
         }
         //--- ERROR ---//
-        , function () {
-          retIsSessionValidJson.success(function (data, status, headers, config) {
-
-            PelApi.writeToLog(config_app.LOG_FILE_ERROR_TYPE , "success : " + JSON.stringify(data));
-
-            $ionicLoading.hide();
-            $scope.$broadcast('scroll.refreshComplete');
-            PelApi.showPopup(config_app.getUserModuleTypesErrorMag , "");
-
-          }).error(function (data, status, headers, config) {
-
-            PelApi.writeToLog(config_app.LOG_FILE_ERROR_TYPE , "error : " + JSON.stringify(data));
-
-            $ionicLoading.hide();
-            $scope.$broadcast('scroll.refreshComplete');
-            PelApi.showPopup(config_app.getUserModuleTypesErrorMag , "");
-          });
+        , function (response) {
+          PelApi.writeToLog(config_app.LOG_FILE_ERROR_TYPE , "========== IsSessionValidJson ERROR ==========");
+          PelApi.writeToLog(config_app.LOG_FILE_ERROR_TYPE , JSON.stringify(response));
+          $ionicLoading.hide();
+          $scope.$broadcast('scroll.refreshComplete');
+          PelApi.showPopup(config_app.getUserModuleTypesErrorMag , "");
         }
       ); /// then
     }
