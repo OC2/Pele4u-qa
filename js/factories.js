@@ -722,6 +722,23 @@ angular.module('pele.factories', ['ngStorage','LocalStorageModule'])
       return retVal;
 
     },
+    get_SETTINGS_DIRECTORY_NAME : function() {
+      var retVal = "";
+      var platformPath = "";
+      var isIOS = ionic.Platform.isIOS();
+      var isAndroid = ionic.Platform.isAndroid();
+      var platform = ionic.Platform.platform();
+      if ("win32" !== platform) {
+
+        if(isIOS){
+          platformPath = cordova.file.dataDirectory;
+        }else if(isAndroid){
+          platformPath = cordova.file.externalApplicationStorageDirectory
+        }
+        retVal = platformPath;
+      }
+      return retVal;
+    },
     getfull_SETTINGS_DIRECTORY_NAME : function() {
       var retVal = "";
       var platformPath = "";
@@ -826,7 +843,6 @@ angular.module('pele.factories', ['ngStorage','LocalStorageModule'])
             }
             console.log("ERROR : " + error);
           });
-
       }
     },
     delete_ATTACHMENT_DIRECTORY_NAME : function(){

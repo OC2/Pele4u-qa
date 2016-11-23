@@ -20,6 +20,7 @@ app.controller('P1_appsListCtrl'
                         , appSettings
                         , $cordovaFile
                         , srvShareData
+                        , $cordovaFileTransfer
                       ) {
 
   $ionicHistory.clearHistory();
@@ -49,15 +50,139 @@ app.controller('P1_appsListCtrl'
   //-- 06/10/2016  R.W.
   //-----------------------------------------------------------
   $scope.setSettings = function(){
-    var l_fileName = "/My Files &amp; Folders/" + appSettings.enviroment + "/PO/PO_" + appSettings.enviroment + "_220628/po_1768326_220628_4214854_110916161222.docx"
-    p_fullFileName = "po_1768326_220628_4214854_110916161222.docx"
+    var l_fileName = "/My Files &amp; Folders/" + appSettings.enviroment + "/SETTINGS/SETTINGS_" + appSettings.enviroment + "_CONFIG/PELE4U_CONFIG_DATA.txt"
+    p_fullFileName = "PELE4U_CONFIG_DATA.txt"
     var appId = config_app.appId;
 
     var lPath = PelApi.getfull_SETTINGS_DIRECTORY_NAME();
     var links = PelApi.getDocApproveServiceUrl("GetFileURI");
+
+    PelApi.showLoading();
+
     var retGetFileURI = PelApi.GetFileURI(links, appId , config_app.Pin , l_fileName);
+    retGetFileURI.then(
+      //-- SUCCESS --//
+      function(){
+        retGetFileURI.success(function (data, status, headers, config) {
+          PelApi.writeToLog(config_app.LOG_FILE_INFO_TYPE,"===== P1_appsListCtrl.setSettings( SUCCESS ) ======" );
+          PelApi.writeToLog(config_app.LOG_FILE_INFO_TYPE, JSON.stringify(data));
+          console.log("===== P1_appsListCtrl.setSettings( SUCCESS ) ======");
+          console.log(JSON.stringify(data));
+
+          var statusCode = PelApi.checkResponceStatus(data);
+          console.log(statusCode);
+          if("S" === statusCode.Status){
+            var url = statusCode.URL;
+
+            //window.open(url, '_system');
+            var filename = p_fullFileName;
+            PelApi.setPELE4_SETTINGS_DIRECTORY();
+            var filePath = PelApi.getfull_SETTINGS_DIRECTORY_NAME();
+            var targetPath = filePath + '/' + filename;
+
+            $cordovaFileTransfer.download( url
+                                         , targetPath
+                                         , {}
+                                         , true)
+                .then(function (result) {
+
+                    console.log('$cordovaFileTransfer.download(Success)');
+                    console.log('===================================================');
+                    console.log(result);
+                    PelApi.writeToLog('$cordovaFileTransfer.download(Success)');
+
+                    $cordovaFile.readAsText(filePath, filename)
+                      .then(function (success) {
+                        // success
+                        console.log("$cordovaFile.readAsText ( SUCCESS )");
+                        console.log(success);
+                        var Pin = config_app.Pin;
+                        var pin = config_app.pin;
+                        var appId = config_app.appId;
+                        var token = config_app.token;
+
+                        config_app = JSON.parse( success );
+                        config_app.pin = pin;
+                        config_app.Pin = Pin;
+                        config_app.appId = appId;
+                        config_app.token = token;
+
+                        $ionicLoading.hide();
+                        $scope.$broadcast('scroll.refreshComplete');
+
+                      }, function (error) {
+                        // error
+                        console.log("$cordovaFile.readAsText ( ERROR ) - " + error);
+
+                        PelApi.writeToLog(config_app.LOG_FILE_ERROR_TYPE ,"readAsText(" + p_path + "," + p_file + ") ");
+                        PelApi.writeToLog(config_app.LOG_FILE_ERROR_TYPE ,error);
+
+                        $ionicLoading.hide();
+                        $scope.$broadcast('scroll.refreshComplete');
+
+                      });
+
+
+
+              }, function (error) {
+
+                    console.log('$cordovaFileTransfer.download( Error )');
+                    console.log('===================================================');
+                    console.log(error);
+                    PelApi.writeToLog('$cordovaFileTransfer.download( ERROR ) - ' + error);
+                    PelApi.writeToLog( error );
+
+                    $ionicLoading.hide();
+                    $scope.$broadcast('scroll.refreshComplete');
+                    PelApi.showPopup("File Download Complite With Error", error.toString());
+
+                  }, function (progress) {
+                    // PROGRESS HANDLING GOES HERE
+                  });
+          }else if ("PDA" === statusCode.Status) {
+            if("N" === loadingComplited ){
+              loadingComplited = "Y";
+              $ionicLoading.hide();
+              $scope.$broadcast('scroll.refreshComplete');
+              config_app.IS_TOKEN_VALID = "N";
+              PelApi.goHome();
+            }
+
+          } else if("EOL" === statusCode.Status){
+            if("N" === loadingComplited ) {
+              loadingComplited = "Y";
+              $ionicLoading.hide();
+              $scope.$broadcast('scroll.refreshComplete');
+              config_app.IS_TOKEN_VALID = "N";
+              PelApi.goHome();
+            }
+
+          } else if ("InValid" === statusCode.Status) {
+            if("N" === loadingComplited ) {
+              loadingComplited = "Y";
+              $ionicLoading.hide();
+              $scope.$broadcast('scroll.refreshComplete');
+              //$state.go("app.p1_appsLists");
+              config_app.IS_TOKEN_VALID = "N";
+              PelApi.goHome();
+            }
+          }
+        }); // reMenu.success(function (data, status, headers, config)
+      },
+      //-- ERROR --//
+      function (response) {
+
+        $ionicLoading.hide();
+        $scope.$broadcast('scroll.refreshComplete');
+
+        PelApi.writeToLog(config_app.LOG_FILE_ERROR_TYPE ,"===== P1_appsListCtrl.setSettings( ERROR ) ======" );
+        PelApi.writeToLog(config_app.LOG_FILE_ERROR_TYPE , JSON.stringify(data));
+
+      }
+    ); // retGetFileURI.then
 
   }
+
 
   /*
    * ==========================================================
@@ -135,6 +260,7 @@ app.controller('P1_appsListCtrl'
             }else{
               config_app.Pin = config_app.GetUserMenu.PinCode;
               config_app.IS_TOKEN_VALID = "Y";
+              $scope.setSettings();
             }
 
           } else if ("PAD" === pinCodeStatus ) {

@@ -233,6 +233,9 @@ angular.module('pele.config', [])
                     ]
 });
 
+var config_app_test;
+config_app = {};
+
 var config_app;
 config_app = {
   APP_VERSION:"111",
