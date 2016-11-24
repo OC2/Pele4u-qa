@@ -4,8 +4,8 @@
 <widget xmlns     = "http://www.w3.org/ns/widgets"
         xmlns:gap = "http://phonegap.com/ns/1.0"
         id        = "com.int-pele.pele4u"
-        version   = "114"
-        versionCode= "11400" >
+        version   = "114.1"
+        versionCode= "11401" >
 
 <name>PELE4U_QA</name>
   <description>

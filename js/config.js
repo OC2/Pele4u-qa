@@ -238,7 +238,7 @@ config_app = {};
 
 var config_app;
 config_app = {
-  APP_VERSION:"111",
+  APP_VERSION:"114.1",
   PIN_CODE_AUTHENTICATION_REQUIRED_CODE :"10000",
   IS_TOKEN_VALID:"N",
   TITLE_WIFI_FIRST_CONNECTION_1:"בעת כניסה ראשונה",
@@ -316,5 +316,6 @@ config_app = {
   GetUserModuleTypes: "",
   docDetails: {},
   ApprovRejectBtnDisplay: true,
+  UP_TO_DATE: "N"
 };
 
