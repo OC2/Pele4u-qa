@@ -110,15 +110,14 @@ angular.module('pele', ['ionic'
     //----------------------------------------
     //--    Get Version from config.xml
     //----------------------------------------
-    if(window.cordova){
-      window.cordova.getAppVersion(function (version) {
+    window.cordova.getAppVersion(function (version) {
 
         config_app.APP_VERSION = version;
         console.log("window.cordova.getAppVersion() : " + config_app.APP_VERSION);
         PelApi.writeToLog(config_app.LOG_FILE_INFO_TYPE, "window.cordova.getAppVersion() : " + config_app.APP_VERSION);
 
       });
-    }
+
 
     if (window.cordova && window.cordova.plugins.Keyboard)
     {

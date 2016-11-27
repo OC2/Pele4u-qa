@@ -57,7 +57,6 @@ app.controller('P1_appsListCtrl'
     var lPath = PelApi.getfull_SETTINGS_DIRECTORY_NAME();
     var links = PelApi.getDocApproveServiceUrl("GetFileURI");
     if( config_app.UP_TO_DATE === "N"){
-      PelApi.showLoading();
 
       var retGetFileURI = PelApi.GetFileURI(links, appId , config_app.Pin , l_fileName);
       retGetFileURI.then(
@@ -100,12 +99,16 @@ app.controller('P1_appsListCtrl'
                           var pin = config_app.pin;
                           var appId = config_app.appId;
                           var token = config_app.token;
+                          var appVersion = config_app.APP_VERSION;
 
                           config_app = JSON.parse( success );
                           config_app.pin = pin;
                           config_app.Pin = Pin;
                           config_app.appId = appId;
                           config_app.token = token;
+                          config_app.APP_VERSION = appVersion;
+
+                          console.log(config_app);
 
                           $ionicLoading.hide();
                           $scope.$broadcast('scroll.refreshComplete');
