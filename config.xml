@@ -3,9 +3,9 @@
 <!-- config.xml reference: https://build.phonegap.com/docs/config-xml -->
 <widget xmlns     = "http://www.w3.org/ns/widgets"
         xmlns:gap = "http://phonegap.com/ns/1.0"
-        id        = "com.int-pele.pele4u-qa"
-        version   = "114.2"
-        versionCode= "11402" >
+        id        = "com.int-pele.pele4u"
+        version   = "114.3"
+        versionCode= "11403" >
 
 <name>PELE4U_QA</name>
   <description>
@@ -155,7 +155,7 @@
   <splash src="res/android/splash/drawable-port-xxxhdpi-screen.png"  platform="android" density="port-xxxhdpi"/>
 
     <gap:config-file platform="ios" parent="CFBundleShortVersionString">
-    <string>114.2</string>
+    <string>114.3</string>
     </gap:config-file>
 
 

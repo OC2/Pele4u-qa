@@ -100,6 +100,11 @@ app.controller('P1_appsListCtrl'
                           var appId = config_app.appId;
                           var token = config_app.token;
                           var appVersion = config_app.APP_VERSION;
+                          var user = config_app.user;
+                          var userName = config_app.userName;
+                          var GetUserMenu = {};
+                          GetUserMenu = config_app.GetUserMenu;
+
 
                           config_app = JSON.parse( success );
                           config_app.pin = pin;
@@ -107,6 +112,9 @@ app.controller('P1_appsListCtrl'
                           config_app.appId = appId;
                           config_app.token = token;
                           config_app.APP_VERSION = appVersion;
+                          config_app.user = user;
+                          config_app.userName = userName;
+                          config_app.GetUserMenu = GetUserMenu;
 
                           console.log(config_app);
 

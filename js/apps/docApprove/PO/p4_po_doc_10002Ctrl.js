@@ -546,7 +546,10 @@ app.controller('p4_po_doc_10002Ctrl'
     });
 
     $scope.createNote = function(u) {
-      $scope.Note = u.Note;
+      var note = u.Note;
+      note = PelApi.replaceSpecialChr(note)
+
+      $scope.Note = note;
       $scope.modal.hide();
     };
     //---------------------------------------------------------------------
@@ -661,6 +664,8 @@ app.controller('p4_po_doc_10002Ctrl'
             if(!res.cancel) {
               PelApi.showLoading();
               note = res.note;
+              note = PelApi.replaceSpecialChr(note);
+
               var links3 = PelApi.getDocApproveServiceUrl("SubmitNotif");
               var retSubmitNotification = PelApi.SubmitNotification(links3, appId, notificationId, note, actionType);
               retSubmitNotification.then(
@@ -764,7 +769,10 @@ app.controller('p4_po_doc_10002Ctrl'
       var notificationId = $scope.NOTIFICATION_ID;
       var actionType = "REJECT";
       if($scope.data.note !== undefined){
-        $scope.submitNotif(actionType , $scope.data.note)
+        var note = $scope.data.note;
+        note = PelApi.replaceSpecialChr(note);
+
+        $scope.submitNotif(actionType , note)
       }else {
         var myPopup = $ionicPopup.show({
           template: '<div class="list pele-note-background" dir="RTL"><label class="item item-input"><textarea rows="8" ng-model="data.note" type="text">{{data.note}}</textarea></label></div>',
@@ -793,6 +801,7 @@ app.controller('p4_po_doc_10002Ctrl'
         });
         myPopup.then(function (res) {
           note = res
+          note = PelApi.replaceSpecialChr(note);
           if (note !== undefined) {
             $scope.submitNotif(actionType, note);
           }
@@ -805,8 +814,12 @@ app.controller('p4_po_doc_10002Ctrl'
       var appId = config_app.appId;
       var notificationId = $scope.NOTIFICATION_ID;
       var actionType = "APPROVE";
+      var note = "";
       if($scope.data.note !== undefined){
-        $scope.submitNotif(actionType , $scope.data.note)
+        note = $scope.data.note;
+        note = PelApi.replaceSpecialChr(note);
+
+        $scope.submitNotif(actionType , note)
       }else {
         var myPopup = $ionicPopup.show({
           template: '<div class="list pele-note-background" dir="RTL"><label class="item item-input"><textarea rows="8" ng-model="data.note" type="text">{{data.note}}</textarea></label></div>',
@@ -835,7 +848,8 @@ app.controller('p4_po_doc_10002Ctrl'
           ]
         });
         myPopup.then(function (res) {
-          note = res
+          note = res;
+          note = PelApi.replaceSpecialChr(note);
           if (note !== undefined) {
             $scope.submitNotif(actionType, note);
           }
@@ -849,6 +863,8 @@ app.controller('p4_po_doc_10002Ctrl'
       var appId = config_app.appId;
       var notificationId = $scope.NOTIFICATION_ID;
       var actionType = action;
+
+      note = PelApi.replaceSpecialChr(note);
 
       PelApi.showLoading();
       var links3 = PelApi.getDocApproveServiceUrl("SubmitNotif");
@@ -957,6 +973,8 @@ app.controller('p4_po_doc_10002Ctrl'
         //-----------------------------------------------
         buttonClicked: function (index,button) {
           var note = $scope.data.note;
+          note = PelApi.replaceSpecialChr(note);
+
           // add buttons code..
           if (button === appSettings.OK) {
 

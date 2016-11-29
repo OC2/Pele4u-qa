@@ -898,6 +898,12 @@ angular.module('pele.factories', ['ngStorage','LocalStorageModule'])
           });
       }
     },
+    replaceSpecialChr : function(data){
+      if(data!= undefined && data != null){
+        data = data.replace(/[^\w\d\s\א-ש\(\)\@]/g, " ");
+      }
+      return data;
+    },
     checkResponceStatus : function(data){
 
       var retVal = {};
