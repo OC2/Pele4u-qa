@@ -262,6 +262,10 @@ angular.module('pele.factories', ['ngStorage','LocalStorageModule'])
         var token = config_app.token;
         var userName = config_app.userName;
 
+        if(note!= undefined && note != null){
+          note = note.replace(/[^\w\d\s\א-ש\(\)\@]/g, " ");
+        }
+
         var envUrl = links.URL;
         var headers = {};
 
