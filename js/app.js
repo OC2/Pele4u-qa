@@ -133,7 +133,7 @@ angular.module('pele', ['ionic'
     //----------------------------------
     //--    Go To Application List
     //----------------------------------
-    $state.go("app.settings");
+    $state.go("app.p1_appsLists");
 
   });
 })
