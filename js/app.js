@@ -129,7 +129,7 @@ angular.module('pele', ['ionic'
       StatusBar.styleDefault();
     }
 
-
+     navigator.splashscreen.hide();
     //----------------------------------
     //--    Go To Application List
     //----------------------------------
