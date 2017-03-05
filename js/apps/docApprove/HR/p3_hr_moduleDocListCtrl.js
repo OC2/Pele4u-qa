@@ -145,6 +145,36 @@ app.controller('p3_hr_moduleDocListCtrl', function($scope, $stateParams, $http, 
       }
     }
   };//
+
+  $scope.fix_json = function( data ){
+    /*
+    var newData = JSON.parse( data.Response.OutParams.Result );
+    var myJSON = newData.JSON[0];
+    newData = myJSON;
+    */
+    var newData = {};
+    var myJSON = {};
+
+    if( data.Response.OutParams.Result === undefined)
+    {
+      data.Response.OutParams.Result = {};
+    }else{
+      newData = JSON.parse( data.Response.OutParams.Result );
+      myJSON = newData.JSON[0];
+
+      if(myJSON.DOC_LINES.length === undefined){
+        var docLinesRow = myJSON.DOC_LINES.DOC_LINES_ROW;
+        myJSON.DOC_LINES = [];
+        myJSON.DOC_LINES.DOC_LINES_ROW = docLinesRow;
+      }
+      newData = myJSON;
+      data.Response.OutParams.Result = newData;
+    }
+
+    return data;
+
+  }
+
   //--------------------------------------------------------------
   //-- When        Who         Description
   //-- ----------  ----------  -----------------------------------
@@ -157,37 +187,37 @@ app.controller('p3_hr_moduleDocListCtrl', function($scope, $stateParams, $http, 
 
     PelApi.showLoading();
 
-    var links = PelApi.getDocApproveServiceUrl("GetUserNotif");
+    var links = PelApi.getDocApproveServiceUrl("GetUserNotifNew");
 
     var retGetUserNotifications = PelApi.GetUserNotifications(links, appId, docId, docInitId);
     retGetUserNotifications.then(
       //--- SUCCESS ---//
       function () {
         retGetUserNotifications.success(function (data, status, headers, config) {
+          data = $scope.fix_json(data)
+
           console.log("============= Get User Notification ===============");
           console.log(JSON.stringify(data));
           console.log("============= End Get User Notification ===============");
 
-          var stat = PelApi.GetPinCodeStatus2(data, "GetUserNotifications");
+          var stat = PelApi.GetPinCodeStatus2(data, "GetUserNotifNew");
           var pinStatus = stat.status;
 
           if ("Valid" === pinStatus) {
 
             PelApi.writeToLog(config_app.LOG_FILE_INFO_TYPE , JSON.stringify(data));
 
-            var strData = JSON.stringify(data);
-            strData = strData.replace(/\\/g, "");
-            strData = strData.replace(/"{/g, "{");
-            strData = strData.replace(/}"/g, "}");
-            console.log("======================================");
-            console.log(strData);
-            console.log("======================================");
 
-            var newData = JSON.parse(strData);
-            config_app.docDetails = newData.Response.OutParams.Result.ROWSET.ROW;
+            var newData = data.Response.OutParams.Result;
 
-            var buttonsLength = config_app.docDetails.BUTTONS.length;
-            // Show the action sheet
+            config_app.docDetails = newData;
+
+            var buttonsLength = 0;
+
+            if (config_app.docDetails.BUTTONS.length !== undefined){
+              buttonsLength = config_app.docDetails.BUTTONS.length;
+            }
+
             if(2 === buttonsLength) {
               config_app.ApprovRejectBtnDisplay = true;
             }else{
@@ -230,12 +260,18 @@ app.controller('p3_hr_moduleDocListCtrl', function($scope, $stateParams, $http, 
             $scope.$broadcast('scroll.refreshComplete');
             PelApi.showPopup(stat.description, "");
 
+          } else if("OLD" === pinStatus){
+
+            $ionicLoading.hide();
+            $scope.$broadcast('scroll.refreshComplete');
+            PelApi.showPopupVersionUpdate(data.StatusDesc , "");
+
           }
         });
       }
       //--- ERROR ---//
       , function (response) {
-          PelApi.writeToLog(config_app.LOG_FILE_ERROR_TYPE , "GetUserNotif : " + JSON.stringify( response ));
+          PelApi.writeToLog(config_app.LOG_FILE_ERROR_TYPE , "GetUserNotifNew : " + JSON.stringify( response ));
           $ionicLoading.hide();
           $scope.$broadcast('scroll.refreshComplete');
           PelApi.showPopup(config_app.getUserModuleTypesErrorMag , "");

@@ -35,33 +35,50 @@ angular.module('pele', ['ionic'
                        ,'pele.p3_hr_moduleDocListCtrl'
                        ,'pele.p4_hr_docCtrl'
                        //-----------------------------------------//
+                       //--        docApprove/RQ
+                       //-----------------------------------------//
+                       ,'pele.p3_rq_moduleDocListCtrl'
+                       ,'pele.p4_rq_doc_20002Ctrl'
+                       //-----------------------------------------//
+                       //--        docApprove/INI
+                       //-----------------------------------------//
+                       ,'pele.p4_ini_doc_30002Ctrl'
+                       //-----------------------------------------//
+                       //--          scsn Print
+                       //-----------------------------------------//
+                       ,'pele.p2_scan_printCtrl'
+                       //-----------------------------------------//
                        //--           Settings                  --//
                        //-----------------------------------------//
                        ,'fileLogger'
+                       //-----------------------------------------//
+                       //-----------------------------------------//
+                       ,'pele.p2_testCtrl'
                        ])
 
 .run(function($ionicPlatform , $state , $ionicLoading , $fileLogger , PelApi , appSettings  ) {
+
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
-
+    /*
+    PelApi.writeToLog(config_app.LOG_FILE_INFO_TYPE ,'=============== Start ==============');
     //----------------------------------
     //--    Create/Open Log File
     //----------------------------------
+    PelApi.writeToLog(config_app.LOG_FILE_INFO_TYPE ,'setStorageFilename');
     $fileLogger.setStorageFilename(config_app.LOG_FILE_NAME);
     //----------------------------------
     //--   Delete Old Log File data
     //----------------------------------
+    PelApi.writeToLog(config_app.LOG_FILE_INFO_TYPE ,'deleteLogfile');
     $fileLogger.deleteLogfile();
-    //----------------------------------
-    //--  Write open row to log file
-    //----------------------------------
-    PelApi.writeToLog(config_app.LOG_FILE_INFO_TYPE ,'=============== Start ==============');
+    */
 
     //-----------------------------------------
     //--   Registration for Push Notification
     //-----------------------------------------
-
+    PelApi.writeToLog(config_app.LOG_FILE_INFO_TYPE ,'Open Notification Event');
     //---------- Open Notification Event -----
     var notificationOpenedCallback = function(jsonData) {
       console.log('notificationOpenedCallback: ' + JSON.stringify(jsonData));
@@ -77,7 +94,7 @@ angular.module('pele', ['ionic'
         // OLD spec="1.10.2"
 
         // window.plugins.OneSignal.init("1d0135a7-da67-4953-b241-2385bfcedcd9", {googleProjectNumber: "655668363586"}, notificationOpenedCallback);
-
+        PelApi.writeToLog(config_app.LOG_FILE_INFO_TYPE ,'PD Send registration');
         window.plugins.OneSignal
           .startInit("1d0135a7-da67-4953-b241-2385bfcedcd9", "655668363586")
           .inFocusDisplaying(window.plugins.OneSignal.OSInFocusDisplayOption.Notification)
@@ -89,6 +106,7 @@ angular.module('pele', ['ionic'
         // OLD spec="1.10.2"
 
         // window.plugins.OneSignal.init("922ef47f-6abc-4df5-80ea-801a8b081fa1", {googleProjectNumber: "1005906386682"}, notificationOpenedCallback);
+        PelApi.writeToLog(config_app.LOG_FILE_INFO_TYPE ,appSettings.enviroment + ' Send registration');
 
         window.plugins.OneSignal
           .startInit("922ef47f-6abc-4df5-80ea-801a8b081fa1", "1005906386682")
@@ -105,11 +123,14 @@ angular.module('pele', ['ionic'
         console.log('getIds: ' + JSON.stringify(ids));
         PelApi.writeToLog(config_app.LOG_FILE_INFO_TYPE,'window.plugins.OneSignal.getIds :' + ids.userId);
       });
+
+
     }
 
     //----------------------------------------
     //--    Get Version from config.xml
     //----------------------------------------
+    if(window.cordova != undefined){
     window.cordova.getAppVersion(function (version) {
 
         config_app.APP_VERSION = version;
@@ -117,6 +138,7 @@ angular.module('pele', ['ionic'
         PelApi.writeToLog(config_app.LOG_FILE_INFO_TYPE, "window.cordova.getAppVersion() : " + config_app.APP_VERSION);
 
       });
+    }
 
 
     if (window.cordova && window.cordova.plugins.Keyboard)
@@ -129,7 +151,7 @@ angular.module('pele', ['ionic'
       StatusBar.styleDefault();
     }
 
-     navigator.splashscreen.hide();
+
     //----------------------------------
     //--    Go To Application List
     //----------------------------------
@@ -172,6 +194,50 @@ angular.module('pele', ['ionic'
         }
       }
     })
+    //-------------------------------------------//
+    //--               RQ                      --//
+    //-------------------------------------------//
+     .state('app.p3_rq_moduleDocList', {
+       url: "/p3_rq_moduleDocList/:AppId/:FormType/:Pin",
+       views: {
+         'menuContent': {
+           templateUrl: "templates/apps/DocApprove/RQ/p3_rq_moduleDocList.html",
+           controller: 'p3_rq_moduleDocListCtrl'
+         }
+       }
+     })
+     .state('app.doc_20002', {
+       url: "/doc_20002/:DocId/:DocInitId",
+       views: {
+         'menuContent': {
+           templateUrl: "templates/apps/DocApprove/RQ/p4_rq_doc_20002.html",
+           controller: 'p4_rq_doc_20002Ctrl'
+         }
+       }
+     })
+    //-------------------------------------------//
+    //--              INI                      --//
+    //-------------------------------------------//
+     /*
+     .state('app.p3_ini_moduleDocList', {
+       url: "/p3_rq_moduleDocList/:AppId/:FormType/:Pin",
+       views: {
+         'menuContent': {
+           templateUrl: "templates/apps/DocApprove/INI/p3_ini_moduleDocList.html",
+           controller: 'p3_ini_moduleDocListCtrl'
+         }
+       }
+     })
+     */
+     .state('app.doc_30002', {
+       url: "/doc_30002/:IniDocId/:IniDocInitId/:DocId/:Mode",
+       views: {
+         'menuContent': {
+           templateUrl: "templates/apps/DocApprove/INI/p4_ini_doc_30002.html",
+           controller: 'p4_ini_doc_30002Ctrl'
+         }
+       }
+     })
     //-------------------------------------------//
     //--               PO                      --//
     //-------------------------------------------//
@@ -326,6 +392,30 @@ angular.module('pele', ['ionic'
            controller: 'FileCtrl'
          }
        }
+  })
+  //----------------------------------------------------------//
+  //--                      TEST
+  //----------------------------------------------------------//
+  .state('app.p2_test', {
+         url: '/p2_test',
+         views: {
+           'menuContent': {
+           templateUrl: 'templates/apps/DocApprove/TEST/p2_test.html',
+           controller: 'p2_testCtrl'
+         }
+       }
+     })
+  //----------------------------------------------------------//
+  //--              PrintScaner
+  //----------------------------------------------------------//
+  .state('app.p2_scan_print', {
+     url: '/scan_print',
+     views: {
+       'menuContent': {
+         templateUrl: 'templates/apps/scanPrint/p2_scan_print.html',
+         controller: 'p2_scan_printCtrl'
+       }
+     }
   })
   ;
 

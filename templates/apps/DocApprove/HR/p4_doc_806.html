@@ -48,11 +48,11 @@
               </div>
               <div class="row">
                 <div class="col text-right">ת. פעולה : </div>
-                <div class="col col-75 text-right">{{detail.ACTION_DATE}}</div>
+                <div class="col col-75 text-right pele_rtl">{{detail.ACTION_DATE}}</div>
               </div>
               <div class="row">
-                <div class="col text-right">הערות : </div>
-                <textarea class="col col-75 text-right" readonly="true">{{detail.NOTE}}</textarea>
+                <div class="col text-right pele_rtl">הערות : </div>
+                <textarea class="col col-75 text-right pele_rtl" readonly="true">{{detail.NOTE}}</textarea>
               </div>
             </label>
           </div>
@@ -66,28 +66,28 @@
               <a class="item item-divider item-icon-right pele-item-icon-left" ng-click="detail.SHOW_FLAG = !detail.SHOW_FLAG; detail.PUSH_COUNT = PUSH_COUNT +1;">
                 <!-- <i ng-class="detail.SHOW_FLAG ? 'icon-collapse' : 'icon-expand'"></i> -->
                 <i ng-class="showIconCollapseInAcctionHistory(detail.SHOW_FLAG , detail.HIDEN_FLAG)"></i>
-                <p class="text-right">{{detail.SEQUENCE_NUM}}. {{detail.USER_NAME}}</p>
+                <p class="text-right pele_rtl">{{detail.SEQUENCE_NUM}}. {{detail.USER_NAME}}</p>
                 <i class="icon icon-left {{getApproveListActionIcon(detail.ACTION , detail.ACTION_DATE , detail.NOTE)}}"></i>
               </a>
 
               <label class="item" ng-hide="hidenAcctionHistoryDetails(detail.SHOW_FLAG, detail.HIDEN_FLAG, detail.PUSH_COUNT , detail.NOTE)">
                 <div class="row">
-                  <div class="col text-right">פעולה:</div>
-                  <div class="col col-75 text-right">{{detail.ACTION}}</div>
+                  <div class="col text-right pele_rtl">פעולה:</div>
+                  <div class="col col-75 text-right pele_rtl">{{detail.ACTION}}</div>
                 </div>
                 <div class="row">
-                  <div class="col text-right">תאריך:</div>
-                  <div class="col col-75 text-right">{{detail.ACTION_DATE}}</div>
+                  <div class="col text-right pele_rtl">תאריך:</div>
+                  <div class="col col-75 text-right pele_rtl">{{detail.ACTION_DATE}}</div>
                 </div>
                 <!--
                 <div class="row">
-                  <div class="col text-right">הערה:</div>
-                  <textarea class="col col-75 text-right" readonly="true">{{detail.NOTE}}</textarea>
+                  <div class="col text-right pele_rtl">הערה:</div>
+                  <textarea class="col col-75 text-right pele_rtl" readonly="true">{{detail.NOTE}}</textarea>
                 </div>
                 -->
                 <div class="row">
-                  <div class="col text-right">הערות:</div>
-                  <div class="col col-75 pele-item item-text-wrap text-right">{{detail.NOTE}}</div>
+                  <div class="col text-right pele_rtl">הערות:</div>
+                  <div class="col col-75 pele-item item-text-wrap text-right pele_rtl">{{detail.NOTE}}</div>
                 </div>
               </label>
             </div>
@@ -102,12 +102,12 @@
 
             <label class="item item-thumbnail-left">
               <img src="img/employees/worker.png">
-              <h2 class="text-right">שם : {{CREATOR}}</h2>
-              <h2 class="text-right">ת.ז. : {{EMP_NUMBER}}</h2>
-              <h2 class="text-right">מספר טופס : {{DOC_INIT_ID}}</h2>
-              <h2 class="text-right">ת. יצירה : {{SENT_DATE}}</h2>
-              <h2 class="text-right">מחלקה : {{DEPARTMENT}}</h2>
-              <h2 class="text-right">חטיבה : {{SECTOR}}</h2>
+              <h2 class="text-right pele_rtl">שם : {{CREATOR}}</h2>
+              <h2 class="text-right pele_rtl">ת.ז. : {{EMP_NUMBER}}</h2>
+              <h2 class="text-right pele_rtl">מספר טופס : {{DOC_INIT_ID}}</h2>
+              <h2 class="text-right pele_rtl">ת. יצירה : {{SENT_DATE}}</h2>
+              <h2 class="text-right pele_rtl">מחלקה : {{DEPARTMENT}}</h2>
+              <h2 class="text-right pele_rtl">חטיבה : {{SECTOR}}</h2>
             </label>
       <ul class="list">
         <!---------------------------- 242 --------------------------------->
@@ -124,27 +124,27 @@
           </a>
           <label class="item" ng-show="isGroupShown(detail.EFFECTIVE_DATE)">
             <div class="row">
-              <div class="col col-30 text-right">שעת התחלה : </div>
-              <div class="col col-78 text-right">{{detail.ATTRIBUTE2}}</div>
+              <div class="col col-30 text-right pele_rtl">שעת התחלה : </div>
+              <div class="col col-78 text-right pele_rtl">{{detail.ATTRIBUTE2}}</div>
             </div>
             <div class="row">
-              <div class="col col-30 text-right">שעת סיום : </div>
-              <div class="col col-70 text-right">{{detail.ATTRIBUTE3}}</div>
+              <div class="col col-30 text-right pele_rtl">שעת סיום : </div>
+              <div class="col col-70 text-right pele_rtl">{{detail.ATTRIBUTE3}}</div>
             </div>
             <div class="row">
-              <div class="col col-30 text-right">סוג דיווח : </div>
-              <div class="col col-70 text-right" readonly="true" on-touch="openExistText(detail.ATTRIBUTE5)">
+              <div class="col col-30 text-right pele_rtl">סוג דיווח : </div>
+              <div class="col col-70 text-right pele_rtl" readonly="true" on-touch="openExistText(detail.ATTRIBUTE5)">
                 <p class="under" style="color:blue">{{detail.ATTRIBUTE5}}</p>
               </div>
             </div>
             <div class="row">
-              <div class="col col-30 text-right">מטרת עבודה : </div>
-              <div class="col col-70 text-right" readonly="true" on-touch="openExistText(detail.ATTRIBUTE6)" >
+              <div class="col col-30 text-right pele_rtl">מטרת עבודה : </div>
+              <div class="col col-70 text-right pele_rtl" readonly="true" on-touch="openExistText(detail.ATTRIBUTE6)" >
                 <p class="under" style="color:blue">{{detail.ATTRIBUTE6}}</p>
               </div>
             </div>
             <div class="row" ng-show="isHourException12Shown(detail.ATTRIBUTE7)">
-              <div class="col text-right" readonly="true" on-touch="openExistText(detail.ATTRIBUTE7)">
+              <div class="col text-right pele_rtl" readonly="true" on-touch="openExistText(detail.ATTRIBUTE7)">
                 <p class="under" style="color:red">{{detail.ATTRIBUTE7}}</p>
               </div>
             </div>

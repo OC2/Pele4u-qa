@@ -68,6 +68,34 @@ angular.module('pele.factories', ['ngStorage','LocalStorageModule'])
       */
       return "";
     },// GetMsisdn
+    //----------------------------------------------------------------------------//
+    //--                        sendScanPrint
+    //----------------------------------------------------------------------------//
+    sendScanPrint:function(links){
+      var headers = {"Accept":"application/json, text/plain, */*"};
+      var version = config_app.APP_VERSION;
+      //{"Content-Type": "application/json; charset=utf-8"};
+      var envUrl = links + "&UserName=" + config_app.userName + "&ID=" + config_app.user;
+
+      if("wifi" === config_app.network){
+        headers = {"Content-Type": "application/json; charset=utf-8","VERSION":version , "msisdn":config_app.MSISDN_VALUE}
+      }else{
+        headers = {"Content-Type": "application/json; charset=utf-8","VERSION":version};
+      }
+
+      this.writeToLog(config_app.LOG_FILE_INFO_TYPE , " URL : " + envUrl );
+      this.writeToLog(config_app.LOG_FILE_INFO_TYPE , " headers : " + headers );
+
+      console.log("=========================== PRINT URL =============================")
+      console.log(envUrl);
+      console.log("===================================================================")
+      return   $http({
+        url:envUrl,
+        method: "GET",
+        timeout :appSettings.menuTimeout,
+        headers:headers
+      });
+    },
     //--------------------------------------------------------------------------//
     //--                       IsSessionValidJson                             --//
     //--------------------------------------------------------------------------//
@@ -109,6 +137,7 @@ angular.module('pele.factories', ['ngStorage','LocalStorageModule'])
       }else{
         envUrl = links.URL;
         headers = {"Content-Type": "application/json; charset=utf-8","VERSION":version};
+        //headers = {"Content-Type": "application/json; charset=utf-8"};
       }
 
       this.writeToLog(config_app.LOG_FILE_INFO_TYPE ,"====== getMenu ======");
@@ -210,6 +239,50 @@ angular.module('pele.factories', ['ngStorage','LocalStorageModule'])
           headers: headers
         });
     },
+    //--------------------------------------------------------------
+    //--      REQ P3
+    //--------------------------------------------------------------
+    GetUserRqGroups:function (links , appId , formType, pin) {
+
+
+      var token = config_app.token;
+      var userName = config_app.userName;
+
+      var envUrl = links.URL;
+      var headers = {};
+
+      if("wifi" === config_app.network){
+        envUrl  = links.URL_WIFI;
+        headers = {"Content-Type": "application/json; charset=utf-8","Accept":"application/json","msisdn":config_app.MSISDN_VALUE};
+      }else{
+        envUrl = links.URL;
+        headers = {"Content-Type": "application/json; charset=utf-8","Accept":"application/json"};
+      }
+
+      var RequestHeader = links.RequestHeader;
+      var data = { "Request": {
+        "RequestHeader": RequestHeader,
+        "InParams": {
+          "Token": token,
+          "AppId": appId,
+          "PIN": pin,
+          "UserName": userName,
+          "FormType": formType
+        }
+      }
+      };
+
+      this.writeToLog(config_app.LOG_FILE_INFO_TYPE ,"====== GetUserFormGroups ======");
+      this.writeToLog(config_app.LOG_FILE_INFO_TYPE , "URL :" + JSON.stringify(envUrl));
+      this.writeToLog(config_app.LOG_FILE_INFO_TYPE , "DATA : " + JSON.stringify(data));
+      return $http({
+        url:envUrl ,
+        method:"POST" ,
+        data: data,
+        timeout:appSettings.timeout,
+        headers: headers
+      });
+    },
     //--------------------------------------------------------------------------//
     //--                       GetUserNotifications  PAGE4                    --//
     //--------------------------------------------------------------------------//
@@ -263,7 +336,7 @@ angular.module('pele.factories', ['ngStorage','LocalStorageModule'])
         var userName = config_app.userName;
 
         if(note!= undefined && note != null){
-          note = note.replace(/[^\w\d\s\א-ש\(\)\@]/g, " ");
+          note = note.replace(/[^\w\d\s\א-ת\(\)\@]/g, " ");
         }
 
         var envUrl = links.URL;
@@ -448,15 +521,22 @@ angular.module('pele.factories', ['ngStorage','LocalStorageModule'])
         }else{
           try{
             var SessionStatus = data.Response.OutParams.SessionStatus;
-            if("InValid" === SessionStatus){
+
+            if("InValid" === SessionStatus && SessionStatus != undefined){
               stat.status = "InValid";
               return stat;
             }
             var errorCode = data.Response.OutParams.P_ERROR_CODE;
             var errorDesc = data.Response.OutParams.P_ERROR_DESC;
-            if(0!==errorCode && undefined !== errorCode){
-              stat.status = "ERROR_CODE";
-              stat.description = errorDesc;
+            if(undefined !== errorCode){
+              errorCode = errorCode.toString();
+            }else{
+              errorCode = "0";
+            }
+
+            if("0"!==errorCode ){
+               stat.status = "ERROR_CODE";
+               stat.description = errorDesc;
             }else{
               if("getMenu" === interface){
                 stat.status = data.Status;
@@ -464,17 +544,24 @@ angular.module('pele.factories', ['ngStorage','LocalStorageModule'])
                   return stat;
                 }
                 if("PAD" !== stat ){
-                  stat.status = "Valid"
+                  stat.status = "Valid";
                 }
               }else if("getUserModuleTypes" === interface
                 || "GetUserFormGroups" === interface
                 || "GetUserPoOrdGroupGroup" === interface
                 || "GetUserNotif" === interface
                 || "GetUserNotifications" === interface
+
                 || "SubmitNotif" === interface
                 || "IsSessionValidJson" === interface
+                || "GetUserPoOrdGroupGroup" === interface
+                || "GetUserNotifNew" === interface
               ){
-                stat.status = data.Response.OutParams.SessionStatus;
+                if(undefined !== data.Response.OutParams.SessionStatus){
+                  stat.status = data.Response.OutParams.SessionStatus;
+                }else{
+                  stat.status = "Valid";
+                }
               }
 
             }
@@ -685,7 +772,7 @@ angular.module('pele.factories', ['ngStorage','LocalStorageModule'])
       return buttons;
     },
     writeToLog : function( textType , text ){
-
+      console.log(textType + ' : ' + text);
       $fileLogger.setStorageFilename(config_app.LOG_FILE_NAME);
 
       if("I" === textType && text !==undefined){
@@ -941,7 +1028,51 @@ angular.module('pele.factories', ['ngStorage','LocalStorageModule'])
 
       retVal.URL    =  data.Response.OutParams.URI;
       return retVal;
-    }
+    },
+    getChevronIcon : function(flag){
+      var ret_val;
+      if(flag){
+        ret_val = "ion-chevron-left";
+      }else{
+        ret_val = "ion-chevron-down";
+      }
+    },
+    //------------------------------------------------------------//
+    //--                  getAttachedDocuments
+    //------------------------------------------------------------//
+    getAttachedDocuments : function(arr){
+    var myArr = [];
+    for(var i = 0 ; i < arr.length ; i++ ){
+
+      if( arr[i].DISPLAY_FLAG_1 === "Y") {
+        var file_name = "";
+
+        file_name = arr[i].FILE_NAME_3;
+
+        var mayObj = {
+          "SEQ"                      : i,
+          "CATEGORY_TYPE"            : arr[i].CATEGORY_TYPE_4,
+          "DOCUMENT_ID"              : arr[i].DOCUMENT_ID_2,
+          "FILE_NAME"                : file_name,
+          "FILE_MAOF_TYPE"           : arr[i].FILE_TYPE_6,
+          "FILE_TYPE"                : arr[i].FILE_TYPE_9,
+          "FULL_FILE_NAME"           : arr[i].FULL_FILE_NAME_8,
+          "OPEN_FILE_NAME"           : "/My Files &amp; Folders/" + arr[i].OPEN_FOLDER_5 + '/' +  arr[i].FULL_FILE_NAME_8,
+          //"SHORT_TEXT"               : arr[i].SHORT_TEXT_7,
+          //"LONG_TEXT"                : arr[i].LONG_TEXT_VALUE_11,
+          "IS_FILE_OPENED_ON_MOBILE" : arr[i].IS_FILE_OPENED_ON_MOBILE_10,
+          "IOS_OPEN_FILE_NAME"       : "/My Files &amp; Folders/" + arr[i].OPEN_FOLDER_5 + '/' + arr[i].IOS_FILE_NAME_12
+        }
+
+        myArr.push(mayObj);
+
+      } // if
+
+    }// for
+
+    return myArr;
+  }//getAttachedDocuments
+
 
   };
 })

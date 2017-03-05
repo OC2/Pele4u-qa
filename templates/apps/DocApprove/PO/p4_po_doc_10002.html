@@ -39,25 +39,25 @@
                 <!-- <i class="icon icon-left {{getApproveListActionIcon(detail.ACTION_CODE)}}"></i> -->
                 <!--<i ng-class="detail.SHOW_FLAG ? 'icon-collapse' : 'icon-expand'"></i>-->
                 <i ng-class="showIconCollapseInAcctionHistory(detail.SHOW_FLAG , detail.HIDEN_FLAG)"></i>
-                <p class="text-right">{{detail.SEQUENCE_NUM}}. {{detail.EMPLOYEE_NAME}}</p>
+                <p class="text-right pele_rtl">{{detail.SEQUENCE_NUM}}. {{detail.EMPLOYEE_NAME}}</p>
                 <i class="icon icon-left {{getApproveListActionIcon(detail.ACTION_CODE , detail.CHAR_ACTION_DATE , detail.NOTE)}}"></i>
               </a>
 
               <label class="pele-item" ng-hide="hidenAcctionHistoryDetails(detail.SHOW_FLAG, detail.HIDEN_FLAG, detail.PUSH_COUNT , detail.NOTE)">
                 <div class="row">
-                  <div class="col text-right">פעולה:</div>
-                  <div class="col col-75 text-right">{{detail.ACTION_CODE_DISP}}</div>
+                  <div class="col text-right pele_rtl">פעולה:</div>
+                  <div class="col col-75 text-right pele_rtl">{{detail.ACTION_CODE_DISP}}</div>
                 </div>
 
                 <div class="row">
-                  <div class="col text-right">תאריך:</div>
-                  <div class="col col-75 text-right">{{detail.CHAR_ACTION_DATE}}</div>
+                  <div class="col text-right pele_rtl">תאריך:</div>
+                  <div class="col col-75 text-right pele_rtl">{{detail.CHAR_ACTION_DATE}}</div>
                 </div>
 
                 <div class="row">
                   <!--<textarea class="col col-75 text-right" readonly="true">{{detail.NOTE}}</textarea>-->
-                  <div class="col text-right">הערות:</div>
-                  <div class="col col-75 pele-item item-text-wrap text-right">
+                  <div class="col text-right pele_rtl">הערות:</div>
+                  <div class="col col-75 pele-item item-text-wrap text-right pele_rtl">
                     {{detail.NOTE}}
                   </div>
                 </div>
@@ -73,7 +73,7 @@
             <!-- Refresh to get the new posts -->
             <label class="item">
               <div class="row">
-                <div class="col text-right"><h2><b>{{PO_ORDER}}</b></h2></div>
+                <div class="col text-right pele_rtl"><h2><b>{{PO_ORDER}}</b></h2></div>
               </div>
             </label>
 
@@ -82,80 +82,84 @@
               <div type="item-text-wrap" ng-click="PO_COMMENTS_SHOW = !PO_COMMENTS_SHOW">
                 <a class="item item-divider item-icon-right">
                   <i class="icon ion-clipboard"></i>
-                  <h2 class="text-right">תיאור הזמנה</h2>
+                  <h2 class="text-right pele_rtl">תיאור הזמנה</h2>
                 </a>
               </div>
-              <div class="item item-text-wrap text-right" ng-show="PO_COMMENTS_SHOW">
+              <div class="item item-text-wrap text-right pele_rtl" ng-show="PO_COMMENTS_SHOW">
                 {{COMMENTS}}
               </div>
               <!------------------------------------------------>
               <div type="item-text-wrap" ng-click="PO_DETAILS_SHOW = !PO_DETAILS_SHOW">
                 <a class="item item-divider item-icon-right">
                   <i class="icon ion-clipboard"></i>
-                  <h2 class="text-right">פרטי הזמנה</h2>
+                  <h2 class="text-right pele_rtl">פרטי הזמנה</h2>
                 </a>
               </div>
               <div class="row" ng-show="PO_DETAILS_SHOW">
-                <div class="col text-right"><b></b></div>
+                <div class="col text-right pele_rtl"><b></b></div>
               </div>
               <div class="pele-row" ng-show="PO_DETAILS_SHOW">
-                <div class="col col-75 text-right">{{PO_AMOUNT}} {{CURRENCY}}</div>
-                <div class="col col-25 text-right"><p class="under">סה"כ</p></div>
+                <div class="col col-75 text-right pele_rtl">{{PO_AMOUNT}} {{CURRENCY}}</div>
+                <div class="col col-25 text-right pele_rtl"><p class="under">סה"כ</p></div>
               </div>
               <div class="pele-row" ng-show="PO_DETAILS_SHOW">
-                <div class="col col-75 text-right">{{VENDOR_NAME}}</div>
-                <div class="col col-25 text-right"><p class="under">ספק</p></div>
+                <div class="col col-75 text-right pele_rtl">{{VENDOR_NAME}}</div>
+                <div class="col col-25 text-right pele_rtl"><p class="under">ספק</p></div>
               </div>
               <div class="pele-row" ng-show="PO_DETAILS_SHOW">
-                <div class="col col-75 text-right">{{SUBMIT_DATE}}</div>
-                <div class="col col-35 text-right"><p class="under">תאריך יצירה</p></div>
+                <div class="col col-75 text-right pele_rtl">{{SUBMIT_DATE}}</div>
+                <div class="col col-35 text-right pele_rtl"><p class="under">תאריך יצירה</p></div>
               </div>
               <div class="pele-row" ng-show="PO_DETAILS_SHOW">
-                <div class="col col-75 text-right">{{BUYER_NAME}}</div>
-                <div class="col col-35 text-right"><p class="under">קנין</p></div>
+                <div class="col col-75 text-right pele_rtl">{{BUYER_NAME}}</div>
+                <div class="col col-35 text-right pele_rtl"><p class="under">קנין</p></div>
               </div>
               <div class="pele-row" ng-show="PO_DETAILS_SHOW">
-                <div class="col col-75 text-right">{{MANAGER_NAME}}</div>
-                <div class="col col-35 text-right"><p class="under">סמנכ"ל דורש</p></div>
+                <div class="col col-75 text-right pele_rtl">{{MANAGER_NAME}}</div>
+                <div class="col col-35 text-right pele_rtl"><p class="under">סמנכ"ל דורש</p></div>
               </div>
 
               <!------------------------------------------------>
               <div type="item-text-wrap" ng-click="PO_EXPLAIN_SHOW = !PO_EXPLAIN_SHOW">
                 <a class="item item-divider item-icon-right">
                   <i class="icon ion-clipboard"></i>
-                  <h2 class="text-right">הסבר כללי</h2>
+                  <h2 class="text-right pele_rtl">הסבר כללי</h2>
                 </a>
               </div>
-              <div class="item item-text-wrap text-right" ng-show="PO_EXPLAIN_SHOW">
+              <div class="item item-text-wrap text-right pele_rtl" ng-show="PO_EXPLAIN_SHOW">
                 {{PO_EXPLAIN}}
               </div>
               <div type="item-text-wrap" ng-click="PO_SUPPLIER_REASON_SHOW = !PO_SUPPLIER_REASON_SHOW">
                 <a class="item item-divider item-icon-right">
                   <i class="icon ion-clipboard"></i>
-                  <h2 class="text-right">נימוק לבחירת ספק</h2>
+                  <h2 class="text-right pele_rtl">נימוק לבחירת ספק</h2>
                 </a>
               </div>
-              <div class="item item-text-wrap text-right" ng-show="PO_SUPPLIER_REASON_SHOW">
+              <!-- <div class="item item-text-wrap text-right" ng-show="PO_SUPPLIER_REASON_SHOW"> -->
+              <!-- <div class="item item-text-wrap" direction="RTL" ng-show="PO_SUPPLIER_REASON_SHOW"> -->
+              <div class="item item-text-wrap text-right pele_rtl" ng-show="PO_SUPPLIER_REASON_SHOW">
+
                 {{SUPPLIER_REASON}}
               </div>
+
               <!-- Match Price -->
               <div type="item-text-wrap" ng-click="PO_MATCH_PRICE_SHOW=!PO_MATCH_PRICE_SHOW" >
                 <a class="item item-divider item-icon-right">
                   <i class="icon ion-calculator"></i>
-                  <h2 class="text-right">השוואת מחירים</h2>
+                  <h2 class="text-right pele_rtl">השוואת מחירים</h2>
                 </a>
               </div>
               <div ng-repeat="matchPricerow in MATCH_PRICE" ng-show="PO_MATCH_PRICE_SHOW">
 
                 <div class="card">
-                  <div class="item item-divider text-right">
+                  <div class="item item-divider text-right pele_rtl">
                     שם ספק :{{matchPricerow.VENDOR_NAME}}
                   </div>
                   <div class="row ">
-                    <div class="item item-text-wrap text-right">
+                    <div class="item item-text-wrap text-right pele_rtl">
                       מחיר סופי: {{matchPricerow.TOTAL_PRICE}}
                     </div>
-                    <div class="item item-text-wrap text-right">
+                    <div class="item item-text-wrap text-right pele_rtl">
                       מחיר ראשוני: {{matchPricerow.UNIT_PRICE}}
                     </div>
                   </div>
@@ -165,10 +169,10 @@
               <div type="item-text-wrap" ng-click="PO_ATTACHED_DOCUMENTS_SHOW = !PO_ATTACHED_DOCUMENTS_SHOW">
                 <a class="item item-divider item-icon-right">
                   <i class="icon ion-paperclip"></i>
-                  <h2 class="text-right">נספחי הזמנה</h2>
+                  <h2 class="text-right pele_rtl">נספחי הזמנה</h2>
                 </a>
               </div>
-              <div class="item item-text-wrap text-right" ng-repeat="document in ATTACHED_DOCUMENTS" ng-show="PO_ATTACHED_DOCUMENTS_SHOW">
+              <div class="item item-text-wrap text-right pele_rtl" ng-repeat="document in ATTACHED_DOCUMENTS" ng-show="PO_ATTACHED_DOCUMENTS_SHOW">
                 <!-- <p class="under" style="color:blue" ng-click="openAttachedFile(document.OPEN_FILE_NAME,  document.FULL_FILE_NAME , document.FILE_TYPE ,document.FILE_MAOF_TYPE , document.SHORT_TEXT , document.LONG_TEXT , document.IS_FILE_OPENED_ON_MOBILE , document.IOS_OPEN_FILE_NAME )">{{document.FILE_NAME}}</p>-->
                 <p class="under" ng-style="getAttachmentLinkStyle(document.IS_FILE_OPENED_ON_MOBILE)" ng-click="openAttachedFile(document.OPEN_FILE_NAME,  document.FULL_FILE_NAME , document.FILE_TYPE ,document.FILE_MAOF_TYPE , document.SHORT_TEXT , document.LONG_TEXT , document.IS_FILE_OPENED_ON_MOBILE , document.IOS_OPEN_FILE_NAME )">{{document.FILE_NAME}}</p>
               </div>

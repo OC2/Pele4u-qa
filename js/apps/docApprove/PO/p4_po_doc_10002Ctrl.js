@@ -426,6 +426,10 @@ app.controller('p4_po_doc_10002Ctrl'
                   $scope.$broadcast('scroll.refreshComplete');
                   PelApi.showPopup(config_app.EAI_Status, "");
                 }
+              } else if("OLD" === statusCode.Status){
+                $ionicLoading.hide();
+                $scope.$broadcast('scroll.refreshComplete');
+                PelApi.showPopupVersionUpdate(data.StatusDesc , "");
               }
             });
           }
@@ -511,7 +515,7 @@ app.controller('p4_po_doc_10002Ctrl'
       //----------- Action History -----
       var actionHistory = $scope.addPushFlagToActionHistory(config_app.docDetails.ACTION_HISTORY);
       $scope.ACTION_HISTORY = actionHistory;
-      console.log("length : " + config_app.docDetails.ACTION_HISTORY.length);
+      console.log("length : " + $scope.ACTION_HISTORY.length);
 
       console.log("====================================================");
       console.log(JSON.stringify($scope.ACTION_HISTORY));

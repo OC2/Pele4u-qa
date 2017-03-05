@@ -324,8 +324,12 @@ span.item-title{
 
 ion-item.item-stable{text-align: right;}
 ion-item.item-stable :active{background-color: #FFFFFF !important;}
-ion-item.item-doc-list{margin-top:1px; margin-bottom: 1px; background-color: #CECECE; max-height: 60px; vertical-align: top; border: none; }
-.item-doc-list img{height: 33px; float: left;  width:auto; border: none;}
+ion-item.item-doc-list{margin-top:1px; margin-bottom: 1px; background-color: #CECECE; max-height: 67px; vertical-align: top; border: none; }
+.item-doc-list img{height: 38px; float: left;  width:auto; border: none;}
+ion-item.item-doc-list-3{margin-top:1px; margin-bottom: 1px; background-color: #CECECE; max-height: 80px; vertical-align: top; border: none; }
+.item-doc-list-3 img{height: 50px; float: left;  width:auto; border: none;}
+ion-item.item-doc-list-3A{margin-top:1px; margin-bottom: 1px; background-color: #CECECE; max-height: 82px; vertical-align: top; border: none; }
+.item-doc-list-3A img{height: 54px; float: left;  width:auto; border: none;}
 div.item-content{padding:5px 10px 5px 10px !important; border: none !important; background-color: #CECECE !important;  vertical-align: middle !important;}
 .item-doc h2{    padding: 0px 5px 0px 5px ;}
 .item-doc h3{    padding: 0px 10px 0px 10px ;}
@@ -414,4 +418,54 @@ p.under {
 }
 .pele-item-icon-left {
   padding-left: 26px;
+}
+/* ----------------------------------------------------------------- */
+/* - When        Who        Description                              */
+/* ------------  ---------  ---------------------------------------- */
+/* - 03/01/2017  R.W.       Round Button for scan
+/* ----------------------------------------------------------------- */
+.round-button {
+  width:25%;
+}
+.round-button-circle {
+  width: 100%;
+  height:0;
+  padding-bottom: 100%;
+  border-radius: 50%;
+  border:10px solid #cfdcec;
+  overflow:hidden;
+
+  background: #4679BD;
+  box-shadow: 0 0 3px gray;
+}
+.round-button-circle:hover {
+  background:#30588e;
+}
+.round-button a {
+  display:block;
+  float:left;
+  width:100%;
+  padding-top:50%;
+  padding-bottom:50%;
+  line-height:1em;
+  margin-top:-0.5em;
+
+  text-align:center;
+  color:#e2eaf3;
+  font-family:Verdana;
+  font-size:1.2em;
+  font-weight:bold;
+  text-decoration:none;
+}
+div.pele_rtl {
+  direction: rtl;
+  unicode-bidi :plaintext ;
+}
+ion-item.pele_rtl {
+  direction: rtl;
+  unicode-bidi: plaintext;
+}
+h2.pele_rtl{
+  direction: rtl;
+  unicode-bidi: plaintext;
 }

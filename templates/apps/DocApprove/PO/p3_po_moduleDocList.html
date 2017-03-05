@@ -32,11 +32,10 @@
           <span class="item-title">{{chat.ORG_NAME}}&nbsp;({{chat.ORDER_QTY}})</span>
         </ion-item>
 
-        <ion-item class="item-doc-list" ng-repeat="item in chat.ORDER_DETAILS.ORDER_DETAILS_ROW | filter:searchText.text" ng-show="isGroupShown(chat.ORG_NAME)" ng-click="forwardToDoc(item.DOC_ID, item.PO_HEADER_ID , chat.ORG_NAME)">
+        <ion-item class="item-doc-list"  ng-repeat="item in chat.ORDER_DETAILS.ORDER_DETAILS_ROW | filter:searchText.text" ng-show="isGroupShown(chat.ORG_NAME)" ng-click="forwardToDoc(item.DOC_ID, item.PO_HEADER_ID , chat.ORG_NAME)">
           <img  ng-src="img/DocApprove/document_redirect.png">
-          <h2>{{item.PO_ORDER}} - {{item.PO_AMOUNT}} {{item.CURRENCY}}</h2>
-          <h3>{{item.VENDOR_NAME}}</h3>
-          <!--<i class="icon ion-chevron-right icon-accessory"></i>-->
+          <div><table><tr><td>{{item.PO_ORDER}}- </td> <td>{{item.PO_AMOUNT}} </td><td> {{item.CURRENCY}}</td></tr></table></div>
+          <div><strong>{{item.VENDOR_NAME}}</strong></div>
         </ion-item>
 
       </div>

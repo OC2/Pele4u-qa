@@ -187,7 +187,7 @@ app.controller('P1_appsListCtrl'
           $scope.$broadcast('scroll.refreshComplete');
 
           PelApi.writeToLog(config_app.LOG_FILE_ERROR_TYPE ,"===== P1_appsListCtrl.setSettings( ERROR ) ======" );
-          PelApi.writeToLog(config_app.LOG_FILE_ERROR_TYPE , JSON.stringify(data));
+          PelApi.writeToLog(config_app.LOG_FILE_ERROR_TYPE , JSON.stringify(response));
 
         }
       ); // retGetFileURI.then
@@ -195,7 +195,25 @@ app.controller('P1_appsListCtrl'
 
   }
 
+  $scope.insertOnTouchFlag = function(arr){
 
+
+    var myArr = [];
+    for(var i=0; i< arr.length; i++){
+      var myObj = {
+        AppId : arr[i].AppId,
+        ApplicationType : arr[i].ApplicationType,
+        DisplayName : arr[i].DisplayName,
+        Image : arr[i].Image,
+        Path : arr[i].Path,
+        Pin : arr[i].Pin,
+        WorkState : arr[i].WorkState,
+        PUSH_FLAG:true};
+      myArr.push(myObj);
+    }
+
+    return myArr;
+  }
   /*
    * ==========================================================
    *                    GetUserMenuMain
@@ -225,7 +243,7 @@ app.controller('P1_appsListCtrl'
 
           $ionicLoading.hide();
           $scope.$broadcast('scroll.refreshComplete');
-
+          PelApi.writeToLog(config_app.LOG_FILE_INFO_TYPE , " Interface getUserMenu return SUCCESS");
           PelApi.writeToLog(config_app.LOG_FILE_INFO_TYPE , JSON.stringify(data));
 
           console.log("headers('msisdn_res') : " + headers('msisdn_res'));
@@ -244,6 +262,7 @@ app.controller('P1_appsListCtrl'
             strData = strData.replace(/"\"/g,"");
             config_app.GetUserMenu = JSON.parse(strData);
             $scope.feeds_categories = config_app.GetUserMenu;
+            $scope.feeds_categories.menuItems = $scope.insertOnTouchFlag( $scope.feeds_categories.menuItems );
 
             //---------------------------------------------
             //-- Send User Tag for push notifications
@@ -272,7 +291,8 @@ app.controller('P1_appsListCtrl'
             }else{
               config_app.Pin = config_app.GetUserMenu.PinCode;
               config_app.IS_TOKEN_VALID = "Y";
-              $scope.setSettings();
+              //----- Rem by R.W. 02/01/2016 after conference with Lina and Maya
+              //$scope.setSettings();
             }
 
           } else if ("PAD" === pinCodeStatus ) {
@@ -299,13 +319,13 @@ app.controller('P1_appsListCtrl'
           }else if("OLD" === pinCodeStatus){
             $ionicLoading.hide();
             $scope.$broadcast('scroll.refreshComplete');
-            errorMsg = appSettings.PIN_STATUS.PAD;
             PelApi.showPopupVersionUpdate(data.StatusDesc , "");
           }
         });
       }
       //--- ERROR ---//
       , function (response) {
+          PelApi.writeToLog(config_app.LOG_FILE_ERROR_TYPE , " Interface getUserMenu FAILD");
           PelApi.writeToLog(config_app.LOG_FILE_ERROR_TYPE , JSON.stringify(response));
           console.log(config_app.LOG_FILE_ERROR_TYPE + " : " + JSON.stringify(response))
           $ionicLoading.hide();
@@ -316,16 +336,22 @@ app.controller('P1_appsListCtrl'
   } //  GetUserMenuMain
   $scope.setMSISDN = function(pin){
 
-      var msisdn = window.localStorage.getItem("PELE4U_MSISDN");
+      PelApi.writeToLog(config_app.LOG_FILE_INFO_TYPE , " START $scope.setMSISDN");
+      try{
+        var msisdn = window.localStorage.getItem("PELE4U_MSISDN");
 
-      if(msisdn === undefined || msisdn === "" ){
-        window.localStorage.setItem("PELE4U_MSISDN", pin);
-      }else if(msisdn !== pin){
-        window.localStorage.removeItem("PELE4U_MSISDN");
-        window.localStorage.setItem("PELE4U_MSISDN", pin);
-      }else{
-        window.localStorage.setItem("PELE4U_MSISDN", pin);
+        if(msisdn === undefined || msisdn === "" ){
+          window.localStorage.setItem("PELE4U_MSISDN", pin);
+        }else if(msisdn !== pin){
+          window.localStorage.removeItem("PELE4U_MSISDN");
+          window.localStorage.setItem("PELE4U_MSISDN", pin);
+        }else{
+          window.localStorage.setItem("PELE4U_MSISDN", pin);
+        }
+      }catch(e){
+        PelApi.writeToLog(config_app.LOG_FILE_ERROR_TYPE , " $scope.setMSISDN() - " + e);
       }
+      PelApi.writeToLog(config_app.LOG_FILE_INFO_TYPE , " END $scope.setMSISDN");
     }; // setMSISDN
     $scope.getMSISDN = function(){
       var value = window.localStorage.getItem("PELE4U_MSISDN");
@@ -401,6 +427,8 @@ app.controller('P1_appsListCtrl'
       var path = i.Path; //"apps/" + i.Path + "/app.html";
       //window.location.href = path;
       $state.go(path, {"AppId": i.AppId, "Title": i.Title, "Pin": i.Pin});
+      //$state.go("app.p2_test");
+
     }
 
   };

@@ -94,6 +94,8 @@ angular.module('pele.P2_moduleListCtrl', ['ngStorage'])
           path = appSettings.MODULE_TYPES_FORWARD_PATH.HR;
         }else if( "POAPPRV" === formType){
           path = appSettings.MODULE_TYPES_FORWARD_PATH.POAPPRV;
+        }else if( "PELRQAPR" === formType) {
+          path = appSettings.MODULE_TYPES_FORWARD_PATH.PELRQAPR;
         }
 
         appId = config_app.appId;
@@ -259,6 +261,10 @@ angular.module('pele.P2_moduleListCtrl', ['ngStorage'])
               $ionicLoading.hide();
               $scope.$broadcast('scroll.refreshComplete');
               PelApi.showPopup(stat.description, "");
+            } else if("OLD" === pinCodeStatus){
+              $ionicLoading.hide();
+              $scope.$broadcast('scroll.refreshComplete');
+              PelApi.showPopupVersionUpdate(data.StatusDesc , "");
             }
 
           });

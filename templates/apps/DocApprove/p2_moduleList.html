@@ -23,7 +23,10 @@
     </div>
 
     <div ng-repeat="source in category_sources"  >
-      <div class="row {{isShowBtn(source.DOCUMENT_QTY)}}" ng-click="onClick(source.MODULE_NAME ,source.DOCUMENT_QTY )" ng-model="btn_class.on_release" on-touch="source.PUSH_FLAG = !source.PUSH_FLAG " on-release="source.PUSH_FLAG = !source.PUSH_FLAG">
+      <div class="row {{isShowBtn(source.DOCUMENT_QTY)}}" ng-click="onClick(source.MODULE_NAME ,source.DOCUMENT_QTY )"
+                                                          ng-model="btn_class.on_release"
+                                                          on-touch="source.PUSH_FLAG = !source.PUSH_FLAG "
+                                                          on-release="source.PUSH_FLAG = !source.PUSH_FLAG">
         <div class="col col-10"></div>
         <div class="col col-80 item item-icon-right {{pushBtnClass(source.PUSH_FLAG)}}" >
           <div class="app-button">

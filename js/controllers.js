@@ -178,7 +178,7 @@ angular.module('pele.controllers', ['ngStorage'])
       $scope.APP_VERSION = config_app.APP_VERSION;
       if("PD" !== appSettings.enviroment)
       {
-        $scope.ENIRONMENT = " - " + appSettings.enviroment ;
+        $scope.ENIRONMENT = " - " + appSettings.enviroment + " " + config_app.userName + " ";
       }else{
         $scope.ENIRONMENT = "";
       }
