@@ -69,7 +69,8 @@ app.controller('p3_rq_moduleDocListCtrl', function($scope,
               var rowLength = $scope.chats.length;
 
               var emptyFlag = "N";
-              if($scope.chats[0] === null){
+
+              if($scope.chats[0].REQ_QTY === "0"){
                 emptyFlag = "Y";
               }
 
@@ -85,8 +86,7 @@ app.controller('p3_rq_moduleDocListCtrl', function($scope,
 
                 $state.go("app.p2_moduleList",{"AppId": appId, "Title": "", "Pin": pin});
               }
-
-              //}
+              
             }
           } else if ("PDA" === pinStatus) {
 

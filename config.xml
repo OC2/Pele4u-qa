@@ -4,8 +4,8 @@
 <widget xmlns     = "http://www.w3.org/ns/widgets"
         xmlns:gap = "http://phonegap.com/ns/1.0"
         id        = "com.int-pele.pele4u-qa"
-        version   = "116.2"
-        versionCode= "11602" >
+        version   = "116.3"
+        versionCode= "11603" >
 
 <name>QA_PELE4U</name>
 
@@ -64,44 +64,47 @@
     <!-- Core plugins -->
 
 
-        <plugin name="cordova-plugin-battery-status" spec="~1.2.2" />
-      <plugin name="cordova-plugin-camera" spec="~2.3.1">
-        <variable name="CAMERA_USAGE_DESCRIPTION" value="Allow the app to use your camera" />
-             <variable name="PHOTOLIBRARY_USAGE_DESCRIPTION" value="Allow the app to access your photos" />
-      </plugin>
-      <plugin name="cordova-plugin-console" spec="~1.0.5" />
+    <plugin name="cordova-plugin-battery-status" spec="~1.2.2" />
+       <plugin name="cordova-plugin-camera" spec="~2.3.1">
+         <variable name="CAMERA_USAGE_DESCRIPTION" value="Allow the app to use your camera" />
+              <variable name="PHOTOLIBRARY_USAGE_DESCRIPTION" value="Allow the app to access your photos" />
+       </plugin>
+       <plugin name="cordova-plugin-console" spec="~1.0.5" />
 
-      <plugin name="cordova-plugin-device" spec="~1.1.4" />
-      <plugin name="cordova-plugin-device-motion" spec="~1.2.3" />
-      <plugin name="cordova-plugin-device-orientation" spec="~1.0.5" />
-      <plugin name="cordova-plugin-dialogs" spec="~1.3.1" />
-      <plugin name="cordova-plugin-file" spec="~4.3.1" />
-      <plugin name="cordova-plugin-file-transfer" spec="~1.6.1" />
+       <plugin name="cordova-plugin-device" spec="~1.1.4" />
+       <plugin name="cordova-plugin-device-motion" spec="~1.2.3" />
+       <plugin name="cordova-plugin-device-orientation" spec="~1.0.5" />
+       <plugin name="cordova-plugin-dialogs" spec="~1.3.1" />
+       <plugin name="cordova-plugin-file" spec="~4.3.1" />
+       <plugin name="cordova-plugin-file-transfer" spec="~1.6.1" />
 
-      <plugin name="cordova-plugin-globalization" spec="~1.0.5" />
-      <plugin name="cordova-plugin-inappbrowser" spec="~1.6.1" />
-      <plugin name="cordova-plugin-media" spec="~2.4.1" >
+       <plugin name="cordova-plugin-globalization" spec="~1.0.5" />
+       <plugin name="cordova-plugin-inappbrowser" spec="~1.6.1" />
+       <plugin name="cordova-plugin-media" spec="~2.4.1" >
 
-        <variable name="CAMERA_USAGE_DESCRIPTION" value="Allow the app to use your camera" />
-             <variable name="PHOTOLIBRARY_USAGE_DESCRIPTION" value="Allow the app to access your photos" />
-      </plugin>
-      <plugin name="cordova-plugin-network-information" spec="~1.3.1" />
-      <plugin name="cordova-plugin-splashscreen" spec="~4.0.1" />
-      <plugin name="cordova-plugin-vibration" spec="~2.1.3" />
-      <plugin name="cordova-plugin-statusbar" spec="~2.2.1" />
-        <plugin name="cordova-plugin-email-composer" version="0.8.3" source="npm" />
-        <plugin name="cordova-plugin-app-version" source="npm" />
-         <plugin name="onesignal-cordova-plugin" source="npm" />
-        <plugin name="cordova-plugin-customurlscheme">
-          <param name="URL_SCHEME" value="pele4u" />
-        </plugin>
+         <variable name="CAMERA_USAGE_DESCRIPTION" value="Allow the app to use your camera" />
+              <variable name="PHOTOLIBRARY_USAGE_DESCRIPTION" value="Allow the app to access your photos" />
+       </plugin>
+       <plugin name="cordova-plugin-network-information" spec="~1.3.1" />
+       <plugin name="cordova-plugin-splashscreen" spec="~4.0.1" />
+       <plugin name="cordova-plugin-vibration" spec="~2.1.3" />
+       <plugin name="cordova-plugin-statusbar" spec="~2.2.1" />
+         <plugin name="cordova-plugin-email-composer" version="0.8.3" source="npm" />
+         <plugin name="cordova-plugin-app-version" source="npm" />
+          <plugin name="onesignal-cordova-plugin" source="npm" />
+         <plugin name="cordova-plugin-customurlscheme">
+           <param name="URL_SCHEME" value="pele4u" />
+         </plugin>
 
-       <plugin name="cordova-plugin-whitelist" />
+        <plugin name="cordova-plugin-whitelist" />
 
-        <plugin name="phonegap-plugin-barcodescanner" source="npm">
-          <variable name="CAMERA_USAGE_DESCRIPTION" value="Allow the app to use your camera" />
-               <variable name="PHOTOLIBRARY_USAGE_DESCRIPTION" value="Allow the app to access your photos" />
-        </plugin>
+         <plugin name="phonegap-plugin-barcodescanner" source="npm">
+           <variable name="CAMERA_USAGE_DESCRIPTION" value="Allow the app to use your camera" />
+                <variable name="PHOTOLIBRARY_USAGE_DESCRIPTION" value="Allow the app to access your photos" />
+         </plugin>
+
+
+
 
     <!-- Third party plugins -->
     <!-- A list of available plugins are available at https://build.phonegap.com/plugins -->
@@ -161,7 +164,7 @@
 <splash platform="android" qualifier="xxxhdpi" src="res/screens/android/screen-xxxhdpi-portrait.png" />
 
 <gap:config-file platform="ios" parent="CFBundleShortVersionString">
-	<string>116.2</string>
+	<string>116.3</string>
 </gap:config-file>
 
     <!--

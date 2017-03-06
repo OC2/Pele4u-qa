@@ -452,4 +452,3 @@ config_app = {
   MSSO_PRINT_WRONG_BARCODE:"ברקוד לא משויך למדפסת ...",
   INI_DOC_INIT_ID_UNDEFINED:"לא מקושר מסמך יזום"
 };
-
