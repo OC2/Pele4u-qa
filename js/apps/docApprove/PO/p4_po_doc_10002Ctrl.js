@@ -489,6 +489,7 @@ app.controller('p4_po_doc_10002Ctrl'
       $scope.APP_ID = appId;
       $scope.NOTIFICATION_ID = config_app.docDetails.NOTIFICATION_ID;
       $scope.PO_ORDER = config_app.docDetails.PO_ORDER;
+      $scope.PO_ORDER_NUMBER = config_app.docDetails.PO_ORDER_NUMBER;
       $scope.COMMENTS = config_app.docDetails.COMMENTS;
       $scope.PO_AMOUNT = config_app.docDetails.PO_AMOUNT;
       $scope.CURRENCY = config_app.docDetails.CURRENCY;

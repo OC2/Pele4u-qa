@@ -214,6 +214,7 @@ app.controller('P1_appsListCtrl'
 
     return myArr;
   }
+
   /*
    * ==========================================================
    *                    GetUserMenuMain
@@ -334,6 +335,7 @@ app.controller('P1_appsListCtrl'
       }
     );
   } //  GetUserMenuMain
+
   $scope.setMSISDN = function(pin){
 
       PelApi.writeToLog(config_app.LOG_FILE_INFO_TYPE , " START $scope.setMSISDN");
@@ -357,6 +359,7 @@ app.controller('P1_appsListCtrl'
       var value = window.localStorage.getItem("PELE4U_MSISDN");
       return value;
     } // getMSISDN
+
   /** *****************************************************************
    *  When         Who      Description
    *  -----------  -------  -------------------------------------------

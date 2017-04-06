@@ -86,7 +86,7 @@ app.controller('p3_rq_moduleDocListCtrl', function($scope,
 
                 $state.go("app.p2_moduleList",{"AppId": appId, "Title": "", "Pin": pin});
               }
-              
+
             }
           } else if ("PDA" === pinStatus) {
 

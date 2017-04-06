@@ -368,7 +368,7 @@ config_app = {};
 
 var config_app;
 config_app = {
-  APP_VERSION:"116",
+  APP_VERSION:"116.4",
   SCAN_PRINT_SCANNING_ERROR : "שגיאה בסריקה",
   PIN_CODE_AUTHENTICATION_REQUIRED_CODE :"10000",
   IS_TOKEN_VALID:"N",
@@ -452,3 +452,4 @@ config_app = {
   MSSO_PRINT_WRONG_BARCODE:"ברקוד לא משויך למדפסת ...",
   INI_DOC_INIT_ID_UNDEFINED:"לא מקושר מסמך יזום"
 };
+

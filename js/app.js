@@ -316,7 +316,7 @@ angular.module('pele', ['ionic'
       url: '/home/:showLoading',
       views: {
         'menuContent': {
-          templateUrl: 'templates/p1_appsLists.html',
+          templateUrl: 'templates/home.html',
           controller: 'homeCtrl'
         }
       }
@@ -420,5 +420,6 @@ angular.module('pele', ['ionic'
   ;
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/app/home',{'showLoading':'Y'});
+  $urlRouterProvider.otherwise('/apps/home.html',{'showLoading':'Y'});
+
 });

@@ -23,6 +23,8 @@ app.controller('p4_rq_doc_20002Ctrl'
     , $cordovaFileTransfer
     , $cordovaInAppBrowser
     , $state
+    , $ionicScrollDelegate
+
     /* rem by R.W 07/11/2016 , $cordovaFileOpener2 */
   ) {
 
@@ -89,6 +91,7 @@ app.controller('p4_rq_doc_20002Ctrl'
         });
       }
     } // openExistText
+
     //---------------------------------------------------------------------------
     //--                         isGroupShown
     //---------------------------------------------------------------------------
@@ -106,6 +109,7 @@ app.controller('p4_rq_doc_20002Ctrl'
         $scope.shownGroup = group;
       }
     };
+
     //============================================================================//
     //== When        Who         Description                                    ==//
     //== ----------  ----------  -----------------------------------------------==//
@@ -156,6 +160,7 @@ app.controller('p4_rq_doc_20002Ctrl'
 
       return myArr;
     }// addPushFlagToActionHistory
+
     //--------------------------------------------------------------------------//
     //-- When         Who             Description                             --//
     //-- ===========  ==============  ========================================--//
@@ -174,6 +179,7 @@ app.controller('p4_rq_doc_20002Ctrl'
       return retVal;
 
     }
+
     $scope.hidenAcctionHistoryDetails = function(showFlag , hidenFlag , pushCount , note ){
       var retVal = "";
       if(hidenFlag === true){
@@ -223,6 +229,7 @@ app.controller('p4_rq_doc_20002Ctrl'
 
       return myArr;
     };// getMatchPrice
+
     //--------------------------------------------------------------------------//
     //-- When         Who             Description                             --//
     //-- ===========  ==============  ========================================--//
@@ -260,6 +267,7 @@ app.controller('p4_rq_doc_20002Ctrl'
 
       return myArr;
     }//getAttachedDocuments
+
     $scope.getAttachedDocumentRow = function( CATEGORY_TYPE_4
                                             , DISPLAY_FLAG_1
                                             , DOCUMENT_ID_2
@@ -521,14 +529,95 @@ app.controller('p4_rq_doc_20002Ctrl'
       return retArr;
     } // getREQ_LINES_CUR
 
+
+    // YanisSha - 15.03.2016 - change function getBudgetLine
     $scope.getBudgetLine = function(arr){
-      var retLine = [];
-      if (arr.length !== undefined){
-          retLine = arr;
+      var retBudgetArr = [];
+
+      if (arr.length === undefined){
+        var myObj = {
+          BUDGET_LINE_NUM: arr.REQ_BUDGET_CUR_ROW.BUDGET_LINE_NUM,
+          BUDGET_LINE_SHOW_FLAG: arr.BUDGET_LINE_SHOW_FLAG,
+          REQ_DEP_1: arr.REQ_BUDGET_CUR_ROW.REQ_DEP_1,
+          REQ_BUDGET_2: arr.REQ_BUDGET_CUR_ROW.REQ_BUDGET_2,
+          REQ_SUB_BUDGET_3: arr.REQ_BUDGET_CUR_ROW.REQ_SUB_BUDGET_3,
+          TOT_GRP_DISTR_PRICE: arr.REQ_BUDGET_CUR_ROW.TOT_GRP_DISTR_PRICE,
+          TOT_GRP_DISTR_ENC_AMOUNT: arr.REQ_BUDGET_CUR_ROW.TOT_GRP_DISTR_ENC_AMOUNT,
+          REQUISITION_HEADER_ID: arr.REQ_BUDGET_CUR_ROW.REQUISITION_HEADER_ID
+        }
+
+        retBudgetArr.push(myObj);
+
+      }else{
+
+        for (var i = 0; i<arr.length; i++){
+
+          var duplicateCheckFlag = true;
+
+          var myObjTemp = {
+            BUDGET_LINE_NUM: arr[i].BUDGET_LINE_NUM,
+            BUDGET_LINE_SHOW_FLAG: arr[i].BUDGET_LINE_SHOW_FLAG,
+            REQ_DEP_1: arr[i].REQ_DEP_1,
+            REQ_BUDGET_2: arr[i].REQ_BUDGET_2,
+            REQ_SUB_BUDGET_3: arr[i].REQ_SUB_BUDGET_3,
+            TOT_GRP_DISTR_PRICE: arr[i].TOT_GRP_DISTR_PRICE,
+            TOT_GRP_DISTR_ENC_AMOUNT: arr[i].TOT_GRP_DISTR_ENC_AMOUNT,
+            REQUISITION_HEADER_ID: arr[i].REQUISITION_HEADER_ID
+          }
+
+          if (retBudgetArr.length == 0 ){
+            retBudgetArr.push(myObjTemp);
+          }else{
+
+            for(var j = 0; j<retBudgetArr.length; j++){
+              if((retBudgetArr[j].REQ_DEP_1 == myObjTemp.REQ_DEP_1) && (retBudgetArr[j].REQ_BUDGET_2 == myObjTemp.REQ_BUDGET_2) && (retBudgetArr[j].REQ_SUB_BUDGET_3 == myObjTemp.REQ_SUB_BUDGET_3)){
+                duplicateCheckFlag = false;
+                retBudgetArr[j].BUDGET_LINE_NUM = retBudgetArr[j].BUDGET_LINE_NUM + ", " + myObjTemp.BUDGET_LINE_NUM;
+                retBudgetArr[j].TOT_GRP_DISTR_PRICE = retBudgetArr[j].TOT_GRP_DISTR_PRICE + myObjTemp.TOT_GRP_DISTR_PRICE;
+                retBudgetArr[j].TOT_GRP_DISTR_ENC_AMOUNT = retBudgetArr[j].TOT_GRP_DISTR_ENC_AMOUNT + myObjTemp.TOT_GRP_DISTR_ENC_AMOUNT;
+              }
+            }
+
+            if(duplicateCheckFlag){
+              retBudgetArr.push(myObjTemp);
+            }
+          }
+        }
+
+        for (var l = 0; l<retBudgetArr.length; l++ ){
+          retBudgetArr[l].TOT_GRP_DISTR_PRICE = retBudgetArr[l].TOT_GRP_DISTR_PRICE;
+          retBudgetArr[l].TOT_GRP_DISTR_ENC_AMOUNT = retBudgetArr[l].TOT_GRP_DISTR_ENC_AMOUNT;
+        }
+
       }
 
-      return retLine;
+      return retBudgetArr;
     }
+
+    $scope.toggleBudgetShown = function(ReqBudgetLinesInd){
+
+      $location.hash(ReqBudgetLinesInd.BUDGET_LINE_NUM);
+      $ionicScrollDelegate.anchorScroll();
+
+    }
+
+    $scope.toggleBudgetCardShown = function(variable){
+
+      $location.hash(variable);
+      $ionicScrollDelegate.anchorScroll();
+
+    }
+
+    $scope.toggleAttachmentCardShown = function(variable){
+
+      var tempVal = config_app.docDetails.REQ_ATTACHMENTS_CUR[1].DISPLAY_FLAG_1;
+
+      if (tempVal == 'Y'){
+        $location.hash(variable);
+        $ionicScrollDelegate.anchorScroll();
+      }
+    }
+
     //---------------------------------------------------------------------------
     //---------------------------------------------------------------------------
     $scope.forwardToINI = function(){
@@ -607,7 +696,6 @@ app.controller('p4_rq_doc_20002Ctrl'
         } else{
           $scope.INI_DOC_INIT_ID_VIEW = $scope.INI_DOC_INIT_ID;
         }
-
 
         //-------- ATTACHMENTS -----//
         $scope.ATTACHED_DOCUMENTS = PelApi.getAttachedDocuments(config_app.docDetails.REQ_ATTACHMENTS_CUR);

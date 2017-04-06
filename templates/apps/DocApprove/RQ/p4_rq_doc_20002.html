@@ -130,35 +130,51 @@
                   <div class="card">
                     <div class="item item-divider text-right pele_rtl pele-item-icon-left" ng-click="ReqLinesInd.REQ_LINE_SHOW_FLAG = !ReqLinesInd.REQ_LINE_SHOW_FLAG">
                       <i ng-class="ReqLinesInd.REQ_LINE_SHOW_FLAG ? 'icon-expand' : 'icon-collapse'"></i>
-                      <i class="text-right pele_rtl under"><table><tr><td>שורה</td><td>&nbsp</td><td>:</td><td>&nbsp</td><td>{{ReqLinesInd.REQ_LINE_NUM_7}}</td></tr></table></i>
+                      <i class="text-right pele_rtl under">
+                        <table>
+                          <tr>
+                            <td>שורה</td>
+                            <td>&nbsp</td>
+                            <td>{{ReqLinesInd.REQ_LINE_NUM_7}}</td>
+                            <td>&nbsp</td>
+                            <td>:</td>
+                            <td>&nbsp</td>
+                            <td>{{ReqLinesInd.REQ_LINE_DESC_8}}</td>
+                          </tr>
+                        </table>
+                      </i>
                     </div>
 
-                    <div class="row " ng-show="ReqLinesInd.REQ_LINE_SHOW_FLAG">
+                    <!-- <div class="row " ng-show="ReqLinesInd.REQ_LINE_SHOW_FLAG">
                       <div class="col col-75 text-right pele_rtl">{{ReqLinesInd.REQ_LINE_DESC_8}}</div>
                       <div class="col col-25 text-right pele_rtl"><p class="under">פריט</p></div>
-                    </div>
+                    </div> -->
                     <div class="row " ng-show="ReqLinesInd.REQ_LINE_SHOW_FLAG">
-                      <div class="col col-25 text-right pele_rtl"></div>
+                      <div class="col col-17 text-right pele_rtl"></div>
                       <div class="col col-25 text-right pele_rtl">{{ReqLinesInd.DFF_CURRENCY_CODE}}</div>
-                      <div class="col col-25 text-right pele_rtl">{{ReqLinesInd.REQ_PRICE_NETO_9}}</div>
+                      <div class="col col-33 text-right pele_rtl">{{ReqLinesInd.REQ_PRICE_NETO_9}}</div>
                       <div class="col col-25 text-right pele_rtl under"><p class="under">מחיר נטו</p></div>
                     </div>
+
                     <div class="row " ng-show="ReqLinesInd.REQ_LINE_SHOW_FLAG">
                       <div class="col col-25 text-right pele_rtl"></div>
                       <div class="col col-25 text-right pele_rtl"></div>
                       <div class="col col-25 text-right pele_rtl">{{ReqLinesInd.REQ_QUANTITY_11}}</div>
                       <div class="col col-25 text-right pele_rtl"><p class="under">כמות</p></div>
                     </div>
+
                     <div class="row " ng-show="ReqLinesInd.REQ_LINE_SHOW_FLAG">
                       <div class="col col-17 text-right pele_rtl"></div>
-                      <div class="col col-25 text-right pele_rtl">{{ReqLinesInd.DFF_CURRENCY_CODE}}</div>
-                      <div class="col col-25 text-right pele_rtl">{{ReqLinesInd.REQ_UNIT_PRICE_13}}</div>
+                      <div class="col col-25 text-right pele_rtl"><p class="under"/>שח</p></div>
+                      <div class="col col-33 text-right pele_rtl">{{ReqLinesInd.REQ_UNIT_PRICE_13}}</div>
                       <div class="col col-25 text-right pele_rtl"><p class="under">סה"כ לשורה</p></div>
                     </div>
+
                     <div class="row " ng-show="ReqLinesInd.REQ_LINE_SHOW_FLAG">
                       <div class="col col-75 text-right pele_rtl">{{ReqLinesInd.REQ_SUGGESTED_VENDOR_NAME_14}}</div>
                       <div class="col col-25 text-right pele_rtl"><p class="under">ספק מומלץ</p></div>
                     </div>
+
                     <div class="row " ng-show="ReqLinesInd.REQ_LINE_SHOW_FLAG">
                       <div class="col col-75 text-right pele_rtl">{{ReqLinesInd.REQ_TO_PERSON_FULL_NAME_16}}</div>
                       <div class="col col-25 text-right pele_rtl"><p class="under">שם הדורש</p></div>
@@ -178,55 +194,72 @@
                                                                       , ReqLineDocument.OPEN_FOLDER_5 )">
                         {{ReqLineDocument.FILE_NAME_3}}
                       </p>
-
                     </div>
-
                   </div>
               </div>
 
-              <div type="item-text-wrap" ng-click="RQ_BUDGET_SHOW = !RQ_BUDGET_SHOW" >
+              <!-- Budget Requisition Lines -->
+              <div type="item-text-wrap" ng-click="RQ_BUDGET_SHOW = !RQ_BUDGET_SHOW; toggleBudgetCardShown('budgetCard')" >
                 <a class="item item-divider item-icon-right">
                   <h2 class="text-right pele_rtl">תקציב</h2>
                   <i class="icon ion-clipboard"></i>
                 </a>
               </div>
+
               <div ng-repeat="ReqBudgetLinesInd in REQ_BUDGET_CUR" ng-show="RQ_BUDGET_SHOW" >
-                <div class="card">
-                  <div class="item item-divider text-right pele_rtl pele-item-icon-left" ng-click="ReqBudgetLinesInd.BUDGET_LINE_SHOW_FLAG = !ReqBudgetLinesInd.BUDGET_LINE_SHOW_FLAG">
+                <div class="card" id="budgetCard">
+
+                  <div class="item item-divider text-right pele_rtl pele-item-icon-left"
+                       ng-click="ReqBudgetLinesInd.BUDGET_LINE_SHOW_FLAG = !ReqBudgetLinesInd.BUDGET_LINE_SHOW_FLAG; toggleBudgetShown(ReqBudgetLinesInd)">
                     <i ng-class="ReqBudgetLinesInd.BUDGET_LINE_SHOW_FLAG ? 'icon-expand' : 'icon-collapse'"></i>
-                    <i class="text-right pele_rtl under"><table><tr><td>שורת תקציב</td><td>&nbsp</td><td>:</td><td>&nbsp</td><td>{{ReqBudgetLinesInd.BUDGET_LINE_NUM}}</td></tr></table></i>
+                    <i class="text-right pele_rtl under">
+                       <table>
+                         <tr>
+                           <td>תקציב של שורה</td>
+                           <td>&nbsp</td>
+                           <td>:</td>
+                           <td>&nbsp</td>
+                           <td>{{ReqBudgetLinesInd.BUDGET_LINE_NUM}}</td>
+                         </tr>
+                       </table>
+                    </i>
                   </div>
-                  <div class="row " ng-show="ReqBudgetLinesInd.BUDGET_LINE_SHOW_FLAG">
+
+                  <div class="row" id="{{ReqBudgetLinesInd.BUDGET_LINE_NUM}}" ng-show="ReqBudgetLinesInd.BUDGET_LINE_SHOW_FLAG">
                     <div class="col col-75 text-right pele_rtl">{{ReqBudgetLinesInd.REQ_DEP_1}}</div>
                     <div class="col col-25 text-right pele_rtl"><p class="under">מחלקה</p></div>
                   </div>
+
                   <div class="row " ng-show="ReqBudgetLinesInd.BUDGET_LINE_SHOW_FLAG">
                     <div class="col col-75 text-right pele_rtl">{{ReqBudgetLinesInd.REQ_BUDGET_2}}</div>
                     <div class="col col-25 text-right pele_rtl"><p class="under">סעיף תקציבי</p></div>
                   </div>
+
                   <div class="row " ng-show="ReqBudgetLinesInd.BUDGET_LINE_SHOW_FLAG">
                     <div class="col col-75 text-right pele_rtl">{{ReqBudgetLinesInd.REQ_SUB_BUDGET_3}}</div>
                     <div class="col col-25 text-right pele_rtl"><p class="under">תת סעיף תקציבי</p></div>
                   </div>
+
                   <div class="row " ng-show="ReqBudgetLinesInd.BUDGET_LINE_SHOW_FLAG">
-                    <div class="col col-75 text-right pele_rtl">{{ReqBudgetLinesInd.TOT_GRP_DISTR_ENC_AMOUNT}}</div>
+                    <div class="col col-75 text-right pele_rtl">{{ReqBudgetLinesInd.TOT_GRP_DISTR_ENC_AMOUNT | currency : ''}}</div>
                     <div class="col col-25 text-right pele_rtl"><p class="under">סכום להפצה</p></div>
                   </div>
+
                   <div class="row " ng-show="ReqBudgetLinesInd.BUDGET_LINE_SHOW_FLAG">
-                    <div class="col col-75 text-right pele_rtl">{{ReqBudgetLinesInd.TOT_GRP_DISTR_ENC_AMOUNT}}</div>
+                    <div class="col col-75 text-right pele_rtl">{{ReqBudgetLinesInd.TOT_GRP_DISTR_ENC_AMOUNT | currency : ''}}</div>
                     <div class="col col-25 text-right pele_rtl"><p class="under">סכום משוריין</p></div>
                   </div>
                 </div>
               </div>
 
               <!------------- Attached Documents --------------->
-              <div type="item-text-wrap" ng-click="REQ_ATTACHED_DOCUMENTS_SHOW = !REQ_ATTACHED_DOCUMENTS_SHOW">
+              <div type="item-text-wrap" ng-click="REQ_ATTACHED_DOCUMENTS_SHOW = !REQ_ATTACHED_DOCUMENTS_SHOW; toggleAttachmentCardShown('attachmentDoc')">
                 <a class="item item-divider item-icon-right">
                   <h2 class="text-right pele_rtl"> נספחי דרישה</h2>
                   <i class="icon ion-paperclip"></i>
                 </a>
               </div>
-              <div class="item item-text-wrap text-right pele_rtl" ng-repeat="ReqDocument in ATTACHED_DOCUMENTS" ng-show="REQ_ATTACHED_DOCUMENTS_SHOW">
+              <div class="item item-text-wrap text-right pele_rtl" id="attachmentDoc" ng-repeat="ReqDocument in ATTACHED_DOCUMENTS" ng-show="REQ_ATTACHED_DOCUMENTS_SHOW">
                 <p class="under" ng-style="getAttachmentLinkStyle(ReqDocument.IS_FILE_OPENED_ON_MOBILE)" ng-click="openAttachedFile(ReqDocument.OPEN_FILE_NAME,  ReqDocument.FULL_FILE_NAME , ReqDocument.FILE_TYPE , ReqDocument.FILE_MAOF_TYPE , ReqDocument.SHORT_TEXT , ReqDocument.LONG_TEXT , ReqDocument.IS_FILE_OPENED_ON_MOBILE , ReqDocument.IOS_OPEN_FILE_NAME )">{{ReqDocument.FILE_NAME}}</p>
               </div>
             </ul>
@@ -236,7 +269,6 @@
   </ion-content>
 
   <!-- Footer Actions -->
-
   <ion-footer-bar align-title="right">
 
     <div class="row">
@@ -249,6 +281,7 @@
       </div>
     </div>
   </ion-footer-bar>
+
   <!-- Note Pop Up -->
   <script id="templates/modal.html" type="text/ng-template">
     <ion-modal-view>

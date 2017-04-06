@@ -15,8 +15,8 @@ angular.module('pele.P2_moduleListCtrl', ['ngStorage'])
                                             $ionicModal ,
                                             $timeout ,
                                             $sessionStorage,
-                                            appSettings
-    ,srvShareData
+                                            appSettings,
+                                            srvShareData
   ) {
     //----------------------- LOGIN --------------------------//
 

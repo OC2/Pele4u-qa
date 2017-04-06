@@ -991,7 +991,10 @@ angular.module('pele.factories', ['ngStorage','LocalStorageModule'])
     },
     replaceSpecialChr : function(data){
       if(data!= undefined && data != null){
-        data = data.replace(/[^\w\d\s\א-ש\(\)\@]/g, " ");
+        data = data.replace(/[^\w\d\s\א-ת\(\)\@]/g, " ");
+        //data = data.replace(/[\\]/g, '\\\\');
+        //data = data.replace(/[\/]/g, '\\/');
+        //data = data;
       }
       return data;
     },
