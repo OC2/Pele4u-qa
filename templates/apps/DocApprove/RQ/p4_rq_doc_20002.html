@@ -149,11 +149,17 @@
                       <div class="col col-75 text-right pele_rtl">{{ReqLinesInd.REQ_LINE_DESC_8}}</div>
                       <div class="col col-25 text-right pele_rtl"><p class="under">פריט</p></div>
                     </div> -->
+
+                    <div class="row " ng-show="ReqLinesInd.REQ_LINE_SHOW_FLAG">
+                      <div class="col col-75 text-right pele_rtl">{{ReqLinesInd.REQ_LINE_DESC_9}}</div>
+                      <div class="col col-25 text-right pele_rtl"><p class="under">פריט</p></div>
+                    </div>
+
                     <div class="row " ng-show="ReqLinesInd.REQ_LINE_SHOW_FLAG">
                       <div class="col col-17 text-right pele_rtl"></div>
                       <div class="col col-25 text-right pele_rtl">{{ReqLinesInd.DFF_CURRENCY_CODE}}</div>
                       <div class="col col-33 text-right pele_rtl">{{ReqLinesInd.REQ_PRICE_NETO_9}}</div>
-                      <div class="col col-25 text-right pele_rtl under"><p class="under">מחיר נטו</p></div>
+                      <div class="col col-25 text-right pele_rtl under"><p class="under">מחיר ליחידה</p></div>
                     </div>
 
                     <div class="row " ng-show="ReqLinesInd.REQ_LINE_SHOW_FLAG">
@@ -165,7 +171,7 @@
 
                     <div class="row " ng-show="ReqLinesInd.REQ_LINE_SHOW_FLAG">
                       <div class="col col-17 text-right pele_rtl"></div>
-                      <div class="col col-25 text-right pele_rtl"><p class="under"/>שח</p></div>
+                      <div class="col col-25 text-right pele_rtl">{{ReqLinesInd.DFF_CURRENCY_CODE}}</div>
                       <div class="col col-33 text-right pele_rtl">{{ReqLinesInd.REQ_UNIT_PRICE_13}}</div>
                       <div class="col col-25 text-right pele_rtl"><p class="under">סה"כ לשורה</p></div>
                     </div>
@@ -241,12 +247,14 @@
                   </div>
 
                   <div class="row " ng-show="ReqBudgetLinesInd.BUDGET_LINE_SHOW_FLAG">
-                    <div class="col col-75 text-right pele_rtl">{{ReqBudgetLinesInd.TOT_GRP_DISTR_ENC_AMOUNT | currency : ''}}</div>
+                    <div class="col col-40 text-right pele_rtl">שח</div>
+                    <div class="col col-35 text-right pele_rtl">{{ReqBudgetLinesInd.TOT_GRP_DISTR_ENC_AMOUNT | currency : ''}}</div>
                     <div class="col col-25 text-right pele_rtl"><p class="under">סכום להפצה</p></div>
                   </div>
 
                   <div class="row " ng-show="ReqBudgetLinesInd.BUDGET_LINE_SHOW_FLAG">
-                    <div class="col col-75 text-right pele_rtl">{{ReqBudgetLinesInd.TOT_GRP_DISTR_ENC_AMOUNT | currency : ''}}</div>
+                    <div class="col col-40 text-right pele_rtl">שח</div>
+                    <div class="col col-35 text-right pele_rtl">{{ReqBudgetLinesInd.TOT_GRP_DISTR_ENC_AMOUNT | currency : ''}}</div>
                     <div class="col col-25 text-right pele_rtl"><p class="under">סכום משוריין</p></div>
                   </div>
                 </div>
