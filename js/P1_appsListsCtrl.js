@@ -249,7 +249,15 @@ app.controller('P1_appsListCtrl'
 
           console.log("headers('msisdn_res') : " + headers('msisdn_res') + data.msisdn + data.user);
           //config_app.MSISDN_VALUE =  headers('msisdn_res'); YanisSha change getting global storage number of user 20.05.2017
-          config_app.MSISDN_VALUE = data.msisdn;
+
+          if (headers('msisdn_res') ===  undefined || headers('msisdn_res') === null){
+            var tempMSISDN = data.msisdn;
+            config_app.MSISDN_VALUE = tempMSISDN.replace(/^.{3}/g, '0');
+          }
+          else{
+            config_app.MSISDN_VALUE =  headers('msisdn_res');
+          }
+
           $scope.setMSISDN(config_app.MSISDN_VALUE);
 
           var pinCodeStatus = PelApi.GetPinCodeStatus(data, "getMenu");
