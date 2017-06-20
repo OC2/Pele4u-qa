@@ -21,13 +21,7 @@ $scope.init = function(){
          console.log('You are not sure');
        }
      });
-   };
-
-
-}
-
-
-
+   }
 
     $scope.doRefresh = function() {
 
