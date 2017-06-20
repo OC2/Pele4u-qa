@@ -8,7 +8,7 @@ app.controller('p2_scan_printCtrl', function($scope, $stateParams , $cordovaBarc
     //-----------------------------------------//
 
 $scope.init = function(){
-
+ //ADD POPUP
   var confirmPopup = $ionicPopup.confirm({
        title: 'Consume Ice Cream',
        template: 'Are you sure you want to eat this ice cream?'
