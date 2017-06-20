@@ -142,12 +142,10 @@
 <splash platform="android" qualifier="xxxhdpi" src="res/screens/android/screen-xxxhdpi-portrait.png" />
 
 <gap:config-file platform="ios" parent="CFBundleShortVersionString">
-
 	<string>116.9</string>
-
 </gap:config-file>
 
-  
+
 
 <access origin="*"/>
 <!-- Added the following intents to support the removal of whitelist code from base cordova to a plugin -->
