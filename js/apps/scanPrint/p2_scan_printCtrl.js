@@ -15,14 +15,18 @@ $scope.doSomething=function(){
      confirmPopup.then(function(res) {
        if(res) {
          console.log('You are sure');
+         console.log('===== p2_scan_printCtrl ====');
+
+         $scope.doRefresh();
        } else {
          console.log('You are not sure');
+         console.log('===== p2_scan_printCtrl ====');
+
+         $scope.doRefresh();
        }
      });
 
-     console.log('===== p2_scan_printCtrl ====');
 
-     $scope.doRefresh();
    };
 
     //-----------------------------------------//
