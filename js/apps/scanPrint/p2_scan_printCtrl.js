@@ -19,6 +19,10 @@ $scope.doSomething=function(){
          console.log('You are not sure');
        }
      });
+
+     console.log('===== p2_scan_printCtrl ====');
+
+     $scope.doRefresh();
    };
 
     //-----------------------------------------//
@@ -76,8 +80,6 @@ $scope.doSomething=function(){
       }
     };
 
-    console.log('===== p2_scan_printCtrl ====');
 
-    $scope.doRefresh();
   }
 ); // p2_scan_printCtrl
