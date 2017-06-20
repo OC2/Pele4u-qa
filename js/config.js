@@ -40,7 +40,7 @@ angular.module('pele.config', [])
     APPROVE_AND_NOTE : {text: '<i id="APPROVE_AND_NOTE" class="icon ion-checkmark-circled text-center"></i> אישור עם הערה'},
     OK      : {text: '<i id="OK"      class="icon ion-checkmark-circled text-center"></i> אישור'},
     REJECT  : {text: '<i id="REJECT"  class="icon ion-close-circled     text-center" style="color:#F71914"></i> דחיה'},
-    enviroment:"QA",
+    enviroment:"PD",
     enviromentLinks:[
                       { Environment:"PD",
                         ServiceList:[
