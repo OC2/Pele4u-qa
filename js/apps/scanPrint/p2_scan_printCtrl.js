@@ -13,9 +13,15 @@ $scope.doSomething=function(){
      });
 
 
-      window.localStorage.setItem("barcodetip", "1");
-     var msisdn = window.localStorage.get("barcodetip")
 
+
+if (window.localStorage.getItem("barcodetip") === null){
+
+  window.localStorage.setItem("barcodetip", "1");
+
+  }
+
+   var barcodetip = window.localStorage.getItem("barcodetip")
       if (barcodetip == "1"){
 
 
