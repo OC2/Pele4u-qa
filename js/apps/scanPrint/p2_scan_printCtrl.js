@@ -9,7 +9,7 @@ $scope.doSomething=function(){
 
   var confirmPopup = $ionicPopup.confirm({
        title: 'שחרור הדפסה',
-       template: '<center><img src="../../../img/qrcode.jpg"/></center> <br> ניתן לשחרר הדפסות רק אם הם נשלחו למדפסת BW <br> בכדי לשחרר את ההדפסה יש לגשת למדפסת שבה רוצים להדפיס ולסרוק את ה QR קוד שצמוד למדפסת'
+       template: '<center><img src="qrcode.jpg"/></center> <div dir="RTL"><br> ניתן לשחרר הדפסות רק אם הם נשלחו למדפסת BW <br> בכדי לשחרר את ההדפסה יש לגשת למדפסת שבה רוצים להדפיס ולסרוק את ה QR קוד שצמוד למדפסת</div>'
      });
 
      confirmPopup.then(function(res) {
