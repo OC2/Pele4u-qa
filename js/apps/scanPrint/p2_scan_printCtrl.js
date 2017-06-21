@@ -8,8 +8,8 @@ app.controller('p2_scan_printCtrl', function($scope, $stateParams , $cordovaBarc
 $scope.doSomething=function(){
 
   var confirmPopup = $ionicPopup.confirm({
-       title: 'Consume Ice Cream',
-       template: 'Are you sure you want to eat this ice cream?'
+       title: 'שחרור הדפסה',
+       template: '<center><img src="../../../img/qrcode.jpg"/></center> <br> ניתן לשחרר הדפסות רק אם הם נשלחו למדפסת BW <br> בכדי לשחרר את ההדפסה יש לגשת למדפסת שבה רוצים להדפיס ולסרוק את ה QR קוד שצמוד למדפסת'
      });
 
      confirmPopup.then(function(res) {
