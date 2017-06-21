@@ -61,7 +61,14 @@ else {
       PelApi.writeToLog(config_app.LOG_FILE_INFO_TYPE ,"IN p2_scan_printCtrl.scanBarcode();");
       console.log("======== in scanBarcode ==========");
       if(window.cordova != undefined){
-        $cordovaBarcodeScanner.scan().then(function(imageData) {
+        $cordovaBarcodeScanner.scan()
+
+
+        .then(function(imageData) {
+
+          if (!imageData.cancelled)
+          {
+
           var printUrl = imageData.text;
 
           var patt = new RegExp(config_app.MSSO_PRINT_URL);
@@ -95,7 +102,10 @@ else {
           }
           console.log("Barcode Format -> " + imageData.format);
           console.log("Cancelled -> " + imageData.cancelled);
-        }, function(error) {
+        }else {
+            PelApi.goHome();
+        }
+      }, function(error) {
 
           console.log("ERROR_2 An error happened -> " + error);
           PelApi.writeToLog(config_app.LOG_FILE_ERROR_TYPE ," 2 . p2_scan_printCtrl.scanBarcode() - " + JSON.stringify(error));
