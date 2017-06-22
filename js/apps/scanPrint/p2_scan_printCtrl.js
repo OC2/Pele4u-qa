@@ -7,14 +7,33 @@ app.controller('p2_scan_printCtrl', function($scope, $stateParams , $cordovaBarc
 
 
   $scope.modal = $ionicModal.fromTemplate( '<ion-modal-view>' +
-        ' <ion-header-bar>' +
-           '<h1 class = "title"> שחרור הדפסה</h1>' +
-        '</ion-header-bar>' +
+  'ion-header-bar class="bar bar-header bar-positive">' +
+    '   <h1 class = "title"> שחרור הדפסה</h1>' +
 
-        '<ion-content>'+
-        '<center><img src="img/qrcode.jpg"/></center> <div dir="RTL"><br> ניתן לשחרר הדפסות רק אם הם נשלחו למדפסת BW <br> בכדי לשחרר את ההדפסה יש לגשת למדפסת שבה רוצים להדפיס ולסרוק את ה QR קוד שצמוד למדפסת</div>'+
-           '<button class = "button icon icon-left ion-ios-close-outline"  ng-click = "closeModal()">Close Modal</button>' +
-        '</ion-content>' +
+       'ion-header-bar>' +
+
+  '  <ion-content class="padding" dir="RTL">' +
+  '   <h3>  שים לב!!!</h3>' +
+  '  <br> ניתן לשחרר הדפסות רק אם הם נשלחו למדפסת BW <br> בכדי לשחרר את ההדפסה יש לגשת למדפסת שבה ' +
+  '  <BR>' +
+
+  '  <BR>רוצים להדפיס ולסרוק את ה QR קוד שצמוד למדפסת' +
+  '  <br>' +
+  '  <center>' +
+  '   <img src="img/qrcode.jpg"/>' +
+
+'      </center>' +
+'    <br>' +
+
+'     <br>' +
+'      <br>' +
+'       <br>' +
+
+'       <button class = "button  button-full button-positive "  ng-click = "closeModal()">אישור</button>' +
+'        <button class = "button button-full button-stable"  ng-click = "closeModal()">הבנתי</button>' +
+
+
+
 
      '</ion-modal-view>', {
         scope: $scope,
@@ -52,7 +71,7 @@ $scope.doSomething=function(){
 
 
 $scope.openModal();
-// 
+//
 // if (window.localStorage.getItem("barcodetip") === "null"){
 //     //
 //   var confirmPopup = $ionicPopup.confirm({
