@@ -2,22 +2,61 @@
  * Created by User on 12/12/2016.
  */
 var app = angular.module('pele.p2_scan_printCtrl', ['ngStorage']);
-app.controller('p2_scan_printCtrl', function($scope, $stateParams , $cordovaBarcodeScanner, $ionicLoading ,$ionicPopup,$localStorage, PelApi){
+app.controller('p2_scan_printCtrl', function($scope, $stateParams , $cordovaBarcodeScanner, $ionicLoading ,$ionicPopup,$localStorage,$ionicModal, PelApi){
+
+
+
+  $scope.modal = $ionicModal.fromTemplate( '<ion-modal-view>' +
+        ' <ion-header-bar>' +
+           '<h1 class = "title">Modal Title</h1>' +
+        '</ion-header-bar>' +
+
+        '<ion-content>'+
+           '<button class = "button icon icon-left ion-ios-close-outline"  ng-click = "closeModal()">Close Modal</button>' +
+        '</ion-content>' +
+
+     '</ion-modal-view>', {
+        scope: $scope,
+        animation: 'slide-in-up'
+     })
+
+     $scope.openModal = function() {
+        $scope.modal.show();
+     };
+
+     $scope.closeModal = function() {
+        $scope.modal.hide();
+     };
+
+     //Cleanup the modal when we're done with it!
+     $scope.$on('$destroy', function() {
+        $scope.modal.remove();
+     });
+
+     // Execute action on hide modal
+     $scope.$on('modal.hidden', function() {
+        // Execute action
+     });
+
+     // Execute action on remove modal
+     $scope.$on('modal.removed', function() {
+        // Execute action
+     });
 
 
 $scope.doSomething=function(){
 
-  var confirmPopup = $ionicPopup.confirm({
-       title: 'שחרור הדפסה',
-       template: '<center><img src="img/qrcode.jpg"/></center> <div dir="RTL"><br> ניתן לשחרר הדפסות רק אם הם נשלחו למדפסת BW <br> בכדי לשחרר את ההדפסה יש לגשת למדפסת שבה רוצים להדפיס ולסרוק את ה QR קוד שצמוד למדפסת</div>'
-     });
+
 
 
 
 
 if (window.localStorage.getItem("barcodetip") === null){
-
-
+    //$scope.openModal();
+  var confirmPopup = $ionicPopup.confirm({
+       title: 'שחרור הדפסה',
+       template: '<center><img src="img/qrcode.jpg"/></center> <div dir="RTL"><br> ניתן לשחרר הדפסות רק אם הם נשלחו למדפסת BW <br> בכדי לשחרר את ההדפסה יש לגשת למדפסת שבה רוצים להדפיס ולסרוק את ה QR קוד שצמוד למדפסת</div>'
+     });
 
 
 
