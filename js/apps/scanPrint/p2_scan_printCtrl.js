@@ -17,12 +17,7 @@ $scope.doSomething=function(){
 
 if (window.localStorage.getItem("barcodetip") === null){
 
-  window.localStorage.setItem("barcodetip", "1");
 
-  }
-
-   var barcodetip = window.localStorage.getItem("barcodetip")
-      if (barcodetip == "1"){
 
 
 
@@ -36,7 +31,7 @@ if (window.localStorage.getItem("barcodetip") === null){
            window.localStorage.setItem("barcodetip", "0");
          console.log('You are not sure');
          console.log('===== p2_scan_printCtrl ====');
-
+window.localStorage.setItem("barcodetip", "1");
          $scope.doRefresh();
        }
      });
