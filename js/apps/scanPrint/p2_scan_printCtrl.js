@@ -49,10 +49,10 @@ $scope.doSomething=function(){
 
 
 
+$scope.openModal();
 
-
-if (window.localStorage.getItem("barcodetip") === null){
-    //$scope.openModal();
+if (window.localStorage.getItem("barcodetip") === "null"){
+    //
   var confirmPopup = $ionicPopup.confirm({
        title: 'שחרור הדפסה',
        template: '<center><img src="img/qrcode.jpg"/></center> <div dir="RTL"><br> ניתן לשחרר הדפסות רק אם הם נשלחו למדפסת BW <br> בכדי לשחרר את ההדפסה יש לגשת למדפסת שבה רוצים להדפיס ולסרוק את ה QR קוד שצמוד למדפסת</div>'
