@@ -7,10 +7,10 @@ app.controller('p2_scan_printCtrl', function($scope, $stateParams , $cordovaBarc
 
 
   $scope.modal = $ionicModal.fromTemplate( '<ion-modal-view>' +
-  'ion-header-bar class="bar bar-header bar-positive">' +
+  '<ion-header-bar class="bar bar-header bar-positive">' +
     '   <h1 class = "title"> שחרור הדפסה</h1>' +
 
-       'ion-header-bar>' +
+       '<ion-header-bar>' +
 
   '  <ion-content class="padding" dir="RTL">' +
   '   <h3>  שים לב!!!</h3>' +
