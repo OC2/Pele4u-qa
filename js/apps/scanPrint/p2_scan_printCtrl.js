@@ -8,32 +8,40 @@ app.controller('p2_scan_printCtrl', function($scope, $stateParams , $cordovaBarc
 
   $scope.modal = $ionicModal.fromTemplate( '<ion-modal-view>' +
   '<ion-header-bar class="bar bar-header bar-positive">' +
-    '   <h1 class = "title"> שחרור הדפסה</h1>' +
+    '       <h1 class = "title"> שחרור הדפסה</h1>' +
 
-       '</ion-header-bar>' +
+      '     </ion-header-bar>' +
 
-  '  <ion-content class="padding" dir="RTL">' +
-  '   <h3>  שים לב!!!</h3>' +
-  '  <br> ניתן לשחרר הדפסות רק אם הם נשלחו למדפסת BW <br> בכדי לשחרר את ההדפסה יש לגשת למדפסת שבה ' +
-  '  <BR>' +
+        '<ion-content >' +
+       '<div class="padding" dir="RTL">' +
+        '<center>' +
+'         <h4 style="color:red;">  שים לב!! </h4>' +
+  '       </center>' +
+    '      <h4>' +
+    '     <BR>' +
 
-  '  <BR>רוצים להדפיס ולסרוק את ה QR קוד שצמוד למדפסת' +
-  '  <br>' +
-  '  <center>' +
-  '   <img src="img/qrcode.jpg"/>' +
+'ניתן לבצע הדפסות רק אם הן נשלחו למדפסת BW.' +
+'<BR>בכדי לבצע את ההדפסה' +
+'יש לגשת אל מדפסת שבה רוצים להדפיס' +
+'<br>ולסרוק את קוד ה- QR שצמוד למדפסת.' +
+        '<br>' +
+         '<br>' +
 
-'      </center>' +
-'    <br>' +
+         '<center>' +
+'         <img  src="img/qrcode.jpg"/>' +
+          '</center>' +
+        '<br>' +
 
-'     <br>' +
-'      <br>' +
-'       <br>' +
-
-'       <button class = "button  button-full button-positive "  ng-click = "closeModal()">אישור</button>' +
-'        <button class = "button button-full button-stable"  ng-click = "closeModal()">הבנתי</button>' +
+         '</div>' +
 
 
-'    </ion-content>' +
+
+           '<button class = "button  button-full button-positive "  ng-click = "closeModal()">אישור</button>' +
+            '<button class = "button button-full button-stable"  ng-click = "closeModalIgnore()">הבנתי</button>' +
+
+
+
+        '</ion-content>' +
 
      '</ion-modal-view>', {
         scope: $scope,
@@ -49,6 +57,11 @@ app.controller('p2_scan_printCtrl', function($scope, $stateParams , $cordovaBarc
           $scope.doRefresh();
      };
 
+ $scope.closeModalIgnore = function() {
+      window.localStorage.setItem("barcodetip", "0");
+    $scope.modal.hide();
+      $scope.doRefresh();
+ };
      //Cleanup the modal when we're done with it!
      $scope.$on('$destroy', function() {
         $scope.modal.remove();
@@ -70,16 +83,16 @@ $scope.doSomething=function(){
 
 
 
-$scope.openModal();
+
 //
-// if (window.localStorage.getItem("barcodetip") === "null"){
+if (window.localStorage.getItem("barcodetip") === "null"){
 //     //
 //   var confirmPopup = $ionicPopup.confirm({
 //        title: 'שחרור הדפסה',
 //        template: '<center><img src="img/qrcode.jpg"/></center> <div dir="RTL"><br> ניתן לשחרר הדפסות רק אם הם נשלחו למדפסת BW <br> בכדי לשחרר את ההדפסה יש לגשת למדפסת שבה רוצים להדפיס ולסרוק את ה QR קוד שצמוד למדפסת</div>'
 //      });
 //
-//
+$scope.doRefresh();
 //
 //      confirmPopup.then(function(res) {
 //        if(res) {
@@ -95,13 +108,13 @@ $scope.openModal();
 //          $scope.doRefresh();
 //        }
 //      });
-// }
-// else {
-//
+}
+else {
+
 //   console.log('===== p2_scan_printCtrl ====');
+$scope.openModal();
 //
-//
-// }
+ }
 
    };
 
