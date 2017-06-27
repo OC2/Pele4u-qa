@@ -21,7 +21,7 @@ app.controller('p2_scan_printCtrl', function($scope, $stateParams , $cordovaBarc
     '     <BR>' +
 
 'ניתן לבצע הדפסות רק אם הן נשלחו למדפסת BW.' +
-'<BR>בכדי לבצע את ההדפסה' +
+'<BR>בכדי לבצע את ההדפסה' + '<BR>'
 'יש לגשת אל מדפסת שבה רוצים להדפיס' +
 '<br>ולסרוק את קוד ה- QR שצמוד למדפסת.' +
         '<br>' +
@@ -85,14 +85,15 @@ $scope.doSomething=function(){
 
 
 //
-if (window.localStorage.getItem("barcodetip") === "null"){
+if (window.localStorage.getItem("barcodetip") === null){
 //     //
 //   var confirmPopup = $ionicPopup.confirm({
 //        title: 'שחרור הדפסה',
 //        template: '<center><img src="img/qrcode.jpg"/></center> <div dir="RTL"><br> ניתן לשחרר הדפסות רק אם הם נשלחו למדפסת BW <br> בכדי לשחרר את ההדפסה יש לגשת למדפסת שבה רוצים להדפיס ולסרוק את ה QR קוד שצמוד למדפסת</div>'
 //      });
 //
-$scope.doRefresh();
+
+$scope.openModal();
 //
 //      confirmPopup.then(function(res) {
 //        if(res) {
@@ -112,7 +113,7 @@ $scope.doRefresh();
 else {
 
 //   console.log('===== p2_scan_printCtrl ====');
-$scope.openModal();
+$scope.doRefresh();
 //
  }
 
