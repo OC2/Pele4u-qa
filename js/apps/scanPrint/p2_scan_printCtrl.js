@@ -8,7 +8,7 @@ app.controller('p2_scan_printCtrl', function($scope, $stateParams , $cordovaBarc
 
   $scope.modal = $ionicModal.fromTemplate( '<ion-modal-view>' +
   '<ion-header-bar class="bar bar-header bar-positive">' +
-    '       <h1 class = "title"> שחרור הדפסה</h1>' +
+    '  <h1 class = "title"> שחרור הדפסה</h1>' +
 
       '     </ion-header-bar>' +
 
@@ -21,7 +21,7 @@ app.controller('p2_scan_printCtrl', function($scope, $stateParams , $cordovaBarc
     '     <BR>' +
 
 'ניתן לבצע הדפסות רק אם הן נשלחו למדפסת BW.' +
-'<BR>בכדי לבצע את ההדפסה' + '<BR>'
+'<BR>בכדי לבצע את ההדפסה' + '<BR>' + 
 'יש לגשת אל מדפסת שבה רוצים להדפיס' +
 '<br>ולסרוק את קוד ה- QR שצמוד למדפסת.' +
         '<br>' +
@@ -86,35 +86,12 @@ $scope.doSomething=function(){
 
 //
 if (window.localStorage.getItem("barcodetip") === null){
-//     //
-//   var confirmPopup = $ionicPopup.confirm({
-//        title: 'שחרור הדפסה',
-//        template: '<center><img src="img/qrcode.jpg"/></center> <div dir="RTL"><br> ניתן לשחרר הדפסות רק אם הם נשלחו למדפסת BW <br> בכדי לשחרר את ההדפסה יש לגשת למדפסת שבה רוצים להדפיס ולסרוק את ה QR קוד שצמוד למדפסת</div>'
-//      });
-//
-
 $scope.openModal();
-//
-//      confirmPopup.then(function(res) {
-//        if(res) {
-//          console.log('You are sure');
-//          console.log('===== p2_scan_printCtrl ====');
-//
-//          $scope.doRefresh();
-//        } else {
-//            window.localStorage.setItem("barcodetip", "0");
-//          console.log('You are not sure');
-//          console.log('===== p2_scan_printCtrl ====');
-// window.localStorage.setItem("barcodetip", "1");
-//          $scope.doRefresh();
-//        }
-//      });
 }
 else {
 
-//   console.log('===== p2_scan_printCtrl ====');
 $scope.doRefresh();
-//
+
  }
 
    };
