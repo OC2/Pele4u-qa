@@ -4,8 +4,8 @@
 <widget xmlns     = "http://www.w3.org/ns/widgets"
         xmlns:gap = "http://phonegap.com/ns/1.0"
         id        = "com.int-pele.pele4u-qa"
-        version   = "117.0"
-        versionCode= "11700" >
+        version   = "117.1"
+        versionCode= "11701" >
 
 <name>QA_PELE4U</name>
 
@@ -96,8 +96,7 @@
 </plugin>
 
 <plugin name="cordova-plugin-whitelist" />
-<plugin name="cordova-plugin-badge" spec="~0.8.1"/>
-<plugin name="cordova-plugin-x-socialsharing" spec="https://github.com/EddyVerbruggen/SocialSharing-PhoneGap-Plugin.git"/>
+
 <plugin name="phonegap-plugin-barcodescanner" source="npm" >
   <variable name="CAMERA_USAGE_DESCRIPTION" value="Allow the app to use your camera" />
                <variable name="PHOTOLIBRARY_USAGE_DESCRIPTION" value="Allow the app to access your photos" />
@@ -163,7 +162,7 @@
 <splash platform="android" qualifier="xxxhdpi" src="res/screens/android/screen-xxxhdpi-portrait.png" />
 
 <gap:config-file platform="ios" parent="CFBundleShortVersionString">
-	<string>117.0</string>
+	<string>117.1</string>
 </gap:config-file>
 
     <!--
