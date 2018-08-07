@@ -12,9 +12,12 @@ angular.module('pele')
       $scope.goHome = function() {
         PelApi.goHome();
       }
+
+      $scope.appId = $stateParams.AppId;
       //------------------------------------------
       //--      getApproveListActionIcon
       //------------------------------------------
+
       $scope.getApproveListActionIcon = function(actionCode, date, note) {
 
         var icon_class;
@@ -90,8 +93,7 @@ angular.module('pele')
       //============================================================================//
       $scope.addPushFlagToActionHistory = function(arr) {
         var myArr = [];
-        console.log("=============== addPushFlagToActionHistory =====================")
-        console.log(arr);
+
         if (arr !== null) {
           var j = arr.length;
           for (var i = 0; i < arr.length; i++, j--) {
@@ -260,11 +262,17 @@ angular.module('pele')
       //---------------------------------------------------------------------------
       $scope.openAttachedFile = function(p_openFileName, p_fullFileName, p_fileType, p_fileMaofType, p_shortText, p_longText, isOpened, p_iosOpenfileName) {
 
-        PelApi.showLoading();
+        var spinOptions = {
+          delay: 0,
+          template: '<div class="text-center">המתינו לפתיחת הקובץ' +
+            '<br \><img ng-click="stopLoading()" class="spinner" src="./img/spinners/puff.svg">' +
+            '</div>',
+        };
+        PelApi.showLoading(spinOptions);
 
         var links = PelApi.getDocApproveServiceUrl("GetFileURI");
 
-        var appId = appSettings.config.appId;
+        var appId = $scope.appId;
 
         if ("Y" === isOpened) {
           var l_fileName = "";
@@ -298,9 +306,9 @@ angular.module('pele')
 
           retGetFileURI.success(function(data, status) {
 
-            console.log("== GetFileURI.SUCCESS ==");
+
             var l_data = JSON.stringify(data);
-            console.log(l_data);
+
             var statusCode = PelApi.checkResponceStatus(data);
             if ("S" === statusCode.Status) {
               var url = statusCode.URL;
@@ -316,21 +324,17 @@ angular.module('pele')
               if ("N" === loadingComplited) {
                 if (isAndroid) {
 
-                  var filePath = PelApi.getfull_ATTACHMENT_DIRECTORY_NAME();
+                  var filePath = PelApi.getAttchDirectory();
                   targetPath = filePath + '/' + filename;
 
                   $cordovaFileTransfer.download(url, targetPath, {}, true).then(function(result) {
 
-                    console.log('Success');
-                    console.log('===================================================');
-                    console.log(result);
                     var options = {
                       location: 'yes',
                       clearcache: 'yes',
                       toolbar: 'no'
                     };
                     // Work wersion for android but cannot delete file
-
                     if ("N" === loadingComplited) {
                       loadingComplited = "Y";
                       window.open(result.nativeURL, "_system", "location=yes,enableViewportScale=yes,hidden=no");
@@ -339,9 +343,6 @@ angular.module('pele')
                     }
 
                   }, function(error) {
-                    console.log('Error');
-                    console.log('===================================================');
-                    console.log(error);
                     $ionicLoading.hide();
                     $scope.$broadcast('scroll.refreshComplete');
                     PelApi.showPopup("File Download Complite With Error", error.toString());
@@ -489,7 +490,7 @@ angular.module('pele')
           color: 'red'
         };
 
-        var appId = appSettings.config.appId,
+        var appId = $scope.appId,
           IniDocId = $stateParams.IniDocId,
           IniDocInitId = $stateParams.IniDocInitId,
           docId = $stateParams.DocId,
@@ -498,17 +499,14 @@ angular.module('pele')
         $scope.INI_DOC_INIT_ID = IniDocInitId
         $sessionStorage.DOC_ID = docId;
 
-        console.log(appSettings.config.INITIATED_DETAILS_CUR);
+
 
         if (appSettings.config.docDetails.ERROR !== "NULL" && appSettings.config.docDetails.ERROR != undefined) {
           PelApi.showPopup(appSettings.config.interfaceErrorTitle, appSettings.config.docDetails.ERROR);
           return;
         }
 
-        console.log("===============================================================");
-        console.log("===                   P4                                    ===");
-        console.log("===============================================================");
-        console.log(appSettings.config.docDetails);
+
 
         $scope.APP_ID = appId;
         $scope.NOTIFICATION_ID = appSettings.config.docDetails.NOTIFICATION_ID;
@@ -607,7 +605,7 @@ angular.module('pele')
 
         //PelApi.showLoading();
 
-        var appId = appSettings.config.appId;
+        var appId = $scope.appId;
         var notificationId = $scope.NOTIFICATION_ID;
         var actionType = 'APPROVE';
         var note = '';
@@ -650,9 +648,9 @@ angular.module('pele')
                   text: '<a class="pele-popup-positive-text-collot">שמירה</a>',
                   type: 'button-positive',
                   onTap: function(e) {
-                    if (!$scope.data.note) {
-                      //don't allow the user to close unless he enters wifi password
+                    if (!PelApi.isValidNote($scope.data.note)) {
                       e.preventDefault();
+                      PelApi.showPopup("יש להזין הערה", "יש להזין לפחות 2 אותיות");
                     } else {
                       $scope.data.cancel = false;
                       return $scope.data;
@@ -681,7 +679,6 @@ angular.module('pele')
 
                 retSubmitNotification.success(function(data, status, headers, config) {
 
-                    PelApi.lagger.info(JSON.stringify(data));
 
                     $ionicLoading.hide();
                     $scope.$broadcast('scroll.refreshComplete');
@@ -693,7 +690,7 @@ angular.module('pele')
                     $ionicNavBarDelegate.back();
                   }).error(
                     function(response) {
-                      PelApi.lagger.error("SubmitNotification : " + JSON.stringify(response));
+
                       $ionicLoading.hide();
                       $scope.$broadcast('scroll.refreshComplete');
                       $ionicNavBarDelegate.back();
@@ -706,10 +703,10 @@ angular.module('pele')
             var links3 = PelApi.getDocApproveServiceUrl("SubmitNotif");
             var retSubmitNotification = PelApi.SubmitNotification(links3, appId, notificationId, note, actionType);
             retSubmitNotification.success(function(data, status, headers, config) {
-              PelApi.lagger.info(JSON.stringify(data));
+
             }).error(
               function(response) {
-                PelApi.lagger.error("retSubmitNotification : " + JSON.stringify(response));
+
               }).finally(function() {
               $ionicLoading.hide();
               $scope.$broadcast('scroll.refreshComplete');
@@ -725,7 +722,7 @@ angular.module('pele')
 
         //PelApi.showLoading();
 
-        var appId = appSettings.config.appId;
+        var appId = $scope.appId;
         var notificationId = $scope.NOTIFICATION_ID;
         var actionType = 'OK';
         var note = '';
@@ -734,10 +731,10 @@ angular.module('pele')
         var links3 = PelApi.getDocApproveServiceUrl("SubmitNotif");
         var retSubmitNotification = PelApi.SubmitNotification(links3, appId, notificationId, note, actionType);
         retSubmitNotification.success(function(data, status, headers, config) {
-          PelApi.lagger.info(JSON.stringify(data));
+
         }).error(
           function(response) {
-            PelApi.lagger.error("success : " + JSON.stringify(response));
+
           }).finally(function() {
           $ionicLoading.hide();
           $scope.$broadcast('scroll.refreshComplete');
@@ -748,7 +745,7 @@ angular.module('pele')
       //--         REJECT                     --
       //----------------------------------------
       $scope.docReject = function() {
-        var appId = appSettings.config.appId;
+        var appId = $scope.appId;
         var notificationId = $scope.NOTIFICATION_ID;
         var actionType = "REJECT";
         if ($scope.data.note !== undefined) {
@@ -766,10 +763,9 @@ angular.module('pele')
                 text: '<a class="pele-popup-positive-text-collot">שמירה</a>',
                 type: 'button-positive',
                 onTap: function(e) {
-                  if (!$scope.data.note) {
-                    //don't allow the user to close unless he enters wifi password
+                  if (!PelApi.isValidNote($scope.data.note)) {
                     e.preventDefault();
-                    PelApi.showPopup("יש להזין הערה", "");
+                    PelApi.showPopup("יש להזין הערה", "יש להזין לפחות 2 אותיות");
                   } else {
                     return $scope.data.note;
                   }
@@ -793,7 +789,7 @@ angular.module('pele')
       //==============================================================
       //==============================================================
       $scope.docApproveWitnNote = function() {
-        var appId = appSettings.config.appId;
+        var appId = $scope.appId;
         var notificationId = $scope.NOTIFICATION_ID;
         var actionType = "APPROVE";
         var note = "";
@@ -812,10 +808,9 @@ angular.module('pele')
                 text: '<a class="pele-popup-positive-text-collot">שמירה</a>',
                 type: 'button-positive',
                 onTap: function(e) {
-                  if (!$scope.data.note) {
-                    //don't allow the user to close unless he enters wifi password
+                  if (!PelApi.isValidNote($scope.data.note)) {
                     e.preventDefault();
-                    PelApi.showPopup("יש להזין הערה", "");
+                    PelApi.showPopup("יש להזין הערה", "יש להזין לפחות 2 אותיות");
                   } else {
 
                     return $scope.data.note;
@@ -841,7 +836,7 @@ angular.module('pele')
       //
       //--------------------------------------------------------------
       $scope.submitNotif = function(action, note) {
-        var appId = appSettings.config.appId;
+        var appId = $scope.appId;
         var notificationId = $scope.NOTIFICATION_ID;
         var actionType = action;
 
@@ -852,10 +847,10 @@ angular.module('pele')
         var retSubmitNotification = PelApi.SubmitNotification(links3, appId, notificationId, note, actionType);
 
         retSubmitNotification.success(function(data, status) {
-          PelApi.lagger.info(JSON.stringify(data));
+
         }).error(
           function(response) {
-            PelApi.lagger.error("retSubmitNotification : " + JSON.stringify(response));
+
           }).finally(function() {
           $ionicLoading.hide();
           $scope.$broadcast('scroll.refreshComplete');
@@ -896,10 +891,9 @@ angular.module('pele')
               text: '<a class="pele-popup-positive-text-collot">שמירה</a>',
               type: 'button-positive',
               onTap: function(e) {
-                if (!$scope.data.note) {
-                  //don't allow the user to close unless he enters wifi password
+                if (!PelApi.isValidNote($scope.data.note)) {
                   e.preventDefault();
-                  PelApi.showPopup("יש להזין הערה", "");
+                  PelApi.showPopup("יש להזין הערה", "יש להזין לפחות 2 אותיות");
                 } else {
 
                   return $scope.data.note;

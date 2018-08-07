@@ -16,6 +16,8 @@ angular.module('pele')
     $sessionStorage,
     appSettings) {
 
+    $scope.appId = $stateParams.AppId;
+
     //---------------------------------
     //--       goHome
     //---------------------------------
@@ -32,11 +34,11 @@ angular.module('pele')
 
       $scope.shownGroup = appSettings.config.PO_ORG_NAME;
 
-      var appId = $stateParams.AppId,
+      var appId = $scope.appId,
         formType = $stateParams.FormType,
         pin = $stateParams.Pin;
 
-      PelApi.delete_ATTACHMENT_DIRECTORY_NAME();
+      PelApi.deleteAttachDirecoty();
 
       var links = PelApi.getDocApproveServiceUrl("GetUserRqGroups");
 
@@ -44,13 +46,8 @@ angular.module('pele')
 
       retGetUserFormGroups.success(function(data, status) {
 
-        PelApi.lagger.info(JSON.stringify(data));
-
         var stat = PelApi.GetPinCodeStatus2(data, "GetUserPoOrdGroupGroup");
         var pinStatus = stat.status;
-
-        console.log(data);
-
         if ("Valid" === pinStatus) {
           var P_ERROR_CODE = data.Response.OutParams.P_ERROR_CODE;
           if (P_ERROR_CODE != undefined) {
@@ -61,7 +58,7 @@ angular.module('pele')
             PelApi.showPopup(errorMsg, "");
           } else {
             $scope.chats = data.Response.OutParams.ROW;
-            console.log($scope.chats);
+
             $scope.title = "אישור דרישות רכש";
             var rowLength = $scope.chats.length;
 
@@ -77,7 +74,7 @@ angular.module('pele')
             } else {
               $ionicLoading.hide();
               $scope.$broadcast('scroll.refreshComplete');
-              var appId = $stateParams.AppId,
+              var appId = $scope.appId,
                 formType = $stateParams.FormType,
                 pin = $stateParams.Pin;
 
@@ -112,11 +109,9 @@ angular.module('pele')
           PelApi.goHome();
 
         } else if ("EAI_ERROR" === pinStatus) {
-
           $ionicLoading.hide();
           $scope.$broadcast('scroll.refreshComplete');
           PelApi.showPopup(appSettings.config.EAI_ERROR_DESC, "");
-
         } else if ("ERROR_CODE" === pinStatus) {
 
           $ionicLoading.hide();
@@ -133,12 +128,14 @@ angular.module('pele')
           PelApi.showPopupVersionUpdate(data.StatusDesc, "");
         }
       }).error(
-        function(response) {
-          PelApi.lagger.error("GetUserPoOrdGroupGroup : " + JSON.stringify(response));
-          $ionicLoading.hide();
-          $scope.$broadcast('scroll.refreshComplete');
-          PelApi.showPopup(appSettings.config.getUserModuleTypesErrorMag, "");
-        }).finally(function() {});
+        function(error, httpStatus, headers, config) {
+          var time = config.responseTimestamp - config.requestTimestamp;
+          var tr = ' (TS  : ' + (time / 1000) + ' seconds)';
+          PelApi.throwError("api", "GetUserPoOrdGroupGroup", "httpStatus : " + httpStatus + tr)
+        }).finally(function() {
+        $ionicLoading.hide();
+        $scope.$broadcast('scroll.refreshComplete');
+      });
     };
     //---------------------------------------------------------
     //-- When        Who       Description
@@ -204,8 +201,8 @@ angular.module('pele')
     //-- 01/11/2015  R.W.        function forward to page by DOC_ID
     //--------------------------------------------------------------
     $scope.forwardToDoc = function(docId, docInitId) {
-      var appId = appSettings.config.appId;
-      $scope.appId = appSettings.config.appId;
+      var appId = $scope.appId;
+
       var statePath = 'app.doc_' + docId;
       PelApi.showLoading();
 
@@ -220,8 +217,6 @@ angular.module('pele')
         var stat = PelApi.GetPinCodeStatus2(data, "GetUserNotifNew");
         var pinStatus = stat.status;
         if ("Valid" === pinStatus) {
-          PelApi.lagger.info(JSON.stringify(data));
-
           appSettings.config.docDetails = data.Response.OutParams.Result;
 
 
@@ -271,9 +266,10 @@ angular.module('pele')
           PelApi.showPopupVersionUpdate(data.StatusDesc, "");
         }
       }).error(
-        function(response) {
-          PelApi.lagger.error("GetUserNotificationsNew : " + JSON.stringify(response));
-          PelApi.showPopup(appSettings.config.getUserModuleTypesErrorMag, "");
+        function(error, httpStatus, headers, config) {
+          var time = config.responseTimestamp - config.requestTimestamp;
+          var tr = ' (TS  : ' + (time / 1000) + ' seconds)';
+          PelApi.throwError("api", "GetUserNotificationsNew", "httpStatus : " + httpStatus + tr)
         }).finally(function() {
         $ionicLoading.hide();
         $scope.$broadcast('scroll.refreshComplete');

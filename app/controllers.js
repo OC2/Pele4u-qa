@@ -1,21 +1,128 @@
 angular.module('pele.controllers', ['ngStorage'])
+  .controller('AppCtrl', function($scope, $ionicModal, $timeout, $rootScope, PelApi, $state, $ionicHistory, $ionicPopup,ApiGateway) {
 
-  .controller('AppCtrl', function($scope, $ionicModal, $timeout, $rootScope, appSettings, $state) {
-    if (appSettings.env === "PD") {
-      $scope.myClass = "envPD";
+    $rootScope.stopLoading = function() {
+      PelApi.hideLoading()
     }
-    if (appSettings.env === "QA") {
-      $scope.myClass = "envQA";
-      //$scope.myClass = "envPD";
+    
+    $scope.gateway = function() { 
+      $scope.gateway_r="";
+      ApiGateway.get("leads/conf").success(function(data){
+         $scope.gateway_r = "success";
+      }).error(function(error){
+         $scope.gateway_r="error"
+      });
     }
-    if (appSettings.env === "DV") {
-      $scope.myClass = "envDV";
+    
+    $scope.getLocalStorageUsage = function() {
+      return PelApi.getLocalStorageUsage();
     }
+    $scope.appVersion = PelApi.appSettings.config.APP_VERSION;
+
+    $scope.setLowerVersion = function() {
+
+      var origAppVersion = PelApi.appSettings.config.APP_VERSION;
+      PelApi.appSettings.config.APP_VERSION = "0";
+      $scope.appVersion = PelApi.appSettings.config.APP_VERSION;
+      setTimeout(function() {
+        PelApi.appSettings.config.APP_VERSION = origAppVersion;
+        $scope.appVersion = PelApi.appSettings.config.APP_VERSION;
+      }, 1000 * 60 * 1)
+    }
+
+
+    $scope.getBadgeCount = function() {
+      var badgePlugin = _.get(window, "cordova.plugins.notification.badge");
+      if (!badgePlugin && PelApi.deviceReady) {
+        $ionicPopup.alert({
+          title: PelApi.messages.no_cordova
+        });
+        return false;
+      }
+      if (PelApi.deviceReady)
+        badgePlugin.get(function(cnt) {
+          $scope.badgeCount = cnt;
+        })
+    }
+
+    $scope.setBadge = function(count) {
+      var badgePlugin = _.get(window, "cordova.plugins.notification.badge");
+      if (!badgePlugin) {
+        $ionicPopup.alert({
+          title: PelApi.messages.no_cordova
+        });
+        return false;
+      }
+
+      if (count === 0) {
+        badgePlugin.clear();
+        $ionicPopup.alert({
+          title: "check if badge counter is clear"
+        });
+        setTimeout(function() {
+          $scope.getBadgeCount()
+        }, 2000)
+        return true;
+      }
+
+      badgePlugin.set(count)
+
+      setTimeout(function() {
+        $scope.getBadgeCount()
+      }, 2000)
+
+      $ionicPopup.alert({
+        title: "check if badge counter is = " + count
+      });
+    }
+
+
+    $scope.appDebug = PelApi.global.get('debugFlag', true)
+
+    $scope.setDebug = function(flag) {
+
+      PelApi.global.set('debugFlag', flag, true)
+      $scope.appDebug = flag;
+    }
+
+
+    $scope.storage_PELE4U_MSISDN = window.localStorage.getItem('PELE4U_MSISDN');
+    $scope.config_PELE4U_MSISDN = PelApi.appSettings.config.MSISDN_VALUE;
+
+    $scope.clearLogFile = function() {
+      PelApi.lagger.deleteLogfile().then(function() {
+        PelApi.$fileLogger.info('Logfile deleted - start new log');
+        $scope.checkClear = true;
+        $timeout(function() {
+          $scope.checkClear = false;
+        }, 1000)
+      });
+    }
+
+    $scope.clearStorage = function() {
+
+      PelApi.localStorage.$reset();
+      PelApi.sessionStorage.$reset();
+      $scope.storageCheckClear = true;
+      $timeout(function() {
+        $scope.storageCheckClear = false;
+      }, 60000)
+    }
+
+    $scope.displayErrors = function() {
+      $state.go("app.errors");
+    }
+
+    $scope.appSettings = PelApi.appSettings;
     //===============================================//
     //== Forward to selected option from menu list ==//
     //===============================================//
     $scope.forwardTo = function(statePath) {
       $state.go(statePath);
+    }
+
+    $scope.goBack = function() {
+      $ionicHistory.goBack();
     }
     //===============================================
     //==             isShowLogOut
@@ -41,7 +148,7 @@ angular.module('pele.controllers', ['ngStorage'])
   //=====================================================================//
   //==                        homeCtrl                                 ==//
   //=====================================================================//
-  .controller('homeCtrl', function($scope, $http, $state, $ionicLoading, PelApi, $cordovaNetwork, $rootScope, $ionicPopup, $stateParams) {
+  .controller('homeCtrl', function($scope, $http, $state, $ionicLoading, PelApi, $rootScope, $ionicPopup, $stateParams) {
     var showLoading = $stateParams.showLoading;
 
     if ("Y" === showLoading) {
@@ -53,6 +160,10 @@ angular.module('pele.controllers', ['ngStorage'])
   }) // homeCtrl
   .controller('SettingsListCtrl', ['$scope', '$fileLogger', '$cordovaFile', '$timeout', '$state', 'PelApi', '$ionicPopup', '$cordovaSocialSharing', 'appSettings',
     function($scope, $fileLogger, $cordovaFile, $timeout, $state, PelApi, $ionicPopup, $cordovaSocialSharing, appSettings) {
+
+
+      $scope.stateParams = $state.params;
+      $scope.env = PelApi.appSettings.env;
       $scope.sendMail = function() {
         if (!window.cordova) {
           $ionicPopup.alert({
@@ -63,60 +174,23 @@ angular.module('pele.controllers', ['ngStorage'])
 
         $cordovaFile.readAsDataURL(cordova.file.dataDirectory, appSettings.config.LOG_FILE_NAME)
           .then(function(data) {
+            var env = $scope.env;
+            var recipient = appSettings.config.LOG_FILE_MAIL_RECIPIENT[env] || "";
+
             data = data.replace(";base64", ".txt;base64");
             $cordovaSocialSharing
               .shareViaEmail("pele4u log",
-                appSettings.config.LOG_FILE_NAME, (appSettings.config.LOG_FILE_MAIL_RECIPIENT[appSettings.env]||null), null, null, data)
+                appSettings.config.LOG_FILE_NAME, recipient, null, null, data)
+              //.share('Share my file', 'some topic', data, null)
               .then(function(result) {
-                PelApi.lagger.info("Log file Shared successfully")
+
               }, function(err) {
-                PelApi.lagger.error("Share:Error - " + err);
+
               });
           }, function(error) {
-            PelApi.lagger.error(error);
+
           });
       }
-
-      $scope.sendMail_roman = function() {
-
-        if (!window.cordova) {
-          $ionicPopup.alert({
-            title: PelApi.messages.no_cordova
-          });
-          return false;
-        }
-        window.cordova.plugins.email.isAvailable(function(isAvailable) {
-          if (isAvailable) {
-            //$fileLogger.setStorageFilename(appSettings.config.LOG_FILE_NAME);
-
-            $fileLogger.info("==================== END ====================");
-
-            $timeout(function() {
-
-              $fileLogger.checkFile().then(function(d) {
-                resolveLocalFileSystemURL(d.localURL.toString(), function(entry) {
-
-                  window.cordova.plugins.email.open({
-                    to: appSettings.config.LOG_FILE_MAIL_RECIPIENT, //'Mobile_Admins_HR@pelephone.co.il',
-                    subject: appSettings.config.LOG_FILE_MAIL_SUBJECT,
-                    body: '',
-                    attachments: entry.toURL()
-                  });
-
-                  PelApi.lagger.info('=============== Send Email ==============');
-
-                }); // resolveLocalFileSystemURL
-              });
-            }, 8000);
-          } else {
-            var confirmPopup = $ionicPopup.confirm({
-              title: PelApi.messages.mail.no_mail_account
-            });
-          }
-        });
-
-      }; // sendMail
-
       //----------------------------------------------
       //--             forwardTo
       //----------------------------------------------
@@ -130,7 +204,7 @@ angular.module('pele.controllers', ['ngStorage'])
         if (ionic.Platform.isAndroid()) {
           window.open(appSettings.GOOGLE_PLAY_APP_LINK, '_system', 'location=yes');
         } else if (isIOS) {
-          window.open(appSettings.APPLE_STORE_APP_LING, '_system', 'location=yes');
+          window.open(appSettings.APPLE_STORE_APP_LINK, '_system', 'location=yes');
         }
       } // updateAppVersion
 
@@ -139,7 +213,16 @@ angular.module('pele.controllers', ['ngStorage'])
   //========================================================================
   //--                       AppProfileCtrl
   //========================================================================
-  .controller('AppProfileCtrl', ['$scope', '$fileLogger', '$timeout', 'PelApi', 'appSettings', function($scope, $fileLogger, $timeout, PelApi, appSettings) {
+  .controller('AppProfileCtrl', ['$scope', '$state', '$fileLogger', '$timeout', 'PelApi', 'appSettings', function($scope, $state, $fileLogger, $timeout, PelApi, appSettings) {
+    $scope.devCounter = 0;
+    $scope.showDev = function() {
+      $scope.devCounter++
+
+        $timeout(function() {
+          $scope.devCounter = 0;
+        }, 10000)
+      if ($scope.devCounter >= 2) $state.go("app.dev")
+    }
 
     $scope.APP_VERSION = appSettings.config.APP_VERSION;
     if ("PD" !== appSettings.env) {
@@ -150,7 +233,7 @@ angular.module('pele.controllers', ['ngStorage'])
 
   }])
   .controller('FileCtrl', function($scope, $cordovaFile, PelApi) {
-    console.log("======== FileCtrl =========");
+
     $scope.CHECK_FILE = "";
     $scope.CREATE_FILE = "";
     $scope.REMOVE_FILE = "";
@@ -249,7 +332,7 @@ angular.module('pele.controllers', ['ngStorage'])
     }
   })
   .controller('DirCtrl', function($scope, $cordovaFile, PelApi) {
-    console.log("======== DirCtrl =========");
+
     $scope.FREE_DISK_SPACE = "";
     $scope.CHECK_DIR = "";
     $scope.CREATE_DIR = "";
@@ -269,13 +352,13 @@ angular.module('pele.controllers', ['ngStorage'])
       $cordovaFile.getFreeDiskSpace()
         .then(function(success) {
           // success in kilobytes
-          console.log(success);
+
           $scope.FREE_DISK_SPACE = success;
         }, function(error) {
           // error
           PelPelApi.lagger.error("getFreeDiskSpace() ");
           PelApi.lagger.error(error);
-          console.log(error);
+
           $scope.FREE_DISK_SPACE = "-1";
         });
     }; // getFreeDiskSpace

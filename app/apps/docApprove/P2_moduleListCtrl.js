@@ -19,6 +19,7 @@ angular.module('pele')
     srvShareData
   ) {
     //----------------------- LOGIN --------------------------//
+    $scope.appId = $stateParams.AppId;
 
     // Form data for the login modal
     $scope.loginData = {};
@@ -46,7 +47,7 @@ angular.module('pele')
     }
     $scope.pushBtnClass = function(event) {
 
-      
+
 
       if (event === true) {
         return "pele-item-on-release";
@@ -74,7 +75,7 @@ angular.module('pele')
     // Perform the login action when the user submits the login form
     $scope.doLogin = function() {
 
-      var appId = appSettings.config.appId;
+      var appId = $scope.appId;
       var pin = $scope.loginData.pin;
       var titleDisp = $sessionStorage.title;
       $state.go("app.p2_moduleList", {
@@ -92,21 +93,17 @@ angular.module('pele')
     $scope.onClick = function(formType, docQty) {
       if (0 < docQty) {
 
-        var path = "";
-        if ("HR" === formType) {
-          path = appSettings.MODULE_TYPES_FORWARD_PATH.HR;
-        } else if ("POAPPRV" === formType) {
-          path = appSettings.MODULE_TYPES_FORWARD_PATH.POAPPRV;
-        } else if ("PELRQAPR" === formType) {
-          path = appSettings.MODULE_TYPES_FORWARD_PATH.PELRQAPR;
-        }
-
-        appId = appSettings.config.appId;
-        $state.go(path, {
-          AppId: appId,
+        var params = {
+          AppId: $scope.appId,
           FormType: formType,
           Pin: appSettings.config.Pin
-        });
+        };
+
+        var docAppConfig = appSettings.MODULE_TYPES_FORWARD_PATH[formType];
+        if (typeof docAppConfig === "undefined") {
+          PelApi.throwError("client", "MODULE_TYPES_FORWARD_PATH", "Failed to locate MODULE_TYPES_FORWARD_PATH for FormType : " + formType);
+        }
+        $state.go(docAppConfig.state, params);
       }
     };
 
@@ -143,11 +140,7 @@ angular.module('pele')
 
     //===================== Refresh ===========================//
     $scope.doRefresh = function() {
-      //--
 
-      console.log("------------------------------------");
-      console.log(srvShareData.getData());
-      console.log("------------------------------------");
       $scope.menuPageData = srvShareData.getData();
       $scope.btn_class = {};
       $scope.btn_class.on_release = true;
@@ -159,10 +152,6 @@ angular.module('pele')
       var titleDisp = $stateParams.Title;
 
       $sessionStorage.DOC_ID = "";
-
-      console.log("appId : " + appId);
-
-      // var appId = appSettings.config.appId;
 
       appSettings.config.token = $sessionStorage.token;
       appSettings.config.userName = $sessionStorage.userName;
@@ -176,13 +165,12 @@ angular.module('pele')
       var links = PelApi.getDocApproveServiceUrl("GetUserModuleTypes");
 
       var retUserModuleTypes = PelApi.getUserModuleTypes(links, appId, pin);
+
       retUserModuleTypes.success(function(data, status) {
 
         $scope.feeds_categories = [];
 
-        PelApi.lagger.info(JSON.stringify(data));
-
-        var stat = PelApi.GetPinCodeStatus2(data, "getUserModuleTypes");
+        var stat = PelApi.getApiStatus(data, "getUserModuleTypes");
         var pinCodeStatus = stat.status;
 
         if ("Valid" === pinCodeStatus) {
@@ -200,14 +188,14 @@ angular.module('pele')
         } else if ("PWA" === pinCodeStatus) {
           var errordesc = appSettings.PIN_STATUS.PWA;
           //var appId = $stateParams.AppId;
-          var appId = appSettings.config.appId;
+          var appId = $scope.appId;
           var titleDisp = $stateParams.title;
           appSettings.config.IS_TOKEN_VALID = "N";
           PelApi.goHome();
 
         } else if ("PCR" === pinCodeStatus) {
           $scope.loginData.error = appSettings.PIN_STATUS.PAD;
-          var appId = appSettings.config.appId;
+          var appId = $scope.appId;;
           var titleDisp = $stateParams.title;
           appSettings.config.IS_TOKEN_VALID = "N";
           PelApi.goHome();
@@ -223,20 +211,23 @@ angular.module('pele')
           appSettings.config.IS_TOKEN_VALID = "N";
           PelApi.goHome();
         } else if ("EAI_ERROR" === pinCodeStatus) {
-          PelApi.showPopup(appSettings.config.EAI_ERROR_DESC, "");
+          //PelApi.showPopup(appSettings.config.EAI_ERROR_DESC, "");
+          PelApi.throwError("eai", "GetUserModuleTypes", JSON.stringify(data));
         } else if ("EOL" === pinCodeStatus) {
           appSettings.config.IS_TOKEN_VALID = "N";
           PelApi.goHome();
         } else if ("ERROR_CODE" === pinCodeStatus) {
-          PelApi.showPopup(stat.description, "");
+          PelApi.throwError("app", "GetUserModuleTypes", JSON.stringify(data));
+          //PelApi.showPopup(stat.description, "");
         } else if ("OLD" === pinCodeStatus) {
           PelApi.showPopupVersionUpdate(data.StatusDesc, "");
         }
 
       }).error(
-        function(response) {
-          PelApi.lagger.error("GetUserModuleTypes : " + JSON.stringify(response));
-          PelApi.showPopup(appSettings.config.getUserModuleTypesErrorMag, "");
+        function(error, httpStatus, headers, config) {
+          var time = config.responseTimestamp - config.requestTimestamp;
+          var tr = ' (TS  : ' + (time / 1000) + ' seconds)';
+          PelApi.throwError("api", "GetUserModuleTypes", "httpStatus : " + httpStatus + tr)
         }).finally(function() {
         $ionicLoading.hide();
         $scope.$broadcast('scroll.refreshComplete');
@@ -245,7 +236,7 @@ angular.module('pele')
     //======= dats section ====//
     $scope.category_sources = [];
     $scope.btn_class = {};
-    $scope.btn_class.on_release = true
+    $scope.btn_class.on_release = true;
     $scope.doRefresh();
 
   })

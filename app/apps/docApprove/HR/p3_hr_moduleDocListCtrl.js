@@ -4,12 +4,14 @@
 angular.module('pele')
   .controller('p3_hr_moduleDocListCtrl', function($scope, $stateParams, $http, $q, $ionicLoading, $state, PelApi, $cordovaNetwork, $sessionStorage, appSettings) {
 
+    $scope.appId = $stateParams.AppId;
     //---------------------------------
     //--       goHome
     //---------------------------------
     $scope.goHome = function() {
       PelApi.goHome();
     }
+
     //----------------------- REFRESH ------------------------//
     $scope.doRefresh = function() {
 
@@ -29,7 +31,7 @@ angular.module('pele')
 
       retGetUserFormGroups.success(function(data, status, headers, config) {
 
-        PelApi.lagger.info(JSON.stringify(data));
+
 
         var stat = PelApi.GetPinCodeStatus2(data, "GetUserFormGroups");
         var pinStatus = stat.status;
@@ -37,17 +39,16 @@ angular.module('pele')
         if ("Valid" === pinStatus) {
 
           if (data.Response.OutParams.ROW[0].DOC_NAME === null) {
-
             //$state.go("app.p1_appsLists");
             //appSettings.config.IS_TOKEN_VALID = "N";
             PelApi.goHome();
           } else {
-            $scope.chats = data.Response.OutParams.ROW;
-            console.log($scope.chats);
+            $scope.docsGroups = data.Response.OutParams.ROW;
+
             $scope.title = "";
-            var rowLength = $scope.chats.length;
+            var rowLength = $scope.docsGroups.length;
             if (rowLength > 0) {
-              $scope.title = $scope.chats[0].DOC_TYPE;
+              $scope.title = $scope.docsGroups[0].DOC_TYPE;
             }
             $ionicLoading.hide();
             $scope.$broadcast('scroll.refreshComplete');
@@ -63,17 +64,18 @@ angular.module('pele')
 
         } else if ("EAI_ERROR" === pinStatus) {
 
-          PelApi.showPopup(appSettings.config.EAI_ERROR_DESC, "");
+          PelApi.throwError("eai", "GetUserFormGroups", JSON.stringify(data));
 
         } else if ("EOL" === pinStatus) {
           appSettings.config.IS_TOKEN_VALID = "N";
           PelApi.goHome();
         } else if ("ERROR_CODE" === pinStatus) {
-          PelApi.showPopup(stat.description, "");
+          PelApi.throwError("app", "GetUserFormGroups", JSON.stringify(data));
         }
-      }).error(function(error) {
-        PelApi.lagger.error("GtUserFormGroups : " + JSON.stringify(error));
-        PelApi.showPopup(appSettings.config.getUserModuleTypesErrorMag, "");
+      }).error(function(error, httpStatus, headers, config) {
+        var time = config.responseTimestamp - config.requestTimestamp;
+        var tr = ' (TS  : ' + (time / 1000) + ' seconds)';
+        PelApi.throwError("api", "GetUserFormGroups", "httpStatus : " + httpStatus + tr)
       }).finally(function() {
         $ionicLoading.hide();
         $scope.$broadcast('scroll.refreshComplete');
@@ -101,7 +103,7 @@ angular.module('pele')
     $scope.searchBarCreteria = function() {
       var searchText = $scope.searchText.text;
       if ($scope.searchText.text !== undefined && $scope.searchText.text !== "") {
-        list = $scope.chats;
+        list = $scope.docsGroups;
         for (var i = 0; i < list.length; i++) {
           var sCount = 0;
           for (var j = 0; j < list[i].DOCUMENTS.DOCUMENTS_ROW.length; j++) {
@@ -111,12 +113,12 @@ angular.module('pele')
               sCount++;
             }
           }
-          $scope.chats[i].FORM_QTY = sCount;
+          $scope.docsGroups[i].FORM_QTY = sCount;
         }
       } else {
         for (var i = 0; i < list.length; i++) {
           var sCount = list[i].DOCUMENTS.DOCUMENTS_ROW.length;
-          $scope.chats[i].FORM_QTY = sCount;
+          $scope.docsGroups[i].FORM_QTY = sCount;
         }
       }
     }; //
@@ -156,7 +158,7 @@ angular.module('pele')
     //--------------------------------------------------------------
     $scope.forwardToDoc = function(docId, docInitId) {
       //var appId = $stateParams.AppId;
-      var appId = appSettings.config.appId;
+      var appId = $scope.appId;
       var statePath = 'app.doc_' + docId;
 
       PelApi.showLoading();
@@ -166,16 +168,10 @@ angular.module('pele')
       var retGetUserNotifications = PelApi.GetUserNotifications(links, appId, docId, docInitId);
       retGetUserNotifications.success(function(data, status, headers, config) {
         data = $scope.fix_json(data)
-        PelApi.lagger.info("============= Get User Notification ===============");
-        PelApi.lagger.info(JSON.stringify(data));
-
         var stat = PelApi.GetPinCodeStatus2(data, "GetUserNotifNew");
         var pinStatus = stat.status;
 
         if ("Valid" === pinStatus) {
-
-          PelApi.lagger.info(JSON.stringify(data));
-
 
           var newData = data.Response.OutParams.Result;
 
@@ -208,7 +204,6 @@ angular.module('pele')
 
         } else if ("InValid" === pinStatus) {
 
-
           //$state.go("app.p1_appsLists");
           appSettings.config.IS_TOKEN_VALID = "N";
           PelApi.goHome();
@@ -219,26 +214,27 @@ angular.module('pele')
           PelApi.goHome();
 
         } else if ("EAI_ERROR" === pinStatus) {
-
-          PelApi.showPopup(appSettings.config.EAI_ERROR_DESC, "");
+          PelApi.throwError("eai", "GetUserNotifNew", JSON.stringify(data));
+          //PelApi.showPopup(appSettings.config.EAI_ERROR_DESC, "");
 
         } else if ("ERROR_CODE" === pinStatus) {
-
-          PelApi.showPopup(stat.description, "");
+          PelApi.throwError("app", "GetUserNotifNew", JSON.stringify(data));
+          //PelApi.showPopup(stat.description, "");
 
         } else if ("OLD" === pinStatus) {
 
           PelApi.showPopupVersionUpdate(data.StatusDesc, "");
 
         }
-      }).error(function(error) {
-        PelApi.lagger.error("GetUserNotifNew : " + JSON.stringify(error));
-        PelApi.showPopup(appSettings.config.getUserModuleTypesErrorMag, "");
+      }).error(function(error, httpStatus, headers, config) {
+        var time = config.responseTimestamp - config.requestTimestamp;
+        var tr = ' (TS  : ' + (time / 1000) + ' seconds)';
+        PelApi.throwError("api", "GetUserNotifNew", JSON.stringify(error) + tr);
       }).finally(function() {
         $ionicLoading.hide();
         $scope.$broadcast('scroll.refreshComplete');
       });
-    } 
+    } // forwardToDoc
 
     $scope.feed = [];
     $scope.searchText = {};
